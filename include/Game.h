@@ -1,6 +1,8 @@
 #include <string>
 #define INCLUDE_SDL // main. sdl. func
 #include "SDL_include.h"
+#define GAME_CHANNELS 32
+// TODO: Create class to store "magic numbers" constants.
 
 class Game {
     private:
