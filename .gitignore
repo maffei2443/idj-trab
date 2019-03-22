@@ -1,3 +1,9 @@
 GAME
 bin
 dep
+a.out
+game
+.vscode
+*.swp
+*.save
+tst*
