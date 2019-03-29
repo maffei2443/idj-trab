@@ -20,6 +20,7 @@ int AuxCodeErr = 0;
 #endif
 void myAbort(int err) {
     std::cerr << "SDL error : " << SDL_GetError() << "\n";
+    std::cerr << "Error passed : " <<  err << "\n";
     abort();
 }
 
@@ -55,7 +56,7 @@ Game :: Game(std::string title, int width, int height,
   SDL_ABORT_IF_ZERO(GAME_CHANNELS == Mix_AllocateChannels(GAME_CHANNELS));
   // se SDL_CreateWindow ou SDL_CreateRenderer falham, retornam nullptr
   // SDL_CreateWindow(                 const char* title,      x,                  y,                     int width, int h, Uint32 flags);
-  this->window = SDL_CreateWindow("Meu Jogo daora", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height , 0);
+  this->window = SDL_CreateWindow("Leonardo Maffei da Silva 160033811", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height , 0);
   SDL_ABORT_IF_ZERO(window);
   // SDL_Renderer* SDL_CreateRenderer(SDL_Window* window, int index, Uint32 flags)
   this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -112,19 +113,20 @@ void Game :: Run() {
   
   // 4. Os objetos são desenhados na tela
   int i = 0;
-  while (i < 50) {
-    printf("Before game->staate->Update\n");
+  while (!this->state->QuitRequested()) {
+    // printf("Before game->staate->Update\n");
     this->state->Update(0.0);
-    printf("Before game->staate->Render\n");
+    // printf("Before game->staate->Render\n");
     this->state->Render();
-    printf("Before SDL_RenderPresent( this->renderer )\n");
+    // printf("Before SDL_RenderPresent( this->renderer )\n");
+    SDL_ClearError();
     SDL_RenderPresent( this->renderer );
+    // printf("Error afet Render Present -->  %s\n", SDL_GetError());
     //  impor um limite de frame rate ao jogo.
-    printf("Before SDL_Delay(Const::DELAY)\n");
+    // printf("Before SDL_Delay(Const::DELAY)\n");
     SDL_Delay(Const::DELAY);
     // sleep(1);
     i++;
-    printf("Loop ~~> %d\n", i);
   }
 }
 
