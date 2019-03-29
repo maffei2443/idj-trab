@@ -7,3 +7,5 @@ game
 *.swp
 *.save
 tst*
+.gitignore
+.directory

@@ -41,8 +41,8 @@ void Sprite :: Render(int x, int y) {
   Game& game = Game :: GetInstance();
   SDL_Renderer* renderer = game.GetRenderer();
   SDL_Rect dsrect;
-  dsrect.x = x;
-  dsrect.y = y; 
+  dsrect.x = this->associated.x;
+  dsrect.y = this->associated.y; 
   dsrect.w = this->clipRect.w;
   dsrect.h = this->clipRect.h;
 /* ● SDL_Renderer* renderer: O renderizador de Game.

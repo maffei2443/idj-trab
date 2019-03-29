@@ -18,6 +18,7 @@ class State {
     // que for possível.
     void Update(double dt);
     void Render();
+    void Input();
 };
 
 #endif
