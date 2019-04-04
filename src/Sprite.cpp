@@ -1,7 +1,8 @@
 #include "Sprite.h"
+#include "GameObject.h"
 #include "Game.h"
 #include <cstdio>
-
+#include <string>
 // static int AuxCodeErr = 0;
 #ifndef SDL_ABORT_IF_NZERO
     #define SDL_ABORT_IF_NZERO( x ) \
@@ -18,6 +19,7 @@
 
 
 Sprite :: Sprite() : texture(nullptr) {
+  this->texture = nullptr;
   if(this->texture != nullptr)
     throw "Bananas; null ptr doesn't work on list init constructor";
   // this->texture = nullptr;
@@ -37,12 +39,14 @@ Sprite :: ~Sprite() {
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos.
 
-void Sprite :: Render(int x, int y) {
+void Sprite :: Render() {
+  int x = this->associated.box.x;
+  int y = this->associated.box.y;
   Game& game = Game :: GetInstance();
   SDL_Renderer* renderer = game.GetRenderer();
   SDL_Rect dsrect;
-  dsrect.x = this->associated.x;
-  dsrect.y = this->associated.y; 
+  dsrect.x = this->associated.box.x;
+  dsrect.y = this->associated.box.y; 
   dsrect.w = this->clipRect.w;
   dsrect.h = this->clipRect.h;
 /* ● SDL_Renderer* renderer: O renderizador de Game.
@@ -118,4 +122,12 @@ int Sprite :: GetHeight() {
 
 bool Sprite :: IsOpen() {
   return !!this->texture; 
+}
+
+void Sprite :: Update(float dt) {
+
+}
+
+bool Sprite :: Is(std :: string type) {
+  return type == "Sprite";
 }

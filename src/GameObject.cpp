@@ -5,7 +5,8 @@ GameObject :: GameObject() : isDead(false){}
 GameObject :: ~GameObject() {
     // Liberando em ordem reversa À que foi alocado
     for(int i = this->components.size(); i > -1 ;i--) {
-        this->components[i]->~Component();
+        delete this->components[i];
+        // this->components[i]->~Component();
     }
 }
 
@@ -14,7 +15,6 @@ void GameObject :: Update(float dt) {
         comp->Update(dt);
     }
 }
-
 void GameObject :: Render() {
     for(auto comp : this->components) {
         comp->Render();
@@ -24,15 +24,9 @@ void GameObject :: Render() {
 bool GameObject :: IsDead() {
     return this->isDead;
 }
-
 void GameObject :: RequestDelete() {
     this->isDead = true;
 }
-
-void GameObject :: AddComponent(Component* cpt) {
-    this->components.push_back(cpt);
-}
-
 void GameObject :: AddComponent(Component* cpt) {
     this->components.push_back(cpt);
 }
@@ -46,7 +40,10 @@ void GameObject :: RemoveComponent(Component * cpt) {
     }
 }
 
-Component* GetComponent(std::string type) {
-    // 
+// DUVIDA : O QUE ESTAH SENDO PEDIDO ?
+Component* GameObject :: GetComponent(std::string type) {
+    for(auto comp : this->components) {
+        if(comp);
+    }
     throw "Método incompleto!!! Terminna logo  isso..";
 }

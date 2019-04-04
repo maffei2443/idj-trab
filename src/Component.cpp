@@ -1,5 +1,9 @@
 #include "Component.h"
 
-Component :: Component() {
+Component :: Component() : associated() {
+
+}
+
+Component :: Component() : associated(associated) {
     
 }

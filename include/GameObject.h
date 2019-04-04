@@ -4,7 +4,7 @@
 #include <vector>
 #include "Rect.h"
 #include "Component.h"
-
+#include "GameObject.h"
 // Logic grouper of the 
 class GameObject {
 private:

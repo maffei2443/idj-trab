@@ -3,15 +3,23 @@
 
 #include "Sprite.h"
 #include "Music.h"
+#include <vector>
+#include <memory>  // unique_ptr
 
 // Class responsible for the game logic.
 class State {
   private:
-    Sprite bg;
     Music music;
     bool quitRequested;
+
+    void AddObject(int mouseX, int mouseY);
+    // Para administrar os objetos instanciados no jogo,
+    // vamos manter um
+    // array de ponteiros para GOs.
+    std::vector<std::unique_ptr<GameObject>> objectArray;
   public:
     State();
+    ~State();
     bool QuitRequested();
     void LoadAssets(); // pré-carregar os assets do state do jogo
     // carregar imagens/fontes/músicas às suas variáveis aqui sempre

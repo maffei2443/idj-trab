@@ -3,7 +3,6 @@
 
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
-
 #include "GameObject.h"
 #include "Component.h"
 #include <string>
@@ -12,6 +11,8 @@
 class Sound : public Component{
 private:
     Mix_Chunk* chunk;
+    // TODO : e se chamar houver uma LISTA de canais? ...
+    
     int channel;
 public:
     Sound(GameObject& associated);

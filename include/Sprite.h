@@ -2,11 +2,13 @@
 #define SPRITE_H
 
 #include <string>
-#include "SDL_include.h"
-#include "Component.h"
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
+
+#include "SDL_include.h"
+#include "Component.h"
+
 
 // I am a component!
 class Sprite : public Component {
@@ -30,7 +32,7 @@ class Sprite : public Component {
     bool IsOpen();
 
     // herda de Component
-    void Update();
+    void Update(float dt);
     bool Is(std::string type);
     void Render();
 

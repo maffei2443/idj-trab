@@ -1,15 +1,17 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "GameObject.h"
-#include <string>
+// forward decl @cristianokrugbrust
 
+class GameObject;  // como nao usa o obj, permite forw. decl
+
+#include <string>
 // Add logic to the game through inheritance
 class Component{
 protected:
     GameObject& associated; // where I am
 public:
-    // Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
+    Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
     Component(GameObject& associated);
     virtual ~Component();
