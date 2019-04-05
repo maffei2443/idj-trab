@@ -13,6 +13,7 @@ protected:
 public:
     Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
+
     Component(GameObject& associated);
     virtual ~Component();
 

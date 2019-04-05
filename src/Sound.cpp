@@ -26,8 +26,8 @@ Sound :: ~Sound() {
 }
 void Sound :: Play(int times) {
     // int Mix_PlayChannel(int channel, Mix_Chunk* chunk, int loops)
-    if(this->chunk)
-        std::cerr << "Impossivel desalocar proximos canais individualmente [Sound.Play]" << std::endl;
+    // if(this->chunk)
+    //     std::cerr << "Impossivel desalocar proximos canais individualmente [Sound.Play]" << std::endl;
 
     this->channel = Mix_PlayChannel(-1, this->chunk, times-1);
 }
@@ -41,9 +41,10 @@ void Sound :: Stop() {
 void Sound :: Open(std::string file) {
     // Mix_Chunk* Mix_LoadWAV(char* file);
     this->chunk = Mix_LoadWAV(file.c_str());
+    // printf("sounf path ===> %s\n", file.c_str());
     if( !chunk )    // nao conseguiu carregar arquivo
-        throw "Sound :: Open(std::string file) : NULL pointer returned";
-    LOG( ( "CARREGOU %s", file.c_str() ) );
+        LOG("Sound :: Open(std::string file) : NULL pointer returned\n");
+    LOG( ( "CARREGOU %s\n", file.c_str() ) );
 }
 bool Sound :: IsOpen() {
     return !!this->chunk;

@@ -31,7 +31,7 @@ void Music :: Open(std::string file) {
     std::cout << "After Music::Open ~~>" << SDL_GetError() << std::endl;
 
     // if (!err) {
-    //     throw std::runtime_error("Error loading Music");
+    //     LOG(std::runtime_error("Error loading Music");
     // }
 }
 

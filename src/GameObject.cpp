@@ -1,15 +1,24 @@
 #include "GameObject.h"
 #include "Rect.h"
-
+#include "Macros.h"
+#include <cstdio>
 GameObject :: GameObject() : isDead(false), box() {}
 
 GameObject :: ~GameObject() {
+    printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
     for(int i = this->components.size(); i > -1 ;i--) {
-        delete this->components[i];
+        printf("%d\n",this->components[i] == nullptr);
+        fflush(stdout);
+        // TODO : FOUND BUG : segfault if call delete
+        // delete this->components[i];
         // this->components[i]->~Component();
+        // printf("Destruiuuuuuuuuu\n");
     }
-    this->components.clear();
+
+    // this->components.clear();
+    // printf("CLEARED\n");
+    fflush(stdout);
 
 }
 
@@ -51,6 +60,7 @@ Component* GameObject :: GetComponent(std::string type) {
         if(comp->Is(type))
             return comp;
     }
-    throw "Objeto não exixtente";
-    throw "Método incompleto!!! Terminna logo  isso..";
+    LOG("Objeto não exixtente\n");
+    // LOG("Método incompleto!!! Terminna logo  isso..\n");
+    return nullptr;
 }

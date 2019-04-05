@@ -9,7 +9,7 @@
 static int AuxCodeErr = 0;
 #ifndef SDL_ABORT_IF_NZERO
     #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr); else printf("Ok passed.\n");
+        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr);/*  else printf("Ok passed.\n"); */
 #endif
 #ifndef SDL_ABORT_IF_ZERO
     #define SDL_ABORT_IF_ZERO( x ) \

@@ -14,9 +14,17 @@
 #include "Macros.h"
 #include "Face.h"
 
-State :: State() : music(Music("assets/audio/stageState.ogg"),
-				   bg(Sprite("assets/img/lose.jpg")) ) {
-	this->AddObject()
+State :: State() : music(Music("assets/audio/stageState.ogg") ) {
+  GameObject * me = new GameObject();
+  bg = new Sprite( *me, "assets/img/ocean.jpg" );
+	this->objectArray.emplace_back( me );
+  // setar a largura e altura da box do GameObject que o contém (associated)
+	// baseado no carregado pela Sprite em seu construtor.
+	
+	// Depois disso, adicionemos a esse GameObject [enemy] o Componente Sound
+	// usando audio/boom.wav 
+	// Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
+	
   // O construtor de State inicializa quitRequested e instancia o Sprite,
   this->quitRequested = false;
   this->music.Play(-1);
@@ -29,24 +37,24 @@ State :: ~State() {
 	objectArray.clear();
 }
 
+
 void State :: Update(double dt) {
-  	this->quitRequested = SDL_QuitRequested();
-	printf("[State.cpp] this->Input()\n");
-	
-	printf("// UpdateAll\n");
-	// UpdateAll
-	printf("void State :: Update(double dt).... Updating objectArray ");
+ 	// printf("[State.cpp] this->Input()\n");
+	this->Input();
+
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
 	}
-	printf("[Log] Apagar unique_ptr ....\n");
-	// remove if dead
+
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
-			if((**it).IsDead()) it = this->objectArray.erase(it);
+			if((**it).IsDead()) {
+        it = this->objectArray.erase(it);
+        printf("morreu!\n");
+      }
 			else it++;
 	}
-	printf("Apagou os mortos ? \n");
+	// printf("Apagou os mortos ? \n");
 }
 
 
@@ -56,10 +64,12 @@ void State :: Render() {
   // printf("Before State.Render\n");
   for(auto& GO : this->objectArray)
 		GO->Render();
+  // printf("After State.Render\n");
 }
 
 // BUG
 void State :: AddObject(int mouseX, int mouseY) {
+  printf("mouseX, mouseY %d, %d", mouseX, mouseY );
 	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
 	GameObject * enemy = new GameObject;
 	
@@ -78,12 +88,16 @@ void State :: AddObject(int mouseX, int mouseY) {
 	// e, por último, o que o define: Face.
 	Face * enemyFace = new Face(*enemy);
 	
-
+  enemy->AddComponent(sprite);
+  enemy->AddComponent(enemySound);
+  enemy->AddComponent(enemyFace);
+  
 	this->objectArray.emplace_back( enemy );
+  printf("penguins |---> %d\n", this->objectArray.size());
 }
 
 bool State :: QuitRequested() {
-  printf("[Log] Returning from bool State :: QuitRequested()\n");
+  // printf("[Log] Returning from bool State :: QuitRequested()\n");
   return this->quitRequested;
 }
 
@@ -100,43 +114,39 @@ void State :: Input() {
 	SDL_GetMouseState(&mouseX, &mouseY);
 
 	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
-	printf(" while (SDL_PollEvent(&event))\n ");
+	// printf(" while (SDL_PollEvent(&event))\n ");
 	while (SDL_PollEvent(&event)) {
-		sleep(20);
+		// usleep(20);
 		// Se o evento for quit, setar a flag para terminação
-		printf("if(event.type == SDL_QUIT)\n");
+		// printf("if(event.type == SDL_QUIT)\n");
 		if(event.type == SDL_QUIT) {
 			this->quitRequested = true;
 		}
 		// Se o evento for clique...
-		printf("if(event.type == SDL_MOUSEBUTTONDOWN)\n");
+		// printf("if(event.type == SDL_MOUSEBUTTONDOWN)\n");
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
-			LOG("SDL_MOUSEBUTTONDOWN)\n");
+			// LOG("SDL_MOUSEBUTTONDOWN)\n");
 
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
 				// Obtem o ponteiro e casta pra Face.
 				GameObject* go = (GameObject*) objectArray[i].get();
-				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
-				// O propósito do std::unique_ptr é manter apenas uma cópia daquele ponteiro,
-				// ao usar get(), violamos esse princípio e estamos menos seguros.
-				// Esse código, assim como a classe Face, é provisório. Futuramente, para
-				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
 				if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
 					Face* face = (Face*)go->GetComponent( "Face" );
 					if ( nullptr != face ) {
 						// Aplica dano
 						face->Damage(std::rand() % 10 + 10);
+            printf("MOOOOOORRRRREU\n");
 						// Sai do loop (só queremos acertar um)
 						break;
 					}
 				}
 			}
 		}
-		printf("if( event.type == SDL_KEYDOWN )\n");
+		// printf("if( event.type == SDL_KEYDOWN )\n");
 		if( event.type == SDL_KEYDOWN ) {
-			LOG("SDL_KEYDOWN)\n");
+			// LOG("SDL_KEYDOWN)\n");
 
 			// Se a tecla for ESC, setar a flag de quit
 			if( event.key.keysym.sym == SDLK_ESCAPE ) {
@@ -145,10 +155,11 @@ void State :: Input() {
 			// Se não, crie um objeto
 			else {
 				Vec2 objPos = Vec2( 200, 0 );
-				objPos.rotate( -PI + PI*(rand() % 1001)/500.0 );
+				objPos.rotate( rand() % 360 );
 				Vec2 aux (mouseX, mouseY );
 				objPos = objPos + aux;
 				AddObject((int)objPos.x, (int)objPos.y);
+        printf("added penguin!?\n");
 			}
 		}
 	}

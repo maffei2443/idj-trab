@@ -11,6 +11,7 @@ Face :: Face(GameObject& associated):
 
 // BUG POSSIVEL
 void Face ::  Damage(int damage) {
+    // throw 67;
     this->hitspoints -= damage;
     if(hitspoints < 1) {    // TODO: otimização (usando manipulação e bits)
         this->associated.RequestDelete();
@@ -18,12 +19,12 @@ void Face ::  Damage(int damage) {
         Sound * sndPtr = (Sound*) cmptPtr;
 
         if(sndPtr){
-            LOG(("The face YES have SOUND!"))
-            sndPtr->Play();
-            sleep(1);   // TODO: melhorar isso.
+            // LOG(("The face YES have SOUND!\n"))
+            sndPtr->Play(1);
+            // usleep(100000);   // TODO: melhorar isso.
         }
-        else
-            LOG(("The face doesn't have SOUND!"))
+        else;
+            // LOG(("The face doesn't have SOUND!\n"))
     }
 }
 // Face ::  herda de Componen {

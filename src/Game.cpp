@@ -9,7 +9,7 @@
 #include <exception>
 #include <cstdio>
 #include <unistd.h>
-
+#include "Macros.h"
 
 Game* Game :: instance = nullptr;
 
@@ -21,7 +21,7 @@ Game :: Game(std::string title, int width, int height,
   this->format = format;
   this->channels = channels;
   if (! (Game :: instance == nullptr) )
-    throw ("Tried to instantiate more than one Game Object\n");
+    LOG("Tried to instantiate more than one Game Object\n");
   this->title = title, this->width = width, this->height = height;
   Game::instance = this;
 
@@ -90,27 +90,18 @@ SDL_Renderer* Game :: GetRenderer() {
   return this->renderer;
 }
 void Game :: Run() {
-  // TODO : gameloop
-  // 1. Verifica, controla e carrega as telas de jogo;
-
-  // 2. Os dados de input são recebidos e processados;
-
-  // 3. Os objetos tem seus respectivos estados (posição, HP…)
-  // atualizados;
-  
-  // 4. Os objetos são desenhados na tela
   int i = 0;
   while (!this->state->QuitRequested()) {
-    printf("Before game->staate->Update\n");
+    // printf("Before game->staate->Update\n");
     this->state->Update(0.0);  // Ok, debugging...
-    printf("Before game->staate->Render\n");
+    // printf("Before game->staate->Render\n");
     this->state->Render();
-    printf("Before SDL_RenderPresent( this->renderer )\n");
+    // printf("Before SDL_RenderPresent( this->renderer )\n");
     SDL_ClearError();
     SDL_RenderPresent( this->renderer );
     // printf("Error afet Render Present -->  %s\n", SDL_GetError());
     //  impor um limite de frame rate ao jogo.
-    printf("Before SDL_Delay(Const::DELAY)\n");
+    // printf("Before SDL_Delay(Const::DELAY)\n");
     SDL_Delay(Const::DELAY);
     // sleep(1);
     i++;

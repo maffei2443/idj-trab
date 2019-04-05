@@ -20,9 +20,10 @@ class Sprite : public Component {
     int height;
     SDL_Rect clipRect;
   public:
+    Sprite(); //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, std::string file);
-    ~Sprite();
+    virtual ~Sprite();
     void Open(std::string file);
     void SetClip(int x, int y, int w, int h);
     // void Render(int x, int y);
