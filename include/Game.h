@@ -2,12 +2,13 @@
 #define GAME_H
 
 #include <string>
-#include "SDL_include.h"
 #include <iostream>
 #include "State.h"
 #include "Macros.h"
 
 #define INCLUDE_SDL // main. sdl. func
+#include "SDL_include.h"
+
 #define GAME_CHANNELS 32
 // TODO: Create class to store "magic numbers" constants
 
