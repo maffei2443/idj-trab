@@ -20,6 +20,6 @@ static void myAbort(int err) {
     std::cerr << "Error passed : " <<  err << "\n";
     abort();
 }
-
+#define LOG(x) printf("[Log] ");printf(x);
 
 #endif

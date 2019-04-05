@@ -2,11 +2,14 @@
 #include "Face.h"
 #include "Sound.h"
 #include "Component.h"
+#include "Macros.h"
+Face :: Face(GameObject& associated): 
+    Component(associated),
+    hitspoints(Face::HEALTH_POINTS){
 
-Face :: Face(GameObject& associated): hitspoints(Face::HEALTH_POINTS), Component(associated){
-    // this->;
 }
 
+// BUG POSSIVEL
 void Face ::  Damage(int damage) {
     this->hitspoints -= damage;
     if(hitspoints < 1) {    // TODO: otimização (usando manipulação e bits)
@@ -14,10 +17,13 @@ void Face ::  Damage(int damage) {
         Component* cmptPtr = this->associated.GetComponent("Sound");
         Sound * sndPtr = (Sound*) cmptPtr;
 
-        if(sndPtr){   
+        if(sndPtr){
+            LOG(("The face YES have SOUND!"))
             sndPtr->Play();
             sleep(1);   // TODO: melhorar isso.
         }
+        else
+            LOG(("The face doesn't have SOUND!"))
     }
 }
 // Face ::  herda de Componen {

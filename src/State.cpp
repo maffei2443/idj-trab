@@ -6,15 +6,21 @@
 #include <string>
 #include <algorithm>
 #include <memory>
-#include "Face.h"
 #include <cmath>
 #define PI M_PI
+#include <unistd.h>
+#include <cstdio>
+#include "Sound.h"
+#include "Macros.h"
+#include "Face.h"
 
-
-State :: State() : music(Music("assets/audio/stageState.ogg")) {
+State :: State() : music(Music("assets/audio/stageState.ogg"),
+				   bg(Sprite("assets/img/lose.jpg")) ) {
+	this->AddObject()
   // O construtor de State inicializa quitRequested e instancia o Sprite,
   this->quitRequested = false;
   this->music.Play(-1);
+
   // Instanciar o Sprite
   // this->bg = Sprite("assets/img/lose.jpg");
   // this->music = Musicl();
@@ -24,19 +30,23 @@ State :: ~State() {
 }
 
 void State :: Update(double dt) {
-  // this->quitRequested = SDL_QuitRequested();
-	this->Input();
+  	this->quitRequested = SDL_QuitRequested();
+	printf("[State.cpp] this->Input()\n");
+	
+	printf("// UpdateAll\n");
 	// UpdateAll
+	printf("void State :: Update(double dt).... Updating objectArray ");
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
 	}
+	printf("[Log] Apagar unique_ptr ....\n");
 	// remove if dead
-	this->objectArray.erase( 
-		std::remove_if(
-			this->objectArray.begin(),
-			this->objectArray.end(),
-			[](std::unique_ptr<GameObject>& GO) {return GO->IsDead();})
-	);
+	for(auto it = this->objectArray.begin();
+		 it != this->objectArray.end();) {
+			if((**it).IsDead()) it = this->objectArray.erase(it);
+			else it++;
+	}
+	printf("Apagou os mortos ? \n");
 }
 
 
@@ -48,20 +58,32 @@ void State :: Render() {
 		GO->Render();
 }
 
+// BUG
 void State :: AddObject(int mouseX, int mouseY) {
+	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
 	GameObject * enemy = new GameObject;
+	
+	// Sprite aponta para enemy
 	Sprite * sprite = new Sprite(*enemy, "assets/img/penguinface.png");
+	// setar a largura e altura da box do GameObject que o contém (associated)
+	// baseado no carregado pela Sprite em seu construtor.
 	enemy->box.x = mouseX - sprite->GetWidth()/2;
 	enemy->box.y = mouseY - sprite->GetHeight()/2;
 	enemy->box.w = sprite->GetWidth();
 	enemy->box.h = sprite->GetHeight();
 	
-	// enemy->box.y = mouseY;
-	// enemy->box.y = mouseY;
-	// enemy->box.y = mouseY;
+	// Depois disso, adicionemos a esse GameObject [enemy] o Componente Sound
+	// usando audio/boom.wav 
+	Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
+	// e, por último, o que o define: Face.
+	Face * enemyFace = new Face(*enemy);
+	
+
+	this->objectArray.emplace_back( enemy );
 }
 
 bool State :: QuitRequested() {
+  printf("[Log] Returning from bool State :: QuitRequested()\n");
   return this->quitRequested;
 }
 
@@ -78,15 +100,18 @@ void State :: Input() {
 	SDL_GetMouseState(&mouseX, &mouseY);
 
 	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
+	printf(" while (SDL_PollEvent(&event))\n ");
 	while (SDL_PollEvent(&event)) {
-
+		sleep(20);
 		// Se o evento for quit, setar a flag para terminação
+		printf("if(event.type == SDL_QUIT)\n");
 		if(event.type == SDL_QUIT) {
 			this->quitRequested = true;
 		}
-		
 		// Se o evento for clique...
+		printf("if(event.type == SDL_MOUSEBUTTONDOWN)\n");
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
+			LOG("SDL_MOUSEBUTTONDOWN)\n");
 
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
@@ -109,7 +134,10 @@ void State :: Input() {
 				}
 			}
 		}
+		printf("if( event.type == SDL_KEYDOWN )\n");
 		if( event.type == SDL_KEYDOWN ) {
+			LOG("SDL_KEYDOWN)\n");
+
 			// Se a tecla for ESC, setar a flag de quit
 			if( event.key.keysym.sym == SDLK_ESCAPE ) {
 				quitRequested = true;

@@ -9,15 +9,17 @@ GameObject :: ~GameObject() {
         delete this->components[i];
         // this->components[i]->~Component();
     }
+    this->components.clear();
+
 }
 
 void GameObject :: Update(float dt) {
-    for(auto comp : this->components) {
+    for(auto& comp : this->components) {
         comp->Update(dt);
     }
 }
 void GameObject :: Render() {
-    for(auto comp : this->components) {
+    for(auto& comp : this->components) {
         comp->Render();
     }
 }
@@ -29,7 +31,9 @@ void GameObject :: RequestDelete() {
     this->isDead = true;
 }
 void GameObject :: AddComponent(Component* cpt) {
-    this->components.push_back(cpt);
+    // BUG POSSIVEL
+    // this->components.push_back(cpt);
+    this->components.emplace_back(cpt);
 }
 
 void GameObject :: RemoveComponent(Component * cpt) {
@@ -43,8 +47,10 @@ void GameObject :: RemoveComponent(Component * cpt) {
 
 // DUVIDA : O QUE ESTAH SENDO PEDIDO ?
 Component* GameObject :: GetComponent(std::string type) {
-    for(auto comp : this->components) {
-        if(comp);
+    for(auto* comp : this->components) {
+        if(comp->Is(type))
+            return comp;
     }
+    throw "Objeto não exixtente";
     throw "Método incompleto!!! Terminna logo  isso..";
 }

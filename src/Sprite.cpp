@@ -16,6 +16,7 @@ Sprite :: Sprite(GameObject& associated) : Component(associated) {
 }
 
 Sprite :: Sprite(GameObject& associated, std::string file) : Component(associated) {
+  this->texture = nullptr;
   this->Open(file);
 }
 

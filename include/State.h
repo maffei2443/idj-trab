@@ -10,6 +10,7 @@
 class State {
   private:
     Music music;
+    Sprite bg;
     bool quitRequested;
 
     void AddObject(int mouseX, int mouseY);
