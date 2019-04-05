@@ -5,21 +5,7 @@
 GameObject :: GameObject() : isDead(false), box() {}
 
 GameObject :: ~GameObject() {
-    printf("GO deletado...\n");
-    // Liberando em ordem reversa À que foi alocado
-    for(int i = this->components.size(); i > -1 ;i--) {
-        printf("%d\n",this->components[i] == nullptr);
-        fflush(stdout);
-        // TODO : FOUND BUG : segfault if call delete
-        // delete this->components[i];
-        // this->components[i]->~Component();
-        // printf("Destruiuuuuuuuuu\n");
-    }
-
-    // this->components.clear();
-    // printf("CLEARED\n");
-    fflush(stdout);
-
+    this->components.clear();
 }
 
 void GameObject :: Update(float dt) {
@@ -40,8 +26,6 @@ void GameObject :: RequestDelete() {
     this->isDead = true;
 }
 void GameObject :: AddComponent(Component* cpt) {
-    // BUG POSSIVEL
-    // this->components.push_back(cpt);
     this->components.emplace_back(cpt);
 }
 
@@ -54,13 +38,11 @@ void GameObject :: RemoveComponent(Component * cpt) {
     }
 }
 
-// DUVIDA : O QUE ESTAH SENDO PEDIDO ?
 Component* GameObject :: GetComponent(std::string type) {
     for(auto* comp : this->components) {
         if(comp->Is(type))
             return comp;
     }
     LOG("Objeto não exixtente\n");
-    // LOG("Método incompleto!!! Terminna logo  isso..\n");
     return nullptr;
 }

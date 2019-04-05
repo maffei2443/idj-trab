@@ -92,16 +92,16 @@ SDL_Renderer* Game :: GetRenderer() {
 void Game :: Run() {
   int i = 0;
   while (!this->state->QuitRequested()) {
-    // printf("Before game->staate->Update\n");
+    
     this->state->Update(0.0);  // Ok, debugging...
-    // printf("Before game->staate->Render\n");
+    
     this->state->Render();
-    // printf("Before SDL_RenderPresent( this->renderer )\n");
+    
     SDL_ClearError();
     SDL_RenderPresent( this->renderer );
-    // printf("Error afet Render Present -->  %s\n", SDL_GetError());
+    
     //  impor um limite de frame rate ao jogo.
-    // printf("Before SDL_Delay(Const::DELAY)\n");
+    
     SDL_Delay(Const::DELAY);
     // sleep(1);
     i++;
