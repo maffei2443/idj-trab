@@ -8,7 +8,7 @@
 
 #include "SDL_include.h"
 #include "Component.h"
-
+#include "GameObject.h"
 
 // I am a component!
 class Sprite : public Component {
@@ -20,8 +20,8 @@ class Sprite : public Component {
     int height;
     SDL_Rect clipRect;
   public:
-    Sprite();
-    Sprite(std::string file);
+    Sprite(GameObject&);
+    Sprite(GameObject&, std::string file);
     ~Sprite();
     void Open(std::string file);
     void SetClip(int x, int y, int w, int h);

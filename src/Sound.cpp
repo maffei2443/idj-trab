@@ -2,21 +2,7 @@
 #include "GameObject.h"
 #include <exception>
 #include <iostream>
-
-int AuxCodeErr = 0;
-#ifndef SDL_ABORT_IF_NZERO
-    #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr); else printf("Ok passed.\n");
-#endif
-#ifndef SDL_ABORT_IF_ZERO
-    #define SDL_ABORT_IF_ZERO( x ) \
-            SDL_ABORT_IF_NZERO(!(x) )
-#endif
-void myAbort(int err) {
-    std::cerr << "SDL error : " << SDL_GetError() << "\n";
-    std::cerr << "Error passed : " <<  err << "\n";
-    abort();
-}
+#include "Macros.h"
 
 
 Sound :: Sound(GameObject& associated) : 

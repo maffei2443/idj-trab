@@ -1,9 +1,14 @@
 #include "Component.h"
+#include "GameObject.h"
 
-Component :: Component() : associated() {
+// Component :: Component() {
+
+// }
+
+Component :: ~Component() {
 
 }
 
-Component :: Component() : associated(associated) {
+Component :: Component(GameObject& associated) : associated(associated) {
     
 }

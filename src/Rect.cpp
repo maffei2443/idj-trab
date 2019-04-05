@@ -1,6 +1,7 @@
 #include "Rect.h"
 #include "Vec2.h"
-Rect :: Rect(float x=0, float y=0, float w=0, float h=0) : x(x), y(y), w(w), h(h){};
+
+Rect :: Rect(float x, float y, float w, float h) : x(x), y(y), w(w), h(h){};
 
 bool Rect :: Contains(const Vec2& point) {
     bool insideWidth = (this->x >= point.x) && (point.x <= this->x+this->w);

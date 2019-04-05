@@ -3,26 +3,13 @@
 
 #define INCLUDE_SDL_IMAGE   // load img frm dsk
 #define INCLUDE_SDL_MIXER   // load sng frm dsk
+#include "Macros.h"
 #include "Game.h"
 #include "Constants.h"
 #include <exception>
 #include <cstdio>
 #include <unistd.h>
 
-int AuxCodeErr = 0;
-#ifndef SDL_ABORT_IF_NZERO
-    #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr); else printf("Ok passed.\n");
-#endif
-#ifndef SDL_ABORT_IF_ZERO
-    #define SDL_ABORT_IF_ZERO( x ) \
-            SDL_ABORT_IF_NZERO(!(x) )
-#endif
-void myAbort(int err) {
-    std::cerr << "SDL error : " << SDL_GetError() << "\n";
-    std::cerr << "Error passed : " <<  err << "\n";
-    abort();
-}
 
 Game* Game :: instance = nullptr;
 

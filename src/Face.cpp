@@ -1,14 +1,17 @@
-#include "Face.h"
 #include <unistd.h>
-Face :: Face(GameObject& associated):
-            associated(associated),
-            hitspoints(Face::HEALTH_POINTS){}
+#include "Face.h"
+#include "Sound.h"
+#include "Component.h"
+
+Face :: Face(GameObject& associated): hitspoints(Face::HEALTH_POINTS), Component(associated){
+    // this->;
+}
 
 void Face ::  Damage(int damage) {
     this->hitspoints -= damage;
     if(hitspoints < 1) {    // TODO: otimização (usando manipulação e bits)
-        this->associated->RequestDelete();
-        Component* cmptPtr = this->associated->GetComponent("Sound");
+        this->associated.RequestDelete();
+        Component* cmptPtr = this->associated.GetComponent("Sound");
         Sound * sndPtr = (Sound*) cmptPtr;
 
         if(sndPtr){   
@@ -19,9 +22,9 @@ void Face ::  Damage(int damage) {
 }
 // Face ::  herda de Componen {
 
-}
-void Face ::  Update(float dt) {
 
+void Face ::  Update(float dt) {
+    (void)dt;
 }
 void Face ::  Render() {
     // Itentionally left empty.

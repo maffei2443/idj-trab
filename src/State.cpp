@@ -48,9 +48,9 @@ void State :: Render() {
 		GO->Render();
 }
 
-void AddObject(int mouseX, int mouseY) {
+void State :: AddObject(int mouseX, int mouseY) {
 	GameObject * enemy = new GameObject;
-	Sprite * sprite = new Sprite(std::string("assets/img/penguinface.png"));
+	Sprite * sprite = new Sprite(*enemy, "assets/img/penguinface.png");
 	enemy->box.x = mouseX - sprite->GetWidth()/2;
 	enemy->box.y = mouseY - sprite->GetHeight()/2;
 	enemy->box.w = sprite->GetWidth();

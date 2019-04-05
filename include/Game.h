@@ -5,6 +5,7 @@
 #include "SDL_include.h"
 #include <iostream>
 #include "State.h"
+#include "Macros.h"
 
 #define INCLUDE_SDL // main. sdl. func
 #define GAME_CHANNELS 32

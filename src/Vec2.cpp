@@ -8,22 +8,21 @@ static float lineSlope(const Vec2& va, const Vec2& vb) {
 
 Vec2 :: Vec2() : x(0), y(0){}
 Vec2 :: Vec2(float x, float y) : x(x), y(y){}
-Vec2 :: Vec2(float x, float y) : x(x), y(y){}
 
 // Operações elementares entre vetores
 
+Vec2 Vec2 :: operator+(const Vec2& toAdd) const{
+    return {this->x+toAdd.x, this->y+toAdd.y};
+}
 Vec2 Vec2 :: operator-(const Vec2& toSub) const{
     return {this->x - toSub.x, this->y - toSub.y};
 }
-Vec2 Vec2 :: operator*const Vec2& toMul) const{
+Vec2 Vec2 :: operator*(const Vec2& toMul) const{
     return {this->x * toMul.x, this->y * toMul.y};
 }
 
 Vec2 Vec2 :: operator/(const Vec2& toSub) const{
     return {this->x / toSub.x, this->y / toSub.y};
-}
-Vec2 Vec2 :: operator+(const Vec2& toAdd) const{
-    return {this->x+toAdd.x, this->y+toAdd.y};
 }
 // 
 
@@ -69,7 +68,7 @@ void Vec2 :: rotate(const float& degree) {
 }
 
 Vec2 Vec2 :: GetRotated(const float& degree) {
-    Vec2 toRotate( this );
-    toRotate->rotate(degree);
+    Vec2 toRotate(this->x, this->y);
+    toRotate.rotate(degree);
     return toRotate;
 }

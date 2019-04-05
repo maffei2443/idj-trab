@@ -3,29 +3,19 @@
 #include "Game.h"
 #include <cstdio>
 #include <string>
-// static int AuxCodeErr = 0;
-#ifndef SDL_ABORT_IF_NZERO
-    #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr); else printf("Ok passed.\n");
-#endif
-#ifndef SDL_ABORT_IF_ZERO
-    #define SDL_ABORT_IF_ZERO( x ) \
-            SDL_ABORT_IF_NZERO(!(x) )
-#endif
-// static void myAbort(int err) {
-//     std::cerr << "SDL error : " << SDL_GetError() << "\n";
-//     abort();
-// }
+
+#include "Macros.h"
 
 
-Sprite :: Sprite() : texture(nullptr) {
+
+Sprite :: Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
   if(this->texture != nullptr)
     throw "Bananas; null ptr doesn't work on list init constructor";
   // this->texture = nullptr;
 }
 
-Sprite :: Sprite(std::string file) : texture(nullptr) {
+Sprite :: Sprite(GameObject& associated, std::string file) : Component(associated) {
   this->Open(file);
 }
 

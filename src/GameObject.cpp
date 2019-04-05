@@ -1,6 +1,7 @@
 #include "GameObject.h"
+#include "Rect.h"
 
-GameObject :: GameObject() : isDead(false){}
+GameObject :: GameObject() : isDead(false), box() {}
 
 GameObject :: ~GameObject() {
     // Liberando em ordem reversa À que foi alocado

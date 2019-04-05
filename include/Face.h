@@ -1,5 +1,6 @@
 #ifndef FACE_H
 #define FACE_H
+#include "Component.h"
 
 class Face : public Component {
 private:
