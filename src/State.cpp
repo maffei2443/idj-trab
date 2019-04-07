@@ -13,9 +13,25 @@
 #include "Sound.h"
 #include "Macros.h"
 #include "Face.h"
+#include "TileSet.h"
+#include "TileMap.h"
 
-State :: State() : music(Music("assets/audio/stageState.ogg") ) {
+State :: State(std::string mapFile) : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject();
+
+	
+	TileSet * tileSet = new TileSet(64, 64, "assets/img/tileset.png");
+	TileMap * tileMap = new TileMap(me, mapFile, tileSet);
+
+	/* Acrescente no construtor um GameObject com o TileMap(map/tileMap.txt),
+	lembrando de construir o Tileset(img/tileset.png) para enviar ao
+	TileMap. As dimensões das subimagens do tileset são 64x64.
+	COLOQUE O BOX DESSE GAMEOBJECT EM (0,0). 
+	Importante: não se esqueça de desalocar o TileSet na hora certa!
+ */
+
+
+
   bg = new Sprite( *me, "assets/img/ocean.jpg" );
 	this->objectArray.emplace_back( me );
   // setar a largura e altura da box do GameObject que o contém (associated)
@@ -33,6 +49,7 @@ State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   // this->bg = Sprite("assets/img/lose.jpg");
   // this->music = Musicl();
 }
+
 State :: ~State() {
 	objectArray.clear();
 }

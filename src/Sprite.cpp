@@ -22,25 +22,22 @@ Sprite :: Sprite(GameObject& associated, std::string file) : Component(associate
 }
 
 Sprite :: ~Sprite() {
-  if (this->texture) {
-    // printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
-    SDL_DestroyTexture(this->texture);
-  }
+  // Agora isso é papel da Resources
+  // if (this->texture) {
+  //   // printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
+  //   SDL_DestroyTexture(this->texture);
+  // }
 }
 
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos.
 
-void Sprite :: Render() {
-  // printf("Render sprite of type |---> ...\n");
-  
-  int x = this->associated.box.x;
-  int y = this->associated.box.y;
+void Sprite :: Render(int x, int y) { 
   Game& game = Game :: GetInstance();
   SDL_Renderer* renderer = game.GetRenderer();
   SDL_Rect dsrect;
-  dsrect.x = this->associated.box.x;
-  dsrect.y = this->associated.box.y; 
+  dsrect.x = x;
+  dsrect.y = y; 
   dsrect.w = this->clipRect.w;
   dsrect.h = this->clipRect.h;
 /* ● SDL_Renderer* renderer: O renderizador de Game.
@@ -55,20 +52,30 @@ void Sprite :: Render() {
   SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
   // auto a = this->clipRect;
   // SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
+
+}
+
+
+void Sprite :: Render() {
+  // printf("Render sprite of type |---> ...\n");
   
+  int x = this->associated.box.x;
+  int y = this->associated.box.y;
+  this->Render(x, y);  
 }
 
 void Sprite :: Open(std::string file) {
-  if (this->texture) {  
-    SDL_DestroyTexture(this->texture);
-  }
+  // if (this->texture) {  
+  //   SDL_DestroyTexture(this->texture);
+  // }
   Game& instance = Game::GetInstance();
   const char * path = file.c_str();
   // std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
-  this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
+  // this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
+  this->texture = Resources::GetImage( file );
   // Trate o caso de IMG_LoadTexture retornar nullptr.
-  
+  SDL_ABORT_IF_ZERO(this->texture);
   // std::cout << "Texture ~~>" << this->texture << std::endl;
   // std::cout << "Error after loadd_texture? ~~>" << SDL_GetError() << std::endl;
   

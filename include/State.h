@@ -5,6 +5,7 @@
 #include "Music.h"
 #include <vector>
 #include <memory>  // unique_ptr
+#include <string>
 
 // Class responsible for the game logic.
 class State {
@@ -19,7 +20,7 @@ class State {
     // array de ponteiros para GOs.
     std::vector<std::unique_ptr<GameObject>> objectArray;
   public:
-    State();
+    State(std::string);
     ~State();
     bool QuitRequested();
     void LoadAssets(); // pré-carregar os assets do state do jogo

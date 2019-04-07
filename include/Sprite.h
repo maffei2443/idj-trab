@@ -2,7 +2,7 @@
 #define SPRITE_H
 
 #include <string>
-
+#include <cstdio>
 #define INCLUDE_SDL
 #define INCLUDE_SDL_IMAGE
 
@@ -20,7 +20,9 @@ class Sprite : public Component {
     int height;
     SDL_Rect clipRect;
   public:
-    Sprite(); //gambs; por conta do Sprite de State
+    Sprite() {
+      printf("CONTRUCTOR SPRITE ROUBADO\n");
+    } //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, std::string file);
     virtual ~Sprite();
@@ -36,6 +38,7 @@ class Sprite : public Component {
     void Update(float dt);
     bool Is(std::string type);
     void Render();
+    void Render(int, int);
 
 };
 

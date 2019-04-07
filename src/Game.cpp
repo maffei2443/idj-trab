@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <unistd.h>
 #include "Macros.h"
+#include "Resources.h"
 
 Game* Game :: instance = nullptr;
 
@@ -106,6 +107,9 @@ void Game :: Run() {
     // sleep(1);
     i++;
   }
+  Resources::ClearImages();
+  Resources::ClearMusics();
+  Resources::ClearSounds();
 }
 
 #endif

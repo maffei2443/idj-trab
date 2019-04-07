@@ -8,7 +8,7 @@ GameObject :: ~GameObject() {
     printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
     for(int i = this->components.size(); i > -1 ;i--) {
-        printf("%d\n",this->components[i] == nullptr);
+        printf("Null ? %d\n",this->components[i] == nullptr);
         fflush(stdout);
         // TODO : FOUND BUG : segfault if call delete
         // delete this->components[i];
