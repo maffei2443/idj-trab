@@ -14,7 +14,9 @@ private:
     // TODO : e se chamar houver uma LISTA de canais? ...
     
     int channel;
+
 public:
+    const std::string type = std::string("Sound");
     Sound(GameObject& associated);
     Sound(GameObject& associated, std::string file);
 
@@ -24,9 +26,14 @@ public:
     void Open(std::string file);
     bool IsOpen();
 
+    // Herdou
     void Update(float dt);
     void Render();
     bool Is(std::string type);
+
+    inline std::string GetType(){
+        return this->type;
+    }
 };
 
 #endif

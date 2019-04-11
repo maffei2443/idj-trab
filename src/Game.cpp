@@ -21,7 +21,10 @@ Game :: Game(std::string title, int width, int height,
   this->freq = freq;
   this->format = format;
   this->channels = channels;
-  if (! (Game :: instance == nullptr) )
+  printf("Game :: instance %d\n", instance);
+  printf("nullptr == nullptr ? %d\n", nullptr == nullptr);
+  Game :: instance = nullptr;
+  if (Game :: instance != nullptr )
     LOG("Tried to instantiate more than one Game Object\n");
   this->title = title, this->width = width, this->height = height;
   Game::instance = this;

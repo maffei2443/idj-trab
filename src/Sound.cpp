@@ -51,7 +51,7 @@ bool Sound :: IsOpen() {
 }
 
 void Sound :: Update(float dt) {
-    
+    (void)dt;
 }
 void Sound :: Render() {
     

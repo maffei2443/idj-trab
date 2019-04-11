@@ -3,10 +3,10 @@
 #include "Sound.h"
 #include "Component.h"
 #include "Macros.h"
+
 Face :: Face(GameObject& associated): 
     Component(associated),
     hitspoints(Face::HEALTH_POINTS){
-
 }
 
 // BUG POSSIVEL

@@ -1,6 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <iostream>
 // forward decl @cristianokrugbrust
 
 class GameObject;  // como nao usa o obj, permite forw. decl
@@ -11,6 +12,7 @@ class Component{
 protected:
     GameObject& associated; // where I am
 public:
+    const std::string type;
     Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
 
@@ -20,6 +22,8 @@ public:
     void virtual Update(float dt) = 0;
     void virtual Render() = 0;
     bool virtual Is(std::string type) = 0;
+    std::string virtual GetType() = 0;
+    Component* GetAddr() { return this;}
 };
 
 #endif

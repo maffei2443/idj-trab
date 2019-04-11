@@ -2,7 +2,7 @@
 #define TILEMAP_H
 #include <string>
 #include "GameObject.h"
-#include "Sprite.h"
+// #include "Sprite.h"
 #include "TileSet.h"
 #include <string>
 #include <vector>
@@ -17,16 +17,25 @@ private:
     TileSet* tileSet;
     int mapWidth, mapHeight, mapDepth;
 public:
-    TileMap(GameObject&, std::string, TileSet*);
+    const std::string type = std::string("TileMap");
+    TileMap(GameObject&,  TileSet*);
     void Load(std::string);
     void SetTileSet(TileSet*);
     int& At(int, int, int z = 0);
-    void Render();
     void RenderLayer(int, int cameraX=0, int cameraY=0);
     
     int GetTileWidth();
     int GetTileHeight();
     int GetDepth();
+
+    // Herda de component
+    void Render();
+    bool Is(std::string);
+    void Update(float);
+
+    inline std::string GetType(){        
+        return this->type;
+    }
 };
 
 #endif

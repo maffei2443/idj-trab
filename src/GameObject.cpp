@@ -2,16 +2,19 @@
 #include "Rect.h"
 #include "Macros.h"
 #include <cstdio>
+#include <iostream>
 GameObject :: GameObject() : isDead(false), box() {}
 
 GameObject :: ~GameObject() {
     printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
-    for(int i = this->components.size(); i > -1 ;i--) {
-        printf("Null ? %d\n",this->components[i] == nullptr);
+    for(int i = this->components.size()-1; i > -1 ;i--) {
+        printf("Null ? %d | Type --> %s\n", this->components[i] == nullptr, this->components[i]->GetType().c_str());
+        std::cout << "Addr ::: " << this->components[i]->GetAddr() << std::endl;
         fflush(stdout);
-        // TODO : FOUND BUG : segfault if call delete
         // delete this->components[i];
+        // TODO : FOUND BUG : segfault if call delete..
+        // MOTIVO : está colocando 2x o Sprite no this->components!
         // this->components[i]->~Component();
         // printf("Destruiuuuuuuuuu\n");
     }
@@ -29,8 +32,16 @@ void GameObject :: Update(float dt) {
 }
 void GameObject :: Render() {
     for(auto& comp : this->components) {
+        printf("[Component.cpp] COMPONENT TYPE, ADDR |----> %s, %u\n", comp->GetType().c_str(), &comp);
         comp->Render();
     }
+    printf("-------------------------\n");
+    printf("-------------------------\n");
+    printf("-------------------------\n");
+    printf("-------------------------\n");
+    printf("-------------------------\n");
+    fflush(stdout);
+    // abort();
 }
 
 bool GameObject :: IsDead() {

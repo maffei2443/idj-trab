@@ -20,7 +20,7 @@ class State {
     // array de ponteiros para GOs.
     std::vector<std::unique_ptr<GameObject>> objectArray;
   public:
-    State(std::string);
+    State();
     ~State();
     bool QuitRequested();
     void LoadAssets(); // pré-carregar os assets do state do jogo

@@ -1,28 +1,27 @@
-#include "State.h"
-#include "Sprite.h"
-#define INCLUDE_SDL
-#include "SDL_include.h" // SDL_
-#include "GameObject.h"
 #include <string>
 #include <algorithm>
 #include <memory>
 #include <cmath>
-#define PI M_PI
 #include <unistd.h>
 #include <cstdio>
+#define PI M_PI
+
+#define INCLUDE_SDL
+#include "State.h"
+#include "Sprite.h"
+#include "SDL_include.h" // SDL_
+#include "GameObject.h"
 #include "Sound.h"
 #include "Macros.h"
 #include "Face.h"
 #include "TileSet.h"
 #include "TileMap.h"
 
-State :: State(std::string mapFile) : music(Music("assets/audio/stageState.ogg") ) {
-  GameObject * me = new GameObject();
+State :: State() : music(Music("assets/audio/stageState.ogg") ) {
+  GameObject * me = new GameObject;
 
-	
-	TileSet * tileSet = new TileSet(64, 64, "assets/img/tileset.png");
-	TileMap * tileMap = new TileMap(me, mapFile, tileSet);
-
+	TileSet * tileSet = new TileSet(64, 64, "assets/img/tileset.png", *me);
+	TileMap * tileMap = new TileMap(*me, tileSet);
 	/* Acrescente no construtor um GameObject com o TileMap(map/tileMap.txt),
 	lembrando de construir o Tileset(img/tileset.png) para enviar ao
 	TileMap. As dimensões das subimagens do tileset são 64x64.
@@ -110,7 +109,7 @@ void State :: AddObject(int mouseX, int mouseY) {
   enemy->AddComponent(enemyFace);
   
 	this->objectArray.emplace_back( enemy );
-  printf("penguins |---> %d\n", this->objectArray.size());
+  printf("penguins |---> %u\n", this->objectArray.size());
 }
 
 bool State :: QuitRequested() {

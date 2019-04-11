@@ -2,16 +2,19 @@
 #define RESOURCES_H
 #include <string>
 #include <unordered_map>
+
 #define INCLUDE_SDL
+#define INCLUDE_SDL_MIXER
+
 #include "SDL_include.h"
 
 class Resources {
 private:
     /* O membro imageTable é associado uma string (o
     caminho de um arquivo) a um ponteiro de textura. */
-    std::unordered_map<std::string, SDL_Texture*> imageTable;
-    std::unordered_map<std::string, Mix_Music*> musicTable;
-    std::unordered_map<std::string, Mix_Chunk*> soundTable;
+    static std::unordered_map<std::string, SDL_Texture*> imageTable;
+    static std::unordered_map<std::string, Mix_Music*> musicTable;
+    static std::unordered_map<std::string, Mix_Chunk*> soundTable;
     
 public:
     static SDL_Texture* GetImage(std::string);

@@ -7,12 +7,16 @@ private:
     const static int HEALTH_POINTS = 30;
     int hitspoints;
 public:
+    const std::string type = std::string("Face");
     Face(GameObject& associated);
     void Damage(int damage);
     // herda de Component
     void Update(float dt);
     void Render();
     bool Is(std::string type);
+    inline std::string GetType(){
+        return this->type;
+    }
 };
 
 #endif

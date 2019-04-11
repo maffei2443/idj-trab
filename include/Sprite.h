@@ -19,7 +19,9 @@ class Sprite : public Component {
     int width;
     int height;
     SDL_Rect clipRect;
+
   public:
+    const std::string type = std::string("Sprite");
     Sprite() {
       printf("CONTRUCTOR SPRITE ROUBADO\n");
     } //gambs; por conta do Sprite de State
@@ -28,6 +30,7 @@ class Sprite : public Component {
     virtual ~Sprite();
     void Open(std::string file);
     void SetClip(int x, int y, int w, int h);
+    void Render(int, int);
     // void Render(int x, int y);
     
     int GetWidth();
@@ -38,8 +41,9 @@ class Sprite : public Component {
     void Update(float dt);
     bool Is(std::string type);
     void Render();
-    void Render(int, int);
-
+    inline std::string GetType(){
+        return this->type;
+    }
 };
 
 #endif

@@ -1,11 +1,11 @@
-#include "Sprite.h"
-#include "GameObject.h"
-#include "Game.h"
 #include <cstdio>
 #include <string>
 
 #include "Macros.h"
-
+#include "Sprite.h"
+#include "GameObject.h"
+#include "Game.h"
+#include "Resources.h"
 
 
 Sprite :: Sprite(GameObject& associated) : Component(associated) {
@@ -58,7 +58,6 @@ void Sprite :: Render(int x, int y) {
 
 void Sprite :: Render() {
   // printf("Render sprite of type |---> ...\n");
-  
   int x = this->associated.box.x;
   int y = this->associated.box.y;
   this->Render(x, y);  
