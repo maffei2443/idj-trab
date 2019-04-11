@@ -87,7 +87,8 @@ void TileMap :: Render(){
 void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
     printf("TILE MAP RENDER_LAYER\n");
     // TODO : ● Deve-se considerar o tamanho de cada tile
-    
+    using namespace std;
+    cout << "w,h " << mapWidth << "," << mapHeight << endl;
     // TODO : ● Deve-se compensar o deslocamento da câmera
     
     int tile;
