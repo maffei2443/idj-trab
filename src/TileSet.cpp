@@ -30,7 +30,7 @@ void TileSet::RenderTile (unsigned index, float x, float y) {
         // printf("(%f, %f)\n", x, y);
         // printf("");
         // calcule e sete o clip desejado no sprite,
-        this->tileSet.SetClip(clipX, clipY, this->tileWidth, this->tileHeight);
+        this->tileSet.SetClip(clipY, clipX, this->tileWidth, this->tileHeight);
         // e renderize na posição dada
         this->tileSet.Render(x, y);
     }

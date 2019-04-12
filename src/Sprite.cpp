@@ -10,8 +10,7 @@
 
 Sprite :: Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
-  if(this->texture != nullptr)
-    LOG("Bananas; null ptr doesn't work on list init constructor\n");
+
   // this->texture = nullptr;
 }
 

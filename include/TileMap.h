@@ -12,7 +12,7 @@
 
 class TileMap : public Component {
 private:
-    int heightPlusDepth;
+    int layerSize;
     std::vector<int> tileMatrix;
     TileSet* tileSet;
     int mapWidth, mapHeight, mapDepth;

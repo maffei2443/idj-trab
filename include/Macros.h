@@ -1,4 +1,3 @@
-#pragma once
 #ifndef MACROS_H
 #define MACROS_H
 
@@ -6,7 +5,8 @@
 #include "SDL_include.h"
 #include <iostream>
 
-static int AuxCodeErr = 0;
+extern int AuxCodeErr;
+
 #ifndef SDL_ABORT_IF_NZERO
     #define SDL_ABORT_IF_NZERO( x ) \
         AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr);/*  else //////printf("Ok passed.\n"); */
@@ -15,11 +15,8 @@ static int AuxCodeErr = 0;
     #define SDL_ABORT_IF_ZERO( x ) \
             SDL_ABORT_IF_NZERO(!(x) )
 #endif
-static void myAbort(int err) {
-    std::cerr << "SDL error : " << SDL_GetError() << "\n";
-    std::cerr << "Error passed : " <<  err << "\n";
-    abort();
-}
-#define LOG(x) //////printf("[Log] ");//////printf(x);
+
+void myAbort(int);
+#define LOG(x) printf("[Log] "),printf(x);
 
 #endif
