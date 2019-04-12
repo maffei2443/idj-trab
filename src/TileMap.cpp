@@ -34,7 +34,7 @@ void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
     fp >> this->mapWidth >> c >> this->mapHeight >> c >> this->mapDepth >> c; 
     this->layerSize = this->mapHeight * this->mapDepth;
     int tileNum = this->mapWidth * this->mapHeight * this->mapDepth;
-    this->tileMatrix.reserve(tileNum);
+    this->tileMatrix.resize(tileNum);
     for(int i = 0; i < tileNum; i++) {
         int aux;
         fp >> aux >> c;
