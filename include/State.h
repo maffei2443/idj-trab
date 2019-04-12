@@ -13,12 +13,11 @@ class State {
     Music music;
     Sprite* bg;
     bool quitRequested;
+    std::vector<std::shared_ptr<GameObject>> objectArray;
 
     void AddObject(int mouseX, int mouseY);
-    // Para administrar os objetos instanciados no jogo,
-    // vamos manter um
-    // array de ponteiros para GOs.
-    std::vector<std::unique_ptr<GameObject>> objectArray;
+    void Input();
+  
   public:
     State();
     ~State();
@@ -28,7 +27,6 @@ class State {
     // que for possível.
     void Update(double dt);
     void Render();
-    void Input();
 };
 
 #endif

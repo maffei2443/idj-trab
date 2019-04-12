@@ -24,30 +24,11 @@ State :: State() : music(Music("assets/audio/stageState.ogg") ) {
 	std::string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
 	TileMap * tileMap = new TileMap(*me, tileSet);
-	/* Acrescente no construtor um GameObject com o TileMap(map/tileMap.txt),
-	lembrando de construir o Tileset(img/tileset.png) para enviar ao
-	TileMap. As dimensões das subimagens do tileset são 64x64.
-	COLOQUE O BOX DESSE GAMEOBJECT EM (0,0). 
-	Importante: não se esqueça de desalocar o TileSet na hora certa!
- */
-
 
 
 	this->objectArray.emplace_back( me );
-  // setar a largura e altura da box do GameObject que o contém (associated)
-	// baseado no carregado pela Sprite em seu construtor.
-	
-	// Depois disso, adicionemos a esse GameObject [enemy] o Componente Sound
-	// usando audio/boom.wav 
-	// Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
-	
-  // O construtor de State inicializa quitRequested e instancia o Sprite,
   this->quitRequested = false;
   this->music.Play(-1);
-
-  // Instanciar o Sprite
-  // this->bg = Sprite("assets/img/lose.jpg");
-  // this->music = Musicl();
 }
 
 State :: ~State() {
