@@ -41,10 +41,8 @@ void Sound :: Stop() {
 void Sound :: Open(std::string file) {
     // Mix_Chunk* Mix_LoadWAV(char* file);
     this->chunk = Mix_LoadWAV(file.c_str());
-    // //////printf("sounf path ===> %s\n", file.c_str());
     if( !chunk )    // nao conseguiu carregar arquivo
         LOG("Sound :: Open(std::string file) : NULL pointer returned\n");
-    LOG( ( "CARREGOU %s\n", file.c_str() ) );
 }
 bool Sound :: IsOpen() {
     return !!this->chunk;

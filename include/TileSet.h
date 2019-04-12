@@ -10,9 +10,11 @@ QUEREMOS RENDERIZAR UM DELES, RECORTAMOS USANDO O CLIP DO SPRITE.
  */
 class TileSet {
 private:
+    unsigned totalTileSize;
+    int rows, columns;
+    int tileWidth;
+    int tileHeight;
     Sprite tileSet;
-    int rows, columns, totalTileSize;
-    int tileWidth, tileHeight;
 public:
     TileSet(int, int, std::string, GameObject&);
     void RenderTile(unsigned, float, float);

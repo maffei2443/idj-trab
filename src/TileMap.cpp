@@ -69,15 +69,15 @@ void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
 }
 
 int TileMap :: GetTileWidth(){
-
+    return this->mapWidth;
 }
 
 int TileMap :: GetTileHeight(){
-
+    return this->mapHeight;
 }
 
 int TileMap :: GetDepth(){
-
+    return this->mapDepth;
 }
 
 bool TileMap :: Is(std::string type) {

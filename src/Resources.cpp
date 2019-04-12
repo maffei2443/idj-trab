@@ -22,8 +22,9 @@ SDL_Texture* Resources :: GetImage(std::string file) {
     SDL_ABORT_IF_ZERO(texture);
     Resources::imageTable[file] = texture;
   }
-  else
+  else {
     texture = it->second;
+  }
   return texture;
 }
 
@@ -32,30 +33,36 @@ void Resources :: ClearImages() {
 }
 
 Mix_Music* Resources :: GetMusic(std::string file) {
-  // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
-  SDL_ClearError();
-
   Mix_Music* music;
   auto it = Resources::musicTable.find(file);
-
   if( it == Resources::musicTable.end() ) {
     music = Mix_LoadMUS(file.c_str());
-  // Trate o caso de IMG_LoadTexture retornar nullptr.    
     SDL_ABORT_IF_ZERO(music);
     Resources::musicTable[file] = music;
   }
-  else
+  else {
     music = it->second;
+  }
   return music;
-
 }
 
 void Resources :: ClearMusics() {
   Resources::musicTable.clear();
 }
 
-Mix_Chunk* Resources :: GetSound(std::string) {
-
+Mix_Chunk* Resources :: GetSound(std::string file) {
+  Mix_Chunk* sound;
+  auto it = Resources::soundTable.find(file);
+  if( it == Resources::soundTable.end() ) {
+    sound = Mix_LoadWAV(file.c_str());
+    // Trate o caso de IMG_LoadTexture retornar nullptr.    
+    SDL_ABORT_IF_ZERO(sound);
+    Resources::soundTable[file] = sound;
+  }
+  else {
+    sound = it->second;
+  }
+  return sound;
 }
 
 void Resources :: ClearSounds() {

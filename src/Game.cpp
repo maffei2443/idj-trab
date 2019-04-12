@@ -21,30 +21,38 @@ Game :: Game(std::string title, int width, int height,
   this->freq = freq;
   this->format = format;
   this->channels = channels;
-  // Game :: instance = nullptr;
-  printf("%p\n", instance);
-  printf("%p\n", nullptr);
-  printf("%d\n", instance != nullptr);
   if ( (Game :: instance) != nullptr )
     LOG(("Tried to instantiate more than one Game Object\n"));
   this->title = title, this->width = width, this->height = height;
   Game::instance = this;
-
+  // Tries to initialize SDL lib.
   SDL_ABORT_IF_NZERO(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER));    
+  // Load img lib.
+  // Returns bitmask equivalent to the loaders it loaded.
+  // IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+  // TODO: take a look on http://wiki.libsdl.org/SDL_CreateWindow .(e.e, fullscreen)
   SDL_ABORT_IF_ZERO(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF));    
+  
   SDL_ABORT_IF_NZERO(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,
     MIX_DEFAULT_CHANNELS, 1024));
+  
   SDL_ABORT_IF_ZERO(Mix_Init(MIX_INIT_FLAC | MIX_INIT_OGG | MIX_INIT_MP3));      
+  
   SDL_ABORT_IF_ZERO(GAME_CHANNELS == Mix_AllocateChannels(GAME_CHANNELS));
+  // se SDL_CreateWindow ou SDL_CreateRenderer falham, retornam nullptr
   this->window = SDL_CreateWindow("Leonardo Maffei da Silva 160033811", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height , 0);
+  
   SDL_ABORT_IF_ZERO(this->window);
+  
   this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
+  
   SDL_ABORT_IF_ZERO(renderer);
   this->state = new State();
 }
 
 Game :: ~Game() {
   delete this->state;
+  // Destroy renderer and window.
   SDL_DestroyRenderer(this->renderer);
   SDL_DestroyWindow(this->window);
   // Finish the music.
@@ -79,6 +87,7 @@ void Game :: Run() {
     this->state->Render();
     SDL_ClearError();
     SDL_RenderPresent( this->renderer );
+    //  impor um limite de frame rate ao jogo.
     SDL_Delay(Const::DELAY);
   }
   Resources::ClearImages();

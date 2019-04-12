@@ -16,19 +16,11 @@ TileSet :: TileSet(int tileWidth, int tileHeight,std::string file, GameObject& a
 // Ok está sendo chamado.
 // Ok testado. Funciona.
 void TileSet::RenderTile (unsigned index, float x, float y) {
-    // //////printf("totalTileSize ---> %d\n", totalTileSize);
-    
-    // //////std::cout << "index ::: " << index << std::endl;
-    // //////printf("index > -1 && index < totalTileSize ? %d\n", index > -1 && index < totalTileSize);
-    //////printf("index >>> %u\n", index );
     if( index < totalTileSize) {
         int xSet = (index/this->columns);
         int ySet = index%this->columns;
         int clipX = xSet * this->tileWidth;
         int clipY = ySet * this->tileHeight;
-        // printf("(x, y) <--> ");
-        // printf("(%f, %f)\n", x, y);
-        // printf("");
         // calcule e sete o clip desejado no sprite,
         this->tileSet.SetClip(clipY, clipX, this->tileWidth, this->tileHeight);
         // e renderize na posição dada

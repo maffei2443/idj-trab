@@ -32,8 +32,6 @@ Sprite :: ~Sprite() {
 // argumentos.
 
 void Sprite :: Render(int x, int y) { 
-  Game& game = Game :: GetInstance();
-  SDL_Renderer* renderer = game.GetRenderer();
   SDL_Rect dsrect;
   dsrect.x = x;
   dsrect.y = y; 
@@ -66,8 +64,6 @@ void Sprite :: Open(std::string file) {
   // if (this->texture) {  
   //   SDL_DestroyTexture(this->texture);
   // }
-  Game& instance = Game::GetInstance();
-  const char * path = file.c_str();
   // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
   // this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
@@ -113,7 +109,7 @@ bool Sprite :: IsOpen() {
 }
 
 void Sprite :: Update(float dt) {
-
+  (void)dt;
 }
 
 bool Sprite :: Is(std :: string type) {

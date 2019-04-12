@@ -19,12 +19,10 @@ void Face ::  Damage(int damage) {
         Sound * sndPtr = (Sound*) cmptPtr;
 
         if(sndPtr){
-            // LOG(("The face YES have SOUND!\n"))
             sndPtr->Play(1);
-            // usleep(100000);   // TODO: melhorar isso.
         }
-        else;
-            // LOG(("The face doesn't have SOUND!\n"))
+        else
+            LOG(("The face doesn't have SOUND!\n"))
     }
 }
 // Face ::  herda de Componen {

@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include "Music.h"
 #include "SDL_include.h"
+#include "Macros.h"
 #define INCLUDE_SDL_MIXER
 
 Music :: Music() {
@@ -28,11 +29,10 @@ void Music :: Stop(int msToStop = 1500) {
 void Music :: Open(std::string file) {
     SDL_ClearError();
     this->music = Mix_LoadMUS( file.c_str() );
-    //////std::cout << "After Music::Open ~~>" << SDL_GetError() << std::endl;
-
-    // if (!err) {
-    //     LOG(std::runtime_error("Error loading Music");
-    // }
+    if(!this->music) {
+        throw std::runtime_error("Error loading Music");
+    }
+    
 }
 
 bool Music :: IsOpen() {

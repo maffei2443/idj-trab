@@ -53,13 +53,12 @@ void GameObject :: RemoveComponent(Component * cpt) {
     }
 }
 
-// DUVIDA : O QUE ESTAH SENDO PEDIDO ?
 Component* GameObject :: GetComponent(std::string type) {
     for(auto* comp : this->components) {
         if(comp->Is(type))
             return comp;
     }
-    LOG("Objeto não exixtente\n");
+    // LOG("Objeto não exixtente\n");
     // LOG("Método incompleto!!! Terminna logo  isso..\n");
     return nullptr;
 }

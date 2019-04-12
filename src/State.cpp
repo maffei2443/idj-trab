@@ -20,12 +20,9 @@
 State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
   bg = new Sprite( *me, "assets/img/ocean.jpg" );
-
 	std::string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
-	TileMap * tileMap = new TileMap(*me, tileSet);
-
-
+	new TileMap(*me, tileSet);
 	this->objectArray.emplace_back( me );
   this->quitRequested = false;
   this->music.Play(-1);
@@ -39,18 +36,17 @@ State :: ~State() {
 void State :: Update(double dt) {
  	// //////printf("[State.cpp] this->Input()\n");
 	this->Input();
-
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
 	}
-
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
 			if((**it).IsDead()) {
         it = this->objectArray.erase(it);
-        //////printf("morreu!\n");
       }
-			else it++;
+			else {
+				it++;
+			}
 	}
 	// //////printf("Apagou os mortos ? \n");
 }

@@ -2,9 +2,9 @@
 #include <cmath>
 #define PI M_PI
 
-static float lineSlope(const Vec2& va, const Vec2& vb) {
-    return ( (va.x - vb.x)/(va.y - vb.y) );
-}
+// static float lineSlope(const Vec2& va, const Vec2& vb) {
+//     return ( (va.x - vb.x)/(va.y - vb.y) );
+// }
 
 Vec2 :: Vec2() : x(0), y(0){}
 Vec2 :: Vec2(float x, float y) : x(x), y(y){}
