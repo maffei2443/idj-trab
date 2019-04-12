@@ -85,7 +85,7 @@ void TileMap :: Render(){
 // Renderiza uma camada do mapa, TILE A TILE. Note que há dois ajustes a
 // se fazer:
 void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
-    printf("TILE MAP RENDER_LAYER\n");
+    printf("TILE MAP RENDER_LAYER{%d}\n", layer);
     // TODO : ● Deve-se considerar o tamanho de cada tile
     using namespace std;
     cout << "w,h " << mapWidth << "," << mapHeight << endl;
@@ -95,7 +95,9 @@ void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
     for(int idX = 0; idX < this->mapWidth; idX++) {
         for(int idY = 0; idY < this->mapHeight; idY++) {
             // this->At(idX, idY, layer) = this->tileSet;
-            this->tileSet->RenderTile(idX*this->mapHeight+idY,cameraX, cameraY);
+            // Ok passa o indice dorreto de tile
+            unsigned index = (unsigned)this->At(idX, idY, layer);
+            this->tileSet->RenderTile(index,idX*64, idY*64);
             // gambs
         }
     }

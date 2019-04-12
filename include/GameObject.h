@@ -2,6 +2,8 @@
 #define GAMEOBJECT_H
 
 #include <vector>
+#include <memory>
+
 #include "Rect.h"
 #include "Component.h"
 // Logic grouper of the 
