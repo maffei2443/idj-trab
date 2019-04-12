@@ -37,7 +37,7 @@ State :: ~State() {
 
 
 void State :: Update(double dt) {
- 	// printf("[State.cpp] this->Input()\n");
+ 	// //////printf("[State.cpp] this->Input()\n");
 	this->Input();
 
 	for(auto& GO : this->objectArray) {
@@ -48,26 +48,26 @@ void State :: Update(double dt) {
 		 it != this->objectArray.end();) {
 			if((**it).IsDead()) {
         it = this->objectArray.erase(it);
-        printf("morreu!\n");
+        //////printf("morreu!\n");
       }
 			else it++;
 	}
-	// printf("Apagou os mortos ? \n");
+	// //////printf("Apagou os mortos ? \n");
 }
 
 
 //  trata da etapa 4 de Game::Run
 void State :: Render() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
-  // printf("Before State.Render\n");
+  // //////printf("Before State.Render\n");
   for(auto& GO : this->objectArray)
 		GO->Render();
-  // printf("After State.Render\n");
+  // //////printf("After State.Render\n");
 }
 
 // BUG
 void State :: AddObject(int mouseX, int mouseY) {
-  printf("mouseX, mouseY %d, %d", mouseX, mouseY );
+  //////printf("mouseX, mouseY %d, %d", mouseX, mouseY );
 	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
 	GameObject * enemy = new GameObject;
 	
@@ -91,11 +91,11 @@ void State :: AddObject(int mouseX, int mouseY) {
   enemy->AddComponent(enemyFace);
   
 	this->objectArray.emplace_back( enemy );
-  printf("penguins |---> %u\n", this->objectArray.size());
+  //////printf("penguins |---> %u\n", this->objectArray.size());
 }
 
 bool State :: QuitRequested() {
-  // printf("[Log] Returning from bool State :: QuitRequested()\n");
+  // //////printf("[Log] Returning from bool State :: QuitRequested()\n");
   return this->quitRequested;
 }
 
@@ -112,16 +112,16 @@ void State :: Input() {
 	SDL_GetMouseState(&mouseX, &mouseY);
 
 	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
-	// printf(" while (SDL_PollEvent(&event))\n ");
+	// //////printf(" while (SDL_PollEvent(&event))\n ");
 	while (SDL_PollEvent(&event)) {
 		// usleep(20);
 		// Se o evento for quit, setar a flag para terminação
-		// printf("if(event.type == SDL_QUIT)\n");
+		// //////printf("if(event.type == SDL_QUIT)\n");
 		if(event.type == SDL_QUIT) {
 			this->quitRequested = true;
 		}
 		// Se o evento for clique...
-		// printf("if(event.type == SDL_MOUSEBUTTONDOWN)\n");
+		// //////printf("if(event.type == SDL_MOUSEBUTTONDOWN)\n");
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
 			// LOG("SDL_MOUSEBUTTONDOWN)\n");
 
@@ -135,14 +135,14 @@ void State :: Input() {
 					if ( nullptr != face ) {
 						// Aplica dano
 						face->Damage(std::rand() % 10 + 10);
-            printf("MOOOOOORRRRREU\n");
+            //////printf("MOOOOOORRRRREU\n");
 						// Sai do loop (só queremos acertar um)
 						break;
 					}
 				}
 			}
 		}
-		// printf("if( event.type == SDL_KEYDOWN )\n");
+		// //////printf("if( event.type == SDL_KEYDOWN )\n");
 		if( event.type == SDL_KEYDOWN ) {
 			// LOG("SDL_KEYDOWN)\n");
 
@@ -157,7 +157,7 @@ void State :: Input() {
 				Vec2 aux (mouseX, mouseY );
 				objPos = objPos + aux;
 				AddObject((int)objPos.x, (int)objPos.y);
-        printf("added penguin!?\n");
+        //////printf("added penguin!?\n");
 			}
 		}
 	}

@@ -34,15 +34,14 @@ int& TileMap :: At(int x, int y, int z){
 
 void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
     const char * fileName = _file.c_str();
-    std::cout << "file-name: " << fileName << std::endl;
+    //////std::cout << "file-name: " << fileName << std::endl;
     char c;
 
     std::ifstream fp(fileName, std::ifstream::in);
-    printf("WOW");
+    //////printf("WOW");
     fp >> this->mapWidth >> c >> this->mapHeight >> c >> this->mapDepth >> c;
  
-    fprintf(stdout, "%d,%d,%d,%c\n\n", 
-        this->mapWidth, this->mapHeight, this->mapDepth, c);
+    //////fprintf(stdout, "%d,%d,%d,%c\n\n", this->mapWidth, this->mapHeight, this->mapDepth, c);
     this->heightPlusDepth = this->mapHeight + this->mapDepth;
     // Em seguida, vêm os tiles, que devem ser carregados em ordem 
     // para a matriz de tiles.
@@ -56,7 +55,8 @@ void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
     for(int i = 0; i < tileNum; i++) {
         int aux;
         fp >> aux >> c;
-        this->tileMatrix[i] = --aux;
+        aux -= 1;
+        this->tileMatrix[i] = aux;
 
     }
     // return;
@@ -66,7 +66,7 @@ void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
     //             int px;/*  = this->At(widthIdx, heightIdx, depthIdx); */
     //             fp >> px >> c;
     //             px--;
-    //             std::cout << px << c;
+    //             //////std::cout << px << c;
     //             this->At(widthIdx, heightIdx, depthIdx) = px;
     //         }
     //         // abort();
@@ -83,7 +83,7 @@ void TileMap :: SetTileSet(TileSet* tileSet){
 }
 
 void TileMap :: Render(){
-    printf("TILE MAP RENDER\n");
+    //////printf("TILE MAP RENDER\n");
     for(int layer = 0; layer < this->mapDepth; layer++)
         this->RenderLayer(layer);    
 }
@@ -92,22 +92,15 @@ void TileMap :: Render(){
 void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
     (void)cameraX;
     (void)cameraY;
-    printf("TILE MAP RENDER_LAYER{%d}\n", layer);
-    // TODO : ● Deve-se considerar o tamanho de cada tile
-    using namespace std;
-    cout << "w,h " << mapWidth << "," << mapHeight << endl;
-    // TODO : ● Deve-se compensar o deslocamento da câmera
-    
+
     int tile;
     for(int idY = 0; idY < this->mapHeight; idY++) {
         for(int idX = 0; idX < this->mapWidth; idX++) {
-            // this->At(idX, idY, layer) = this->tileSet;
-            // Ok passa o indice dorreto de tile
-            unsigned index = (unsigned)this->At(idX, idY, layer);
+            int index = this->At(idX, idY, layer);
+            printf("index --> %d\n", index);
             int tileX = idX * this->tileSet->GetTileWidth();
             int tileY = idY * this->tileSet->GetTileHeight();
-            this->tileSet->RenderTile(index,idX*64, idY*64);
-            // gambs
+            this->tileSet->RenderTile(index,tileX, tileY);
         }
     }
 }

@@ -17,9 +17,9 @@
 int main(int argc, char** argv)
 {
   (void)argc; (void)argv;
-  // std::cout << "Erro logo ao lancar : " << SDL_GetError() << std::endl;
+  // //////std::cout << "Erro logo ao lancar : " << SDL_GetError() << std::endl;
   Game* game = &Game :: GetInstance();
-  std::cout << "Endereço do game --> " << game << std::endl;
+  //////std::cout << "Endereço do game --> " << game << std::endl;
   game->Run();
 
 

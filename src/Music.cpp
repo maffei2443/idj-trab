@@ -28,7 +28,7 @@ void Music :: Stop(int msToStop = 1500) {
 void Music :: Open(std::string file) {
     SDL_ClearError();
     this->music = Mix_LoadMUS( file.c_str() );
-    std::cout << "After Music::Open ~~>" << SDL_GetError() << std::endl;
+    //////std::cout << "After Music::Open ~~>" << SDL_GetError() << std::endl;
 
     // if (!err) {
     //     LOG(std::runtime_error("Error loading Music");

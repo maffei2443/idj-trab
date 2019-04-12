@@ -24,7 +24,7 @@ Sprite :: Sprite(GameObject& associated, std::string file) : Component(associate
 Sprite :: ~Sprite() {
   // Agora isso é papel da Resources
   // if (this->texture) {
-  //   // printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
+  //   // //////printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
   //   SDL_DestroyTexture(this->texture);
   // }
 }
@@ -44,11 +44,11 @@ void Sprite :: Render(int x, int y) {
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos. /**/
 
-  // printf("Before Sprite.Render.SDL_RenderCopy...\n");
-  // printf("ERROS :%s\n", SDL_GetError());
+  // //////printf("Before Sprite.Render.SDL_RenderCopy...\n");
+  // //////printf("ERROS :%s\n", SDL_GetError());
   SDL_ABORT_IF_NZERO(SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect ));
   SDL_ClearError();
-  // printf("Should be empty ---> %s\n", SDL_GetError());
+  // //////printf("Should be empty ---> %s\n", SDL_GetError());
   SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
   // auto a = this->clipRect;
   // SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
@@ -57,7 +57,7 @@ void Sprite :: Render(int x, int y) {
 
 
 void Sprite :: Render() {
-  // printf("Render sprite of type |---> ...\n");
+  // //////printf("Render sprite of type |---> ...\n");
   int x = this->associated.box.x;
   int y = this->associated.box.y;
   this->Render(x, y);  
@@ -69,14 +69,14 @@ void Sprite :: Open(std::string file) {
   // }
   Game& instance = Game::GetInstance();
   const char * path = file.c_str();
-  // std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
+  // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
   // this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
   this->texture = Resources::GetImage( file );
   // Trate o caso de IMG_LoadTexture retornar nullptr.
   SDL_ABORT_IF_ZERO(this->texture);
-  // std::cout << "Texture ~~>" << this->texture << std::endl;
-  // std::cout << "Error after loadd_texture? ~~>" << SDL_GetError() << std::endl;
+  // //////std::cout << "Texture ~~>" << this->texture << std::endl;
+  // //////std::cout << "Error after loadd_texture? ~~>" << SDL_GetError() << std::endl;
   
   // if(!this->texture) {
   //   LOG(std::runtime_error(SDL_GetError());

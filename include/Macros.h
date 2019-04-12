@@ -9,7 +9,7 @@
 static int AuxCodeErr = 0;
 #ifndef SDL_ABORT_IF_NZERO
     #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr);/*  else printf("Ok passed.\n"); */
+        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr);/*  else //////printf("Ok passed.\n"); */
 #endif
 #ifndef SDL_ABORT_IF_ZERO
     #define SDL_ABORT_IF_ZERO( x ) \
@@ -20,6 +20,6 @@ static void myAbort(int err) {
     std::cerr << "Error passed : " <<  err << "\n";
     abort();
 }
-#define LOG(x) printf("[Log] ");printf(x);
+#define LOG(x) //////printf("[Log] ");//////printf(x);
 
 #endif

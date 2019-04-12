@@ -12,7 +12,7 @@ std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
 
 SDL_Texture* Resources :: GetImage(std::string file) {
   Game& instance = Game::GetInstance();
-  // std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
+  // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
   auto it = imageTable.find(file);
   SDL_Texture* texture;
@@ -32,7 +32,7 @@ void Resources :: ClearImages() {
 }
 
 Mix_Music* Resources :: GetMusic(std::string file) {
-  // std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
+  // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
 
   Mix_Music* music;

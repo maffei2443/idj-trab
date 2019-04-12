@@ -23,7 +23,7 @@ class Sprite : public Component {
   public:
     const std::string type = std::string("Sprite");
     Sprite() {
-      printf("CONTRUCTOR SPRITE ROUBADO\n");
+      //////printf("CONTRUCTOR SPRITE ROUBADO\n");
     } //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, std::string file);
