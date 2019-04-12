@@ -20,7 +20,7 @@ void TileSet::RenderTile (unsigned index, float x, float y) {
     // std::cout << "index ::: " << index << std::endl;
     // printf("index > -1 && index < totalTileSize ? %d\n", index > -1 && index < totalTileSize);
     printf("index >>> %u\n", index );
-    if(index > 0 && index < totalTileSize) {
+    if( index < totalTileSize) {
         int xSet = (index/this->columns);
         int ySet = index%this->columns;
         printf("\033[0;31m(x, y) <--> ");

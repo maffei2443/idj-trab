@@ -20,7 +20,7 @@ void Face ::  Damage(int damage) {
 
         if(sndPtr){
             // LOG(("The face YES have SOUND!\n"))
-            sndPtr->Play(1);
+            // sndPtr->Play(1);
             // usleep(100000);   // TODO: melhorar isso.
         }
         else;
