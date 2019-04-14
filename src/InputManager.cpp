@@ -29,18 +29,15 @@ void InputManager::Update() {
     pressedButton = event.button.button;
     switch (event.type) {
       case SDL_KEYDOWN:
-        // caso de ESC        
-        this->keyState[keyVal] = true;
-        this->keyUpdate[keyVal] = this->updateCounter;
-        printf("KEY_DOWN %d\n", keyVal);
-        if(keyVal == SPACE_KEY) {
-          // abort();
+        if (!event.key.repeat) {
+          this->keyState[keyVal] = true;
+          this->keyUpdate[keyVal] = this->updateCounter;          
+          if(keyVal == ESCAPE_KEY) {
+            this->quitRequested = true;
+          }
         }
-        else if(keyVal == ESCAPE_KEY) {
-          this->quitRequested = true;
-          // abort();
-        }
-        printf("KeyPress(keyVal) %d\n", KeyPress(keyVal));
+        // printf("KEY_DOWN %d\n", keyVal);
+        // printf("KeyPress(keyVal) %d\n", KeyPress(keyVal));
         // printf("%d\n",keyVal);//abort();
         break;
       case SDL_KEYUP:  // Uma tecla foi solta
@@ -53,14 +50,14 @@ void InputManager::Update() {
         printf("ESC %d\n", SDL_QUIT);
         this->quitRequested = true;break;    // QUIT deve ser tratado simplesmente setando a flag quitRequested.
       case SDL_MOUSEBUTTONDOWN:
-        this->mouseState[event.button.button] = true;
-        this->mouseUpdate[event.button.button] = this->updateCounter;
-        // printf("MOUSE_BUTTON_DOWN %d\n", event.button.button);
+        this->mouseState[pressedButton] = true;
+        this->mouseUpdate[pressedButton] = this->updateCounter;
+        // printf("MOUSE_BUTTON_DOWN %d\n", pressedButton);
         break;
       case SDL_MOUSEBUTTONUP: // Botão do mouse foi solto
-        this->mouseState[event.button.button] = false;
-        this->mouseUpdate[event.button.button] = this->updateCounter;
-        // printf("MOUSE_BUTTON_UP %d\n", event.button.button);
+        this->mouseState[pressedButton] = false;
+        this->mouseUpdate[pressedButton] = this->updateCounter;
+        // printf("MOUSE_BUTTON_UP %d\n", pressedButton);
         break;
 
     }
@@ -73,14 +70,9 @@ void InputManager::Update() {
 // POSSIVEL BUG
 bool InputManager::KeyPress(int key) {
   // printf("KeyPress %d? \n", key);
-  if(this->keyState[key]) {\
-    if (this->keyUpdate[key] == this->updateCounter) {
-      printf("Key %d WAS pressed\n", key);
-      // printf("ABORTO!\n");fflush(stdout);
-      printf("this->keyState[%d] ---> %d\n", key, this->keyUpdate[key]);
-      // abort();
-      return true;// == true;
-    }
+  int state = this->keyState[key], counter = this->updateCounter;
+  if(state == true and (counter-1 == this->keyUpdate[key] || counter == this->keyUpdate[key])) {
+      return true;
   }
   else
     ;// printf("Key %d is NOT pressed\n", key);
@@ -153,7 +145,7 @@ InputManager& InputManager::GetInstance() {
 }
 
 // Ok, inicializa variáveis de InputManager.
-InputManager::InputManager () :updateCounter(0), quitRequested(false) {
+InputManager::InputManager () : quitRequested(false), updateCounter(0) {
   SDL_GetMouseState(&mouseX, &mouseY);
 /* O construtor deve inicializar os arrays de estado e update do mouse. Se
 você estiver usando vetores para as teclas, faça o mesmo para eles. Já as

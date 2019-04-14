@@ -16,7 +16,6 @@ class State {
     std::vector<std::shared_ptr<GameObject>> objectArray;
 
     void AddObject(int mouseX, int mouseY);
-    void Input();
     InputManager* inputManager = &InputManager::GetInstance();
   public:
     State();

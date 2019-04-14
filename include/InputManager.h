@@ -45,12 +45,14 @@ de 1 a 5, não é necessário nada além de um array simples para fazermos
 acesso direto. */
     std::vector<bool> mouseState;
     std::vector <int> mouseUpdate;
+    std::vector <int> mouseRepeat;
     /* No entanto, para as teclas, os valores de SDL_Keycodes (a enum da SDL
 que se refere às teclas) estão um pouco mais espalhadas. Teclas cujos valores
 tem um caracter correspondente tem keycodes no range 0x0 até 0x7F, igual
 ao valor na tabela ASCII. */
     std::map<int, bool> keyState;
     std::map<int, int> keyUpdate;
+    std::map<int, int> keyRepeat;
     /* De verdade, apenas keyState e mouseStateguardam estado - true se
     o botão está pressionado, false caso contrário */
     bool quitRequested;

@@ -48,8 +48,8 @@ void State :: Update(double dt) {
 	// 	printf("gg outa\n");
 	// } 
 	if( this->inputManager->KeyPress(SPACE_KEY)) {
-		printf("GG SPACE!\n");fflush(stdout);
-		abort();
+		// printf("GG SPACE!\n");fflush(stdout);
+		// abort();
 		Vec2 objPos = Vec2( 200, 0 );
 		objPos.rotate( rand() % 360 );
 		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
@@ -60,7 +60,7 @@ void State :: Update(double dt) {
 		int mouseX = this->inputManager->GetMouseX();
 		int mouseY = this->inputManager->GetMouseY();
 		for(int i = objectArray.size() - 1; i >= 0; --i) {
-			printf("DAMAGE?? %d\n", i);
+			// printf("DAMAGE?? %d\n", i);
 			// Obtem o ponteiro e casta pra Face.
 			GameObject* go = (GameObject*) objectArray[i].get();
 			if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
@@ -132,57 +132,3 @@ void State :: LoadAssets() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
 }
 
-// deprecation...
-void State :: Input() {
-	/* TODO : deletar essa função.
-	Agora quem lida com isso é o InputManager */
-	printf("inputa (sem ofensas)\n");
-	SDL_Event event;
-	int mouseX, mouseY;
-
-	// Obtenha as coordenadas do mouse
-	SDL_GetMouseState(&mouseX, &mouseY);
-
-	// SDL_PollEvent retorna 1 se encontrar eventos, zero caso contrário
-	while (SDL_PollEvent(&event)) {
-		// Se o evento for quit, setar a flag para encerrar o game
-		if(event.type == SDL_QUIT) {
-			this->quitRequested = true;
-		}
-		// Se o evento for clique...
-		if(event.type == SDL_MOUSEBUTTONDOWN) {
-			printf("CLICK! %d\n", event.button.button);
-			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
-			for(int i = objectArray.size() - 1; i >= 0; --i) {
-				// Obtem o ponteiro e casta pra Face.
-				GameObject* go = (GameObject*) objectArray[i].get();
-				if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
-					Face* face = (Face*)go->GetComponent( "Face" );
-					if ( face != nullptr ) {
-						// Aplica dano
-						face->Damage(std::rand() % 10 + 10);
-						// Sai do loop (só queremos acertar um)
-						break;
-					}
-				}
-			}
-		}
-		if( event.type == SDL_KEYDOWN ) {
-			// Se a tecla for ESC, setar a flag de quit
-			if( event.key.keysym.sym == SDLK_ESCAPE ) {
-				quitRequested = true;
-			}
-			// Senão, crie um objeto
-			else {
-				Vec2 objPos = Vec2( 200, 0 );
-				objPos.rotate( rand() % 360 );
-				Vec2 aux (mouseX, mouseY );
-				objPos = objPos + aux;
-				if(event.key.repeat)
-    		      printf("REPEATING KEY!\n");
-				else
-					AddObject((int)objPos.x, (int)objPos.y);
-			}
-		}
-	}
-}
