@@ -4,6 +4,7 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 #include <iostream>
+#define ASCII_ESC 27
 
 extern int AuxCodeErr;
 

@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
-
+#include "InputManager.h"
 // Class responsible for the game logic.
 class State {
   private:
@@ -17,7 +17,7 @@ class State {
 
     void AddObject(int mouseX, int mouseY);
     void Input();
-  
+    InputManager* inputManager = &InputManager::GetInstance();
   public:
     State();
     ~State();

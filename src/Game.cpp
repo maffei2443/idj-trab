@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include "Macros.h"
 #include "Resources.h"
+#include "InputManager.h"
 
 Game* Game :: instance = nullptr;
 
@@ -82,7 +83,17 @@ SDL_Renderer* Game :: GetRenderer() {
   return this->renderer;
 }
 void Game :: Run() {
+  InputManager* inputManager = &InputManager::GetInstance();
   while (!this->state->QuitRequested()) {
+/* Agora, vamos integrar o InputManager ao programa. Acrescente uma
+chamada ao método Update em Game::Run(), logo antes da chamada ao
+update do estado */    
+    inputManager->Update();
+
+    /* Setar a flag de quit de State se ESC 
+    for pressionado ou se o
+    InputManager apontar evento de Quit; */
+
     this->state->Update(0.0);  // Ok, debugging...
     this->state->Render();
     SDL_ClearError();

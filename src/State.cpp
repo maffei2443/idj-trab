@@ -16,6 +16,7 @@
 #include "Face.h"
 #include "TileSet.h"
 #include "TileMap.h"
+#include "State.h"
 
 State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
@@ -35,7 +36,11 @@ State :: ~State() {
 
 void State :: Update(double dt) {
  	// //////printf("[State.cpp] this->Input()\n");
-	this->Input();
+	// this->Input();
+	this->quitRequested = 
+		this->inputManager->KeyPress(ASCII_ESC)
+		|| this->inputManager->QuitRequested();
+	
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
 	}
