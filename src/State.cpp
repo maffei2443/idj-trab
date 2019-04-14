@@ -95,6 +95,9 @@ void State :: LoadAssets() {
 
 
 void State :: Input() {
+	/* TODO : deletar essa função.
+	Agora quem lida com isso é o InputManager */
+	printf("inputa (sem ofensas)\n");
 	SDL_Event event;
 	int mouseX, mouseY;
 
@@ -135,7 +138,10 @@ void State :: Input() {
 				objPos.rotate( rand() % 360 );
 				Vec2 aux (mouseX, mouseY );
 				objPos = objPos + aux;
-				AddObject((int)objPos.x, (int)objPos.y);
+				if(event.key.repeat)
+    		      printf("REPEATING KEY!\n");
+				else
+					AddObject((int)objPos.x, (int)objPos.y);
 			}
 		}
 	}
