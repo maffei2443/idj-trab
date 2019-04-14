@@ -23,12 +23,15 @@ seu método Update é chamado (no início de cada frame).
 class InputManager {
   public:
     void Update();
+/* ___Press e ___Release estão interessadas no pressionamento
+ocorrido naquele frame */
     bool KeyPress(int key);
     bool KeyRelease(int key);
     bool IsKeyDown(int key);
     bool MousePress(int button);
     bool MouseRelease(int button);
     bool IsMouseDown(int button);
+    
     int GetMouseX();
     int GetMouseY();
     bool QuitRequested();
@@ -41,7 +44,7 @@ no array e na tabela contidos na classe. Como a SDL indexa botões do mouse
 de 1 a 5, não é necessário nada além de um array simples para fazermos
 acesso direto. */
     std::vector<bool> mouseState;
-    std::vector <bool> mouseUpdate;
+    std::vector <int> mouseUpdate;
     /* No entanto, para as teclas, os valores de SDL_Keycodes (a enum da SDL
 que se refere às teclas) estão um pouco mais espalhadas. Teclas cujos valores
 tem um caracter correspondente tem keycodes no range 0x0 até 0x7F, igual

@@ -89,11 +89,6 @@ void Game :: Run() {
 chamada ao método Update em Game::Run(), logo antes da chamada ao
 update do estado */    
     inputManager->Update();
-
-    /* Setar a flag de quit de State se ESC 
-    for pressionado ou se o
-    InputManager apontar evento de Quit; */
-
     this->state->Update(0.0);  // Ok, debugging...
     this->state->Render();
     SDL_ClearError();

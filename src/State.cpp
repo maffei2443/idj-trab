@@ -17,6 +17,7 @@
 #include "TileSet.h"
 #include "TileMap.h"
 #include "State.h"
+#include "InputManager.h"
 
 State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
@@ -35,12 +36,45 @@ State :: ~State() {
 
 
 void State :: Update(double dt) {
- 	// //////printf("[State.cpp] this->Input()\n");
-	// this->Input();
+    /* Setar a flag de quit de State se ESC 
+    for pressionado ou se o
+    InputManager apontar evento de Quit; */
+
 	this->quitRequested = 
-		this->inputManager->KeyPress(ASCII_ESC)
+		this->inputManager->KeyPress(ESCAPE_KEY)
 		|| this->inputManager->QuitRequested();
-	
+	// Se clicou, ver se aplica dano ou nao
+	// if(this->inputManager->KeyPress(SDLK_ESCAPE)) {
+	// 	printf("gg outa\n");
+	// } 
+	if( this->inputManager->KeyPress(SPACE_KEY)) {
+		printf("GG SPACE!\n");fflush(stdout);
+		abort();
+		Vec2 objPos = Vec2( 200, 0 );
+		objPos.rotate( rand() % 360 );
+		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
+		objPos = objPos + aux;
+		AddObject((int)objPos.x, (int)objPos.y);
+	}
+	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
+		int mouseX = this->inputManager->GetMouseX();
+		int mouseY = this->inputManager->GetMouseY();
+		for(int i = objectArray.size() - 1; i >= 0; --i) {
+			printf("DAMAGE?? %d\n", i);
+			// Obtem o ponteiro e casta pra Face.
+			GameObject* go = (GameObject*) objectArray[i].get();
+			if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
+				Face* face = (Face*)go->GetComponent( "Face" );
+				if ( face != nullptr ) {
+					// Aplica dano
+					face->Damage(std::rand() % 10 + 10);
+					// Sai do loop (só queremos acertar um)
+					break;
+				}
+			}
+		}
+	}
+
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
 	}
@@ -98,7 +132,7 @@ void State :: LoadAssets() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
 }
 
-
+// deprecation...
 void State :: Input() {
 	/* TODO : deletar essa função.
 	Agora quem lida com isso é o InputManager */
@@ -117,6 +151,7 @@ void State :: Input() {
 		}
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
+			printf("CLICK! %d\n", event.button.button);
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
 				// Obtem o ponteiro e casta pra Face.
