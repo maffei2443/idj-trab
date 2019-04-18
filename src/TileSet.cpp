@@ -22,7 +22,7 @@ void TileSet::RenderTile (unsigned index, float x, float y) {
         int clipX = xSet * this->tileWidth;
         int clipY = ySet * this->tileHeight;
         // calcule e sete o clip desejado no sprite,
-        this->tileSet.SetClip(clipY, clipX, this->tileWidth, this->tileHeight);
+        this->tileSet.SetClip(clipX, clipY, this->tileWidth, this->tileHeight);
         // e renderize na posição dada
         this->tileSet.Render(x, y);
     }
