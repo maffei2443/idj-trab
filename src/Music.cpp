@@ -6,15 +6,15 @@
 #include "Macros.h"
 #define INCLUDE_SDL_MIXER
 
-Music :: Music() {
+Music::Music() {
     this->music = nullptr;
 }
 
-Music :: Music(std::string file) {
+Music::Music(std::string file) {
     this->Open(file);
 }
 
-void Music :: Play(int times=-1) {
+void Music::Play(int times=-1) {
     // Se loops for -1, a música repete infinitamente. Se loops for 0, a música não é
     // tocada. Vale notar que a Mixer só suporta uma música sendo tocada por vez:
     // Se outra música já estiver tocando, ela para.
@@ -22,11 +22,11 @@ void Music :: Play(int times=-1) {
     Mix_PlayMusic(this->music, TIMES_TO_PLAY);
 }
 
-void Music :: Stop(int msToStop = 1500) {
+void Music::Stop(int msToStop = 1500) {
     Mix_FadeOutMusic(msToStop);
 }
 
-void Music :: Open(std::string file) {
+void Music::Open(std::string file) {
     SDL_ClearError();
     this->music = Mix_LoadMUS( file.c_str() );
     if(!this->music) {
@@ -35,11 +35,11 @@ void Music :: Open(std::string file) {
     
 }
 
-bool Music :: IsOpen() {
+bool Music::IsOpen() {
     return !!this->music;
 }
 
-Music :: ~Music() {
+Music::~Music() {
     this->Stop(0);
 }
 

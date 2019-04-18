@@ -3,9 +3,9 @@
 #include "Macros.h"
 #include <cstdio>
 #include <iostream>
-GameObject :: GameObject() : isDead(false), box() {}
+GameObject::GameObject() : isDead(false), box() {}
 
-GameObject :: ~GameObject() {
+GameObject::~GameObject() {
     //////printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
     this->components.clear();
@@ -13,12 +13,12 @@ GameObject :: ~GameObject() {
 
 }
 
-void GameObject :: Update(float dt) {
+void GameObject::Update(float dt) {
     for(auto& comp : this->components) {
         comp->Update(dt);
     }
 }
-void GameObject :: Render() {
+void GameObject::Render() {
     for(auto& comp : this->components) {
         //////printf("[Component.cpp] COMPONENT TYPE, ADDR |----> %s, %u\n", comp->GetType().c_str(), &comp);
         comp->Render();
@@ -32,19 +32,19 @@ void GameObject :: Render() {
     // abort();
 }
 
-bool GameObject :: IsDead() {
+bool GameObject::IsDead() {
     return this->isDead;
 }
-void GameObject :: RequestDelete() {
+void GameObject::RequestDelete() {
     this->isDead = true;
 }
-void GameObject :: AddComponent(Component* cpt) {
+void GameObject::AddComponent(Component* cpt) {
     // BUG POSSIVEL
     // this->components.push_back(cpt);
     this->components.emplace_back(cpt);
 }
 
-void GameObject :: RemoveComponent(Component * cpt) {
+void GameObject::RemoveComponent(Component * cpt) {
     std::size_t len = this->components.size();
     for(std::size_t i = 0; i < len; i++ ) {
         if (cpt != this->components[i]) continue;
@@ -53,7 +53,7 @@ void GameObject :: RemoveComponent(Component * cpt) {
     }
 }
 
-Component* GameObject :: GetComponent(std::string type) {
+Component* GameObject::GetComponent(std::string type) {
     for(auto* comp : this->components) {
         if(comp->Is(type))
             return comp;

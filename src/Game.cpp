@@ -13,16 +13,16 @@
 #include "Resources.h"
 #include "InputManager.h"
 
-Game* Game :: instance = nullptr;
+Game* Game::instance = nullptr;
 
-Game :: Game(std::string title, int width, int height,
+Game::Game(std::string title, int width, int height,
               int freq = MIX_DEFAULT_FREQUENCY,
               unsigned short format = MIX_DEFAULT_FORMAT,
               int channels = MIX_DEFAULT_CHANNELS) {
   this->freq = freq;
   this->format = format;
   this->channels = channels;
-  if ( (Game :: instance) != nullptr )
+  if ( (Game::instance) != nullptr )
     LOG(("Tried to instantiate more than one Game Object\n"));
   this->title = title, this->width = width, this->height = height;
   Game::instance = this;
@@ -51,7 +51,7 @@ Game :: Game(std::string title, int width, int height,
   this->state = new State();
 }
 
-Game :: ~Game() {
+Game::~Game() {
   delete this->state;
   // Destroy renderer and window.
   SDL_DestroyRenderer(this->renderer);
@@ -67,48 +67,51 @@ Game :: ~Game() {
   SDL_Quit(); 
 }
 
-Game& Game :: GetInstance() {
-  if (Game :: instance == nullptr) {
+Game& Game::GetInstance() {
+  if (Game::instance == nullptr) {
     auto x = std::string("Leonardo Maffei da Silva - 16/0033811");
-    Game :: instance = new Game(x, 1024, 600);
+    Game::instance = new Game(x, 1024, 600);
   }
   return *instance;
 }
 
-State& Game :: GetState() {
+State& Game::GetState() {
   return *this->state;
 }
 
-SDL_Renderer* Game :: GetRenderer() {
+SDL_Renderer* Game::GetRenderer() {
   return this->renderer;
 }
-void Game :: Run() {
+void Game::Run() {
   InputManager* inputManager = &InputManager::GetInstance();
   while (!this->state->QuitRequested()) {
 /* Agora, vamos integrar o InputManager ao programa. Acrescente uma
 chamada ao método Update em Game::Run(), logo antes da chamada ao
-update do estado */    
+update do estado */
+    this->CalculateDeltaTime();
     inputManager->Update();
-    this->state->Update(0.0);  // Ok, debugging...
+    this->state->Update(this->dt);  // Ok, debugging...
     this->state->Render();
     SDL_ClearError();
     SDL_RenderPresent( this->renderer );
     //  impor um limite de frame rate ao jogo.
-    SDL_Delay(Const::DELAY);
+    // SDL_Delay(Const::DELAY);
   }
   Resources::ClearImages();
   Resources::ClearMusics();
   Resources::ClearSounds();
 }
 
-void Game :: CalculateDeltaTime() {
+void Game::CalculateDeltaTime() {
   /* Atualizamos frameStart e usamos o valor antigo e
   o novo para calcular dt em milissegundos. */
   int oldFrameStart = this->frameStart; 
   this->frameStart = SDL_GetTicks ();
   this->dt = this->frameStart - oldFrameStart;
+  using std::cout, std::endl;
+  // cout << "dt --> " << dt << endl;
   // converta para segundos
-  this->dt = (int)(round(this->dt / 1000));
+  // this->dt = (int)(round(this->dt / 1000));
 }
 
 #endif

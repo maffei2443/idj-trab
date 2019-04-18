@@ -29,7 +29,7 @@ void InputManager::Update() {
     pressedButton = event.button.button;
     switch (event.type) {
       case SDL_KEYDOWN:
-        printf("KEY PRESSED : %d\n", keyVal);
+        // printf("KEY PRESSED : %d\n", keyVal);
         if (!event.key.repeat) {
           this->keyState[keyVal] = true;
           this->keyUpdate[keyVal] = this->updateCounter;          

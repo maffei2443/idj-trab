@@ -10,7 +10,7 @@ std::unordered_map<std::string, SDL_Texture*> Resources::imageTable;
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
 
-SDL_Texture* Resources :: GetImage(std::string file) {
+SDL_Texture* Resources::GetImage(std::string file) {
   Game& instance = Game::GetInstance();
   // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
@@ -28,11 +28,11 @@ SDL_Texture* Resources :: GetImage(std::string file) {
   return texture;
 }
 
-void Resources :: ClearImages() {
+void Resources::ClearImages() {
   Resources::imageTable.clear();
 }
 
-Mix_Music* Resources :: GetMusic(std::string file) {
+Mix_Music* Resources::GetMusic(std::string file) {
   Mix_Music* music;
   auto it = Resources::musicTable.find(file);
   if( it == Resources::musicTable.end() ) {
@@ -46,11 +46,11 @@ Mix_Music* Resources :: GetMusic(std::string file) {
   return music;
 }
 
-void Resources :: ClearMusics() {
+void Resources::ClearMusics() {
   Resources::musicTable.clear();
 }
 
-Mix_Chunk* Resources :: GetSound(std::string file) {
+Mix_Chunk* Resources::GetSound(std::string file) {
   Mix_Chunk* sound;
   auto it = Resources::soundTable.find(file);
   if( it == Resources::soundTable.end() ) {
@@ -65,7 +65,7 @@ Mix_Chunk* Resources :: GetSound(std::string file) {
   return sound;
 }
 
-void Resources :: ClearSounds() {
+void Resources::ClearSounds() {
   Resources::soundTable.clear();
 }
 

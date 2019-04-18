@@ -8,19 +8,19 @@
 #include "Resources.h"
 
 
-Sprite :: Sprite(GameObject& associated) : Component(associated) {
+Sprite::Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
 
   // this->texture = nullptr;
 }
 
-Sprite :: Sprite(GameObject& associated, std::string file) : Component(associated) {
+Sprite::Sprite(GameObject& associated, std::string file) : Component(associated) {
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
-Sprite :: ~Sprite() {
+Sprite::~Sprite() {
   // Agora isso é papel da Resources
   // if (this->texture) {
   //   // //////printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
@@ -31,7 +31,7 @@ Sprite :: ~Sprite() {
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos.
 
-void Sprite :: Render(int x, int y) { 
+void Sprite::Render(int x, int y) { 
   SDL_Rect dsrect;
   dsrect.x = x;
   dsrect.y = y; 
@@ -43,24 +43,24 @@ void Sprite :: Render(int x, int y) {
 
   // //////printf("Before Sprite.Render.SDL_RenderCopy...\n");
   // //////printf("ERROS :%s\n", SDL_GetError());
-  SDL_ABORT_IF_NZERO(SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect ));
+  SDL_ABORT_IF_NZERO(SDL_RenderCopy( Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect ));
   SDL_ClearError();
   // //////printf("Should be empty ---> %s\n", SDL_GetError());
-  SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
+  // SDL_RenderCopy( Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
   // auto a = this->clipRect;
-  // SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
+  // SDL_RenderCopy( Game::GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
 
 }
 
 
-void Sprite :: Render() {
+void Sprite::Render() {
   // //////printf("Render sprite of type |---> ...\n");
   int x = this->associated.box.x;
   int y = this->associated.box.y;
   this->Render(x, y);  
 }
 
-void Sprite :: Open(std::string file) {
+void Sprite::Open(std::string file) {
   // if (this->texture) {  
   //   SDL_DestroyTexture(this->texture);
   // }
@@ -88,30 +88,30 @@ void Sprite :: Open(std::string file) {
 
 }
 
-void Sprite :: SetClip(int x, int y, int w, int h) {
+void Sprite::SetClip(int x, int y, int w, int h) {
   this->clipRect.x = x;
   this->clipRect.y = y;
   this->clipRect.w = w;
   this->clipRect.h = h;
 }
 
-int Sprite :: GetWidth() {
+int Sprite::GetWidth() {
   return this->width;
 }
 
-int Sprite :: GetHeight() {
+int Sprite::GetHeight() {
   return this->height;
   
 }
 
-bool Sprite :: IsOpen() {
+bool Sprite::IsOpen() {
   return !!this->texture; 
 }
 
-void Sprite :: Update(float dt) {
+void Sprite::Update(float dt) {
   (void)dt;
 }
 
-bool Sprite :: Is(std :: string type) {
+bool Sprite::Is(std::string type) {
   return type == "Sprite";
 }

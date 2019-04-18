@@ -37,7 +37,7 @@ class Game {
     void CalculateDeltaTime();
   public:
     // GetDEltaTime() add p/ T4
-    float GetDeltaTime();
+    int GetDeltaTime();
     
     ~Game();
     void Run();

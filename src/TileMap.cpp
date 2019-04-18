@@ -13,7 +13,7 @@
 // posição, um índice de tile no TileSet.
 
 // Chama Load com a string passada e seta o tileset.
-TileMap :: TileMap(GameObject& associated, TileSet* tileSet):
+TileMap::TileMap(GameObject& associated, TileSet* tileSet):
     Component(associated)/* , type("TileMap") */ {
         std::string file("assets/map/tileMap.txt");
         this->Load(file);
@@ -23,16 +23,16 @@ TileMap :: TileMap(GameObject& associated, TileSet* tileSet):
 }
 
 
-int& TileMap :: At(int x, int y, int z){
+int& TileMap::At(int x, int y, int z){
     return this->tileMatrix[this->layerSize * z + this->mapWidth * y + x];
 }
 
-void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
+void TileMap::Load(std::string _file /* para nao conflitar com ifstream */){
     const char * fileName = _file.c_str();
     char c;
     std::ifstream fp(fileName, std::ifstream::in);
     fp >> this->mapWidth >> c >> this->mapHeight >> c >> this->mapDepth >> c; 
-    this->layerSize = this->mapHeight * this->mapDepth;
+    this->layerSize = this->mapHeight * this->mapWidth;
     int tileNum = this->mapWidth * this->mapHeight * this->mapDepth;
     this->tileMatrix.resize(tileNum);
     for(int i = 0; i < tileNum; i++) {
@@ -43,12 +43,12 @@ void TileMap :: Load(std::string _file /* para nao conflitar com ifstream */){
     }
 }
 
-void TileMap :: SetTileSet(TileSet* tileSet){
+void TileMap::SetTileSet(TileSet* tileSet){
     this->tileSet = tileSet;
 }
 
 // Por padrao, passa os argumentos da CAMERA para o renderLayer (defnido no .h)
-void TileMap :: Render(){
+void TileMap::Render(){
     for(int layer = 0; layer < this->mapDepth; layer++)
         this->RenderLayer(layer);    
 }
@@ -59,9 +59,9 @@ void TileMap :: Render(){
 ● Deve-se considerar o tamanho de cada tile (use os membros
 GetTileWidth() e GetTileHeight() de TileSet) */
 // Ok, funciona.
-void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
-    (void)cameraX;
-    (void)cameraY;
+void TileMap::RenderLayer(int layer, int cameraX, int cameraY){
+    // (void)cameraX;
+    // (void)cameraY;
     for(int idY = 0; idY < this->mapHeight; idY++) {
         for(int idX = 0; idX < this->mapWidth; idX++) {
             int index = this->At(idX, idY, layer);
@@ -73,23 +73,23 @@ void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
     }
 }
 
-int TileMap :: GetTileWidth(){
+int TileMap::GetTileWidth(){
     return this->mapWidth;
 }
 
-int TileMap :: GetTileHeight(){
+int TileMap::GetTileHeight(){
     return this->mapHeight;
 }
 
-int TileMap :: GetDepth(){
+int TileMap::GetDepth(){
     return this->mapDepth;
 }
 
-bool TileMap :: Is(std::string type) {
+bool TileMap::Is(std::string type) {
     return type == this->type;
 }
 
-void TileMap :: Update(float dt) {
+void TileMap::Update(float dt) {
     (void)dt;
 }
 

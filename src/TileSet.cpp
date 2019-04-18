@@ -2,13 +2,13 @@
 #include <string>
 #include <cmath>
 // "OK"
-TileSet :: TileSet(int tileWidth, int tileHeight,std::string file, GameObject& associated) :
+TileSet::TileSet(int tileWidth, int tileHeight,std::string file, GameObject& associated) :
         tileWidth(tileWidth), tileHeight(tileHeight),  tileSet(associated, file) {
 /*     Se abertura (do Sprite) for bem sucedida, descobre, pelo
      TAMANHO DO SPRITE E DOS TILES, QUANTAS COLUNAS E QUANTAS LINHAS O TILESET TEM.*/
     //////printf("TileSet dim: %d %d\n", this->tileSet.GetWidth(), this->tileSet.GetHeight());
-    this->columns = (int)ceil(this->tileSet.GetWidth() / this->tileWidth);
-    this->rows = (int)ceil(this->tileSet.GetHeight() / tileHeight);
+    this->columns = this->tileSet.GetWidth() / this->tileWidth;
+    this->rows = this->tileSet.GetHeight() / this->tileHeight;
     this->totalTileSize = this->rows * this->columns;
     //////printf("col: %d, row: %d, totalTileSize: %d\n", columns, rows, totalTileSize);/* abort(); */
 }
@@ -17,8 +17,8 @@ TileSet :: TileSet(int tileWidth, int tileHeight,std::string file, GameObject& a
 // Ok testado. Funciona.
 void TileSet::RenderTile (unsigned index, float x, float y) {
     if( index < totalTileSize) {
-        int xSet = (index/this->columns);
-        int ySet = index%this->columns;
+        int xSet = index%this->columns;
+        int ySet = index/this->columns;
         int clipX = xSet * this->tileWidth;
         int clipY = ySet * this->tileHeight;
         // calcule e sete o clip desejado no sprite,

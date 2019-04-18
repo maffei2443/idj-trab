@@ -9,7 +9,7 @@ Vec2 Camera::pos(0,0);
 // observador [camera] parado
 Vec2 Camera::speed(0,0);
 InputManager* inputManager = &InputManager::GetInstance();
-const int Camera::SPEED = 15;
+const int Camera::SPEED = 1;
 
 int Camera::GetHorizontalSpeed() {
     return (
@@ -26,16 +26,16 @@ int Camera::GetVerticalSpeed() {
 }
 
 
-void Camera :: Follow(GameObject* newFocus) {
+void Camera::Follow(GameObject* newFocus) {
     focus = newFocus;
 }
 
-void Camera :: Unfollow() {
+void Camera::Unfollow() {
     focus = nullptr;
 }
 
-void Camera :: Update(float dt) {
-    (void)dt;  // TODO: usar esse dt
+void Camera::Update(float dt) {
+    // (void)dt;  // TODO: usar esse dt
     /* Se a câmera tiver um foco, faremos com que ele fique 
     centralizado na tela. Nesse caso, o movimento independe de dt,
     depende apenas do tamanho da tela. */
@@ -43,6 +43,7 @@ void Camera :: Update(float dt) {
         // Centralizar objeto focado
         Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
         Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
+        printf("CAMERA::UPDATE\n");
     }
     else {
         /* Se não houver um foco, devemos responder ao input:
@@ -53,9 +54,9 @@ void Camera :: Update(float dt) {
         // e setar velocidade conforme tais fatos.
         int horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
         int verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
-        Camera::speed = Vec2(horizontalSpeed, verticalSpeed);
-        Camera::pos = Camera::pos + Camera::speed;
-
+        Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
+        Camera::pos = Camera::pos + (Camera::speed*dt);
     }
+    // Camera::pos = Camera::pos + dt;  // lius?
     
 }

@@ -20,7 +20,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-State :: State() : music(Music("assets/audio/stageState.ogg") ) {
+State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
   bg = new Sprite( *me, "assets/img/ocean.jpg" );
 	std::string tileSetPath("assets/img/tileset.png");
@@ -31,12 +31,12 @@ State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   // this->music.Play(-1);
 }
 
-State :: ~State() {
+State::~State() {
 	objectArray.clear();
 }
 
 
-void State :: Update(float dt) {
+void State::Update(float dt) {
     /* Setar a flag de quit de State se ESC 
     for pressionado ou se o
     InputManager apontar evento de Quit; */
@@ -99,7 +99,7 @@ void State :: Update(float dt) {
 
 
 //  trata da etapa 4 de Game::Run
-void State :: Render() {
+void State::Render() {
 	/*em State::Render, PASSE AS COORDENADAS DA CÂMERA PARA
 		O TILEMAP, E TESTE SE ELE SE MOVE CORRETAMENTE.*/
 	// this->tileMap
@@ -108,7 +108,7 @@ void State :: Render() {
 	}
 }
 
-void State :: AddObject(int mouseX, int mouseY) {
+void State::AddObject(int mouseX, int mouseY) {
 	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
 	GameObject * enemy = new GameObject;
 	
@@ -134,11 +134,11 @@ void State :: AddObject(int mouseX, int mouseY) {
 	this->objectArray.emplace_back( enemy );
 }
 
-bool State :: QuitRequested() {
+bool State::QuitRequested() {
   return this->quitRequested;
 }
 
-void State :: LoadAssets() {
+void State::LoadAssets() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
 }
 

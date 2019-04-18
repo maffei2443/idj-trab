@@ -4,13 +4,13 @@
 #include "Component.h"
 #include "Macros.h"
 
-Face :: Face(GameObject& associated): 
+Face::Face(GameObject& associated): 
     Component(associated),
     hitspoints(Face::HEALTH_POINTS){
 }
 
 // BUG POSSIVEL
-void Face ::  Damage(int damage) {
+void Face:: Damage(int damage) {
     // throw 67;
     this->hitspoints -= damage;
     if(hitspoints < 1) {    // TODO: otimização (usando manipulação e bits)
@@ -25,15 +25,15 @@ void Face ::  Damage(int damage) {
             LOG(("The face doesn't have SOUND!\n"))
     }
 }
-// Face ::  herda de Componen {
+// Face:: herda de Componen {
 
 
-void Face ::  Update(float dt) {
+void Face:: Update(float dt) {
     (void)dt;
 }
-void Face ::  Render() {
+void Face:: Render() {
     // Itentionally left empty.
 }
-bool Face :: Is(std::string type) {
+bool Face::Is(std::string type) {
     return type == "Face";
 }
