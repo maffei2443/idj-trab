@@ -6,6 +6,7 @@
 #include "TileSet.h"
 #include <string>
 #include <vector>
+#include "Camera.h"
 // TileMap simula uma matriz tridimensional, representando
 // nosso mapa e suas diversas camadas. Essa matriz contém, em cada
 // posição, um índice de tile no TileSet.
@@ -22,7 +23,8 @@ public:
     void Load(std::string);
     void SetTileSet(TileSet*);
     int& At(int, int, int z = 0);
-    void RenderLayer(int, int cameraX=0, int cameraY=0);
+    // Fazendo ajuste: por padrao, recebe posicao da camera para fazer os ajustes
+    void RenderLayer(int, int cameraX=Camera::pos.x, int cameraY=Camera::pos.y);
     
     int GetTileWidth();
     int GetTileHeight();

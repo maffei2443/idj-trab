@@ -47,12 +47,17 @@ void TileMap :: SetTileSet(TileSet* tileSet){
     this->tileSet = tileSet;
 }
 
+// Por padrao, passa os argumentos da CAMERA para o renderLayer (defnido no .h)
 void TileMap :: Render(){
     for(int layer = 0; layer < this->mapDepth; layer++)
         this->RenderLayer(layer);    
 }
 // Renderiza uma camada do mapa, TILE A TILE. Note que há dois ajustes a
 // se fazer:
+/*
+● Deve-se compensar o deslocamento da câmera (ver parametro padrao no .h )
+● Deve-se considerar o tamanho de cada tile (use os membros
+GetTileWidth() e GetTileHeight() de TileSet) */
 // Ok, funciona.
 void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
     (void)cameraX;
@@ -63,7 +68,7 @@ void TileMap :: RenderLayer(int layer, int cameraX, int cameraY){
             // printf("index --> %d\n", index);
             int tileX = idX * this->tileSet->GetTileWidth();
             int tileY = idY * this->tileSet->GetTileHeight();
-            this->tileSet->RenderTile(index,tileX, tileY);
+            this->tileSet->RenderTile(index,tileX+cameraX, tileY+cameraY);
         }
     }
 }

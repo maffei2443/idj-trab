@@ -18,6 +18,7 @@
 #include "TileMap.h"
 #include "State.h"
 #include "InputManager.h"
+#include "Camera.h"
 
 State :: State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
@@ -27,7 +28,7 @@ State :: State() : music(Music("assets/audio/stageState.ogg") ) {
 	new TileMap(*me, tileSet);
 	this->objectArray.emplace_back( me );
   this->quitRequested = false;
-  this->music.Play(-1);
+  // this->music.Play(-1);
 }
 
 State :: ~State() {
@@ -88,11 +89,20 @@ void State :: Update(float dt) {
 			}
 	}
 	// //////printf("Apagou os mortos ? \n");
+	// [T4] Usaremos a câmera sem foco, por enquanto.
+	/* 	Em State::Update, chame o
+		update da câmera, e [...]*/ 
+	
+	
+	Camera::Update(dt);
 }
 
 
 //  trata da etapa 4 de Game::Run
 void State :: Render() {
+	/*em State::Render, PASSE AS COORDENADAS DA CÂMERA PARA
+		O TILEMAP, E TESTE SE ELE SE MOVE CORRETAMENTE.*/
+	// this->tileMap
 	for(auto& GO : this->objectArray) {
 		GO->Render();
 	}

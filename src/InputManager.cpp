@@ -29,6 +29,7 @@ void InputManager::Update() {
     pressedButton = event.button.button;
     switch (event.type) {
       case SDL_KEYDOWN:
+        printf("KEY PRESSED : %d\n", keyVal);
         if (!event.key.repeat) {
           this->keyState[keyVal] = true;
           this->keyUpdate[keyVal] = this->updateCounter;          
@@ -92,7 +93,8 @@ bool InputManager::KeyRelease(int key) {
 // está pressionado, independente de quando isso ocorreu.
 
 // Is___Down retorna se o botão/tecla
-// está pressionado, independente de quando isso ocorreu
+// está pressionado, independente desde quando
+
 bool InputManager::IsKeyDown(int key) {
   if(this->keyState.count(key)) {
     return this->keyState[key];
