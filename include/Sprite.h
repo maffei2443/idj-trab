@@ -41,7 +41,7 @@ class Sprite : public Component {
     void Update(float dt);
     bool Is(std::string type);
     void Render();
-    inline std::string GetType(){
+    const inline std::string GetType(){
         return this->type;
     }
 };

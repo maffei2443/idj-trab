@@ -14,7 +14,7 @@ public:
     void Update(float dt);
     void Render();
     bool Is(std::string type);
-    inline std::string GetType(){
+    const inline std::string GetType(){
         return this->type;
     }
 };

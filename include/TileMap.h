@@ -33,7 +33,7 @@ public:
     bool Is(std::string);
     void Update(float);
 
-    inline std::string GetType(){        
+    const inline std::string GetType(){        
         return this->type;
     }
 };

@@ -30,7 +30,15 @@ class Game {
     SDL_Window* window;
     SDL_Renderer* renderer;
     State* state;
+
+    // Novos mebros de Game (T4)
+    int frameStart;
+    float dt;
+    void CalculateDeltaTime();
   public:
+    // GetDEltaTime() add p/ T4
+    float GetDeltaTime();
+    
     ~Game();
     void Run();
     SDL_Renderer* GetRenderer();

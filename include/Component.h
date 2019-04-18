@@ -22,7 +22,7 @@ public:
     void virtual Update(float dt) = 0;
     void virtual Render() = 0;
     bool virtual Is(std::string type) = 0;
-    std::string virtual GetType() = 0;
+    const std::string virtual GetType() = 0;
     Component* GetAddr() { return this;}
 };
 

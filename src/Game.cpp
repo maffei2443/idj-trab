@@ -101,4 +101,14 @@ update do estado */
   Resources::ClearSounds();
 }
 
+void Game :: CalculateDeltaTime() {
+  /* Atualizamos frameStart e usamos o valor antigo e
+  o novo para calcular dt em milissegundos. */
+  int oldFrameStart = this->frameStart; 
+  this->frameStart = SDL_GetTicks ();
+  this->dt = this->frameStart - oldFrameStart;
+  // converta para segundos
+  this->dt = (int)(round(this->dt / 1000));
+}
+
 #endif

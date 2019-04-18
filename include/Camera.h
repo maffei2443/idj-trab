@@ -10,23 +10,14 @@
 // Class responsible for the game logic.
 class Camera {
   private:
-    Music music;
-    Sprite* bg;
-    bool quitRequested;
-    std::vector<std::shared_ptr<GameObject>> objectArray;
-
-    void AddObject(int mouseX, int mouseY);
-    void Input();
-  
+    static GameObject * focus;
   public:
-    State();
-    ~State();
-    bool QuitRequested();
-    void LoadAssets(); // pré-carregar os assets do state do jogo
-    // carregar imagens/fontes/músicas às suas variáveis aqui sempre
-    // que for possível.
-    void Update(double dt);
-    void Render();
+    static Vec2 pos;
+    static Vec2 speed;
+    static void Follow(GameObject* newFocus);
+    static void Unfollow();
+    static void Update(float dt);
+
 };
 
 #endif

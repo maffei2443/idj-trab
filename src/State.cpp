@@ -35,7 +35,7 @@ State :: ~State() {
 }
 
 
-void State :: Update(double dt) {
+void State :: Update(float dt) {
     /* Setar a flag de quit de State se ESC 
     for pressionado ou se o
     InputManager apontar evento de Quit; */

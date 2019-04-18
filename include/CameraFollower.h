@@ -1,32 +1,23 @@
 #ifndef CAMERA_FOLLOWER_H
 #define CAMERA_FOLLOWER_H
 
-#include "Sprite.h"
+#include "GameObject.h"
 #include "Music.h"
+#include "Component.h"
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
-
 // Class responsible for the game logic.
-class CameraFollower {
-  private:
-    Music music;
-    Sprite* bg;
-    bool quitRequested;
-    std::vector<std::shared_ptr<GameObject>> objectArray;
+class CameraFollower : public Component {
 
-    void AddObject(int mouseX, int mouseY);
-    void Input();
-  
   public:
-    State();
-    ~State();
-    bool QuitRequested();
-    void LoadAssets(); // pré-carregar os assets do state do jogo
-    // carregar imagens/fontes/músicas às suas variáveis aqui sempre
-    // que for possível.
-    void Update(double dt);
+    const std::string type;
+    const std::string GetType();
+
+    CameraFollower(GameObject&);
+    void Update(float dt);
     void Render();
+    bool Is(std::string);
 };
 
 #endif
