@@ -59,17 +59,20 @@ void TileMap::Render(){
 ● Deve-se considerar o tamanho de cada tile (use os membros
 GetTileWidth() e GetTileHeight() de TileSet) */
 // Ok, funciona.
-void TileMap::RenderLayer(int layer, int cameraX, int cameraY){
-    // (void)cameraX;
-    // (void)cameraY;
+// TODO: fazer mover todo o tileMap caso paralax esteja false
+// Atualmente, move-se apenas a segunda camada (ou seja, é obrigatório o paralax)
+void TileMap::RenderLayer(int layer, int cameraX, int cameraY, bool paralax){
+
+    int cX = cameraX*(layer+paralax);
+    int cY = cameraY*(layer+paralax);
     for(int idY = 0; idY < this->mapHeight; idY++) {
-        for(int idX = 0; idX < this->mapWidth; idX++) {
-            int index = this->At(idX, idY, layer);
-            // printf("index --> %d\n", index);
-            int tileX = idX * this->tileSet->GetTileWidth();
-            int tileY = idY * this->tileSet->GetTileHeight();
-            this->tileSet->RenderTile(index,tileX+cameraX, tileY+cameraY);
-        }
+      for(int idX = 0; idX < this->mapWidth; idX++) {
+        int index = this->At(idX, idY, layer);
+        // printf("index --> %d\n", index);
+        int tileX = idX * this->tileSet->GetTileWidth();
+        int tileY = idY * this->tileSet->GetTileHeight();
+        this->tileSet->RenderTile(index,tileX+cX, tileY+cY);
+      }
     }
 }
 

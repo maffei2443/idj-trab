@@ -9,16 +9,16 @@ Vec2 Camera::pos(0,0);
 // observador [camera] parado
 Vec2 Camera::speed(0,0);
 InputManager* inputManager = &InputManager::GetInstance();
-const int Camera::SPEED = 1;
+const float Camera::SPEED = 0.7;
 
-int Camera::GetHorizontalSpeed() {
+float Camera::GetHorizontalSpeed() {
     return (
         inputManager->IsKeyDown(SDLK_RIGHT) + inputManager->IsKeyDown('d')  // right speed
         - inputManager->IsKeyDown(SDLK_LEFT) - inputManager->IsKeyDown('a')  // left speed
     );
 }
 
-int Camera::GetVerticalSpeed() {
+float Camera::GetVerticalSpeed() {
     return (
         inputManager->IsKeyDown(SDLK_UP) + inputManager->IsKeyDown('w')  // right speed
         - inputManager->IsKeyDown(SDLK_DOWN) - inputManager->IsKeyDown('s')  // left speed
@@ -52,11 +52,10 @@ void Camera::Update(float dt) {
 
         // TODO: pegar, do inputManager, quais (wasd) tecla está pressionada.
         // e setar velocidade conforme tais fatos.
-        int horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
-        int verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
+        float horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
+        float verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
         Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
-        Camera::pos = Camera::pos + (Camera::speed*dt);
+        Camera::pos = Camera::pos + (Camera::speed/* *dt */);
     }
-    // Camera::pos = Camera::pos + dt;  // lius?
     
 }

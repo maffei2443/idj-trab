@@ -11,8 +11,8 @@
 class Camera {
   private:
     static GameObject * focus;
-    static int GetHorizontalSpeed();
-    static int GetVerticalSpeed();
+    static float GetHorizontalSpeed();
+    static float GetVerticalSpeed();
   public:
     static Vec2 pos;
     static Vec2 speed;
@@ -22,7 +22,7 @@ class Camera {
 
     // auxiliar para a velocidade; no momento, camera
     // nao muda a velocidade
-    static const int SPEED;
+    static const float SPEED;
 
 };
 
