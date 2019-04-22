@@ -24,8 +24,8 @@ public:
     void SetTileSet(TileSet*);
     int& At(int, int, int z = 0);
     // Fazendo ajuste: por padrao, recebe posicao da camera para fazer os ajustes
-    void RenderLayer(int, int cameraX=Camera::pos.x, 
-                     int cameraY=Camera::pos.y, bool paralax = true);
+    void RenderLayer(int, float cameraX=Camera::pos.x, 
+                     float cameraY=Camera::pos.y, bool paralax = true);
     
     int GetTileWidth();
     int GetTileHeight();

@@ -55,11 +55,16 @@ void State::Update(float dt) {
 		objPos.rotate( rand() % 360 );
 		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
 		objPos = objPos + aux;
-		AddObject((int)objPos.x, (int)objPos.y);
+		this->AddObject((int)objPos.x, (int)objPos.y);
 	}
+	// TODO: perguntaro deve se o bloco abaixo deve permanecer aqui
+	// Acerta [UM] pinguim sobre o mouse
+	#pragma region
 	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
 		int mouseX = this->inputManager->GetMouseX();
 		int mouseY = this->inputManager->GetMouseY();
+		// Iterar de tras para frente para dar dano no ultimo inserido.
+		// TODO: adicionar robusteza a essa parte
 		for(int i = objectArray.size() - 1; i >= 0; --i) {
 			// printf("DAMAGE?? %d\n", i);
 			// Obtem o ponteiro e casta pra Face.
@@ -69,12 +74,13 @@ void State::Update(float dt) {
 				if ( face != nullptr ) {
 					// Aplica dano
 					face->Damage(std::rand() % 10 + 10);
-					// Sai do loop (só queremos acertar um)
+					// Sai do loop (só queremos acertar um [bala nao perfurante])
 					break;
 				}
 			}
 		}
 	}
+	#pragma endregion
 
 	for(auto& GO : this->objectArray) {
 		GO->Update(dt);
@@ -114,6 +120,13 @@ void State::AddObject(int mouseX, int mouseY) {
 	
 	// Sprite aponta para enemy
 	Sprite * sprite = new Sprite(*enemy, "assets/img/penguinface.png");
+	
+	/* 
+		Terceiro, em State::AddObject, também leve em consideração
+		a câmera na hora de posicionar as Faces. [?? Como assim?]
+	 */
+	
+
 	// setar a largura e altura da box do GameObject que o contém (associated)
 	// baseado no carregado pela Sprite em seu construtor.
 	enemy->box.x = mouseX - sprite->GetWidth()/2;

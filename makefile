@@ -6,7 +6,7 @@ RUN = ./
 
 DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d
 
-DIRECTIVES = -std=c++1z -Wall -Wextra -Wno-comment -c -I $(HEADER_PATH)
+DIRECTIVES = -std=c++1z -Wall -Wextra -Wno-comment -Wno-unknown-pragmas  -c -I $(HEADER_PATH)
 
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 

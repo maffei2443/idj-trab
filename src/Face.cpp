@@ -3,6 +3,11 @@
 #include "Sound.h"
 #include "Component.h"
 #include "Macros.h"
+#include "Camera.h"
+#include "InputManager.h"
+#include "GameObject.h"
+
+static InputManager& inputManager = InputManager::GetInstance();
 
 Face::Face(GameObject& associated): 
     Component(associated),
@@ -30,9 +35,31 @@ void Face:: Damage(int damage) {
 
 void Face:: Update(float dt) {
     (void)dt;
+    // Atualizar posição de acordo com a câmera
+/*  Segundo, em Update (fiz), quando for checar
+    se a Face foi clicada, compense o deslocamento da câmera
+    nas coordenadas do mouse [???] - O InputManager nos dá 
+    as coordenadas da tela, não do mundo
+ */
+	// if( inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
+	// 	float mouseX = inputManager.GetMouseX();
+	// 	float mouseY = inputManager.GetMouseY();
+    //     // GameObject* go = (GameObject*) objectArray[i].get();
+    //     if(this->associated.box.Contains( {mouseX, mouseY} ) ) {
+    //         this->Damage(/* std::rand() % 10 + 10 */20);
+    //         printf("Dano! %d\n", this->hitspoints);
+    //     }
+	// }
+
+    this->associated.box.x += Camera::speed.x;
+    this->associated.box.y += Camera::speed.y;
+
 }
 void Face:: Render() {
     // Itentionally left empty.
+    // Primeiro, faça A RENDERIZAÇÃO deles levar em
+    // consideração a posição da câmera. (FIZ O UPDATE)
+
 }
 bool Face::Is(std::string type) {
     return type == "Face";
