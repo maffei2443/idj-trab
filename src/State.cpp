@@ -19,16 +19,24 @@
 #include "State.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "CameraFollower.h"
 
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
   bg = new Sprite( *me, "assets/img/ocean.jpg" );
+	new CameraFollower(*me); // still not sure about this neccesity
+	/* T5
+	A única coisa
+que precisa fazer é no Update fazer com que a posição de seu gameObject
+associado seja igual à posição da câmera.
+Adicione esse componente ao gameObject que contêm a Sprite de
+fundo e voilà! */
 	std::string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
 	new TileMap(*me, tileSet);
 	this->objectArray.emplace_back( me );
   this->quitRequested = false;
-  // this->music.Play(-1);
+  this->music.Play(-1);
 }
 
 State::~State() {

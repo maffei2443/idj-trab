@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
+#include "Camera.h"
 // using namespace std;
 // Class responsible for the game logic.
 
@@ -17,7 +18,8 @@ CameraFollower::CameraFollower(GameObject& associated) : Component(associated)
 }
 
 void CameraFollower::Update(float dt) {
-    
+    this->associated.box.x = Camera::pos.x;
+    this->associated.box.y = Camera::pos.y;
 }
 void CameraFollower::Render() {
 
