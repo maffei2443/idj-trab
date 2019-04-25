@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "Game.h"
 #include "Resources.h"
-
+#include "Camera.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
@@ -55,8 +55,10 @@ void Sprite::Render(int x, int y) {
 
 void Sprite::Render() {
   // //////printf("Render sprite of type |---> ...\n");
-  int x = this->associated.box.x;
-  int y = this->associated.box.y;
+  // this->associated.box.x += Camera::speed.x;
+  // this->associated.box.y += Camera::speed.y;
+  int x = this->associated.box.x + Camera::speed.x;
+  int y = this->associated.box.y + Camera::speed.y;
   this->Render(x, y);  
 }
 
