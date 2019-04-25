@@ -163,3 +163,49 @@ void State::LoadAssets() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
 }
 
+// t5
+void State::Start() {
+	/* Em State::Start você deve chamar LoadAssets e depois deve percorrer
+o objectArray chamando o Start de todos eles. Ao final, coloque true em
+started. */
+	this->LoadAssets();
+	this->started = true;
+}
+
+// t5
+std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
+	/* Em State::AddObject, ao invés de simplesmente colocar o GameObject
+passado no vetor, você vai criar um std:shared_ptr< GameObject > passando
+esse GameObject* como argumento de seu construtor. */
+	std::shared_ptr<GameObject> weakPtr = 
+		std::shared_ptr<GameObject>(go);
+	/* Depois faça um
+PUSH_BACK desse shared_ptr em objectArray */
+	this->objectArray.push_back(weakPtr);
+	/* Se started já tiver sido
+chamado, chame o start desse GameObject. */
+	if(this->started)
+		weakPtr.get()->Start();
+	/* E retorne um std::weak_ptr <
+GameObject > construído usando o shared_ptr criado */
+	return std::weak_ptr<GameObject>(weakPtr);	// POSSIVEL BUG [??]
+	/* Em Game::Run, chame o Start do State logo antes do while. */
+}
+
+/* Essa função é geralmente usada para se obter o
+weak_ptr de algum objeto que já temos o ponteiro puro dele e que já foi
+adicionado ao vetor de objetos. */
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+	/* percorrer o vetor de objetos que
+temos comparando o endereço armazenado em cada std::shared_ptr com o
+passado como argumento. */
+	for(auto& i : this->objectArray) {
+		/*  Crie e retorne um std::weak_ptr a partir do
+		std::shared_ptr quando os endereços forem iguais. */
+		if(i.get() == go) {
+			return std::weak_ptr<GameObject>(i);
+		}
+	}
+	return std::weak_ptr<GameObject>();
+}
+

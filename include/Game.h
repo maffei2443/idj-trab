@@ -44,6 +44,7 @@ class Game {
     SDL_Renderer* GetRenderer();
     State& GetState();
     static Game& GetInstance();
+
 };
 
 #endif

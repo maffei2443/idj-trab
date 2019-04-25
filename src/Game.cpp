@@ -83,7 +83,10 @@ SDL_Renderer* Game::GetRenderer() {
   return this->renderer;
 }
 void Game::Run() {
+  /* t5
+  Em Game::Run, chame o Start do State logo antes do while. */
   InputManager* inputManager = &InputManager::GetInstance();
+  this->state->Start();
   while (!this->state->QuitRequested()) {
 /* Agora, vamos integrar o InputManager ao programa. Acrescente uma
 chamada ao método Update em Game::Run(), logo antes da chamada ao
@@ -113,5 +116,6 @@ void Game::CalculateDeltaTime() {
   // converta para segundos
   // this->dt = (int)(round(this->dt / 1000));
 }
+
 
 #endif

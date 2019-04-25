@@ -17,6 +17,9 @@ public:
     const inline std::string GetType(){
         return this->type;
     }
+    // t5
+    bool started = false;
+    void Start();
 };
 
 #endif

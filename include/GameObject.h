@@ -24,6 +24,9 @@ public:
     Component* GetComponent(std::string type);
     Rect box;
 
+    // t5
+    void Start();
+    bool started = false;
 };
 
 #endif

@@ -117,3 +117,7 @@ void Sprite::Update(float dt) {
 bool Sprite::Is(std::string type) {
   return type == "Sprite";
 }
+
+void Sprite::Start() {
+  this->started = true;
+}

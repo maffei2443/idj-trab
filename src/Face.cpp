@@ -51,8 +51,6 @@ void Face:: Update(float dt) {
     //     }
 	// }
 
-    this->associated.box.x += Camera::speed.x;
-    this->associated.box.y += Camera::speed.y;
 
 }
 void Face:: Render() {
@@ -63,4 +61,9 @@ void Face:: Render() {
 }
 bool Face::Is(std::string type) {
     return type == "Face";
+}
+
+// t5
+void Face::Start() {
+    this->started = true;
 }

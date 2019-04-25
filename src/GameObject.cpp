@@ -3,7 +3,7 @@
 #include "Macros.h"
 #include <cstdio>
 #include <iostream>
-GameObject::GameObject() : isDead(false), box() {}
+GameObject::GameObject() : isDead(false), box(),started(false) {}
 
 GameObject::~GameObject() {
     //////printf("GO deletado...\n");
@@ -61,4 +61,17 @@ Component* GameObject::GetComponent(std::string type) {
     // LOG("Objeto não exixtente\n");
     // LOG("Método incompleto!!! Terminna logo  isso..\n");
     return nullptr;
+}
+
+// t5
+void GameObject::Start() {
+    /* no Start percorrer os componentes chamando o Start
+    deles, setando started;*/
+    this->started = true;
+    for(auto& i : this->components) {
+        i->Start();
+    }
+    /*  e depois chamando o Start dos componentes
+    adicionados em AddComponent quando Start já tiver sido chamado.  */
+    // POSSIVEL BUG [????] [DUVIDA]
 }

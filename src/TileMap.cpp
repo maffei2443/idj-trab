@@ -96,3 +96,6 @@ void TileMap::Update(float dt) {
     (void)dt;
 }
 
+void TileMap::Start() {
+    this->started = true;
+}

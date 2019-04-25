@@ -7,3 +7,6 @@ escolher: Se ele for deletado antes de a câmera parar de segui-lo, o programa
 vai crashar
 
 
++ entener motivo do CameraFollower ser irrelevante
+(até início do t5, pelo menos)
+

@@ -17,6 +17,9 @@ class State {
 
     void AddObject(int mouseX, int mouseY);
     InputManager* inputManager = &InputManager::GetInstance();
+    // t5
+    bool started = false;
+
   public:
     State();
     ~State();
@@ -26,6 +29,11 @@ class State {
     // que for possível.
     void Update(float dt);
     void Render();
+
+    // t5
+    void Start();
+    std::weak_ptr<GameObject> AddObject(GameObject*);
+    std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
 };
 
 #endif
