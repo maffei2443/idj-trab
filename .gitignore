@@ -2,8 +2,10 @@ GAME
 bin
 dep
 a.out
-game
+# game
 .vscode
 *.swp
 *.save
 tst*
+.gitignore
+.directory

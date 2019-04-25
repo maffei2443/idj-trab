@@ -2,11 +2,13 @@
 #define GAME_H
 
 #include <string>
-#include "SDL_include.h"
 #include <iostream>
 #include "State.h"
+#include "Macros.h"
 
 #define INCLUDE_SDL // main. sdl. func
+#include "SDL_include.h"
+
 #define GAME_CHANNELS 32
 // TODO: Create class to store "magic numbers" constants
 
@@ -28,7 +30,15 @@ class Game {
     SDL_Window* window;
     SDL_Renderer* renderer;
     State* state;
+
+    // Novos mebros de Game (T4)
+    int frameStart;
+    float dt;
+    void CalculateDeltaTime();
   public:
+    // GetDEltaTime() add p/ T4
+    float GetDeltaTime();
+    
     ~Game();
     void Run();
     SDL_Renderer* GetRenderer();

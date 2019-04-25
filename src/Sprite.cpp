@@ -1,45 +1,37 @@
-#include "Sprite.h"
-#include "Game.h"
 #include <cstdio>
+#include <string>
 
-// static int AuxCodeErr = 0;
-#ifndef SDL_ABORT_IF_NZERO
-    #define SDL_ABORT_IF_NZERO( x ) \
-        AuxCodeErr = x; if (AuxCodeErr) myAbort(AuxCodeErr); else printf("Ok passed.\n");
-#endif
-#ifndef SDL_ABORT_IF_ZERO
-    #define SDL_ABORT_IF_ZERO( x ) \
-            SDL_ABORT_IF_NZERO(!(x) )
-#endif
-// static void myAbort(int err) {
-//     std::cerr << "SDL error : " << SDL_GetError() << "\n";
-//     abort();
-// }
+#include "Macros.h"
+#include "Sprite.h"
+#include "GameObject.h"
+#include "Game.h"
+#include "Resources.h"
 
 
-Sprite :: Sprite() : texture(nullptr) {
-  if(this->texture != nullptr)
-    throw "Bananas; null ptr doesn't work on list init constructor";
+Sprite :: Sprite(GameObject& associated) : Component(associated) {
+  this->texture = nullptr;
+
   // this->texture = nullptr;
 }
 
-Sprite :: Sprite(std::string file) : texture(nullptr) {
+Sprite :: Sprite(GameObject& associated, std::string file) : Component(associated) {
+  this->texture = nullptr;
   this->Open(file);
+  this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
 Sprite :: ~Sprite() {
-  if (this->texture) {
-    printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
-    SDL_DestroyTexture(this->texture);
-  }
+  // Agora isso é papel da Resources
+  // if (this->texture) {
+  //   // //////printf(">>>>>>>>>>>>> DESTROYER <<<<<<<<<<<<<<\n");
+  //   SDL_DestroyTexture(this->texture);
+  // }
 }
 
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos.
 
-void Sprite :: Render(int x, int y) {
-  Game& game = Game :: GetInstance();
-  SDL_Renderer* renderer = game.GetRenderer();
+void Sprite :: Render(int x, int y) { 
   SDL_Rect dsrect;
   dsrect.x = x;
   dsrect.y = y; 
@@ -49,44 +41,40 @@ void Sprite :: Render(int x, int y) {
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos. /**/
 
-
-// ● SDL_Texture* texture: A textura a ser renderizada;
-// ● SDL_Rect* srcrect: O retângulo de clipagem. Especifica uma área da
-// textura a ser "recortada" e renderizada.
-// ● SDL_Rect* dstrect: O retângulo destino. Determina a posição na tela
-// em que a textura deve ser renderizada (membros x e y). Se os membros
-// w e h diferirem das dimensões do clip, causarão uma mudança na
-// escala, contraindo ou expandindo a imagem para se adaptar a esses
-// valores.
-  // printf("Before Sprite.Render.SDL_RenderCopy...\n");
-  // printf("ERROS :%s\n", SDL_GetError());
-  // SDL_ABORT_IF_NZERO(SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect ));
+  // //////printf("Before Sprite.Render.SDL_RenderCopy...\n");
+  // //////printf("ERROS :%s\n", SDL_GetError());
+  SDL_ABORT_IF_NZERO(SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect ));
   SDL_ClearError();
-  // printf("Should be empty ---> %s\n", SDL_GetError());
-  // SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
-  auto a = this->clipRect;
-  // printf("x y w h\n %d %d %d %d\n", a.x,a.y,a.w,a.h);
-  // printf("x y w h\n %d %d %d %d\n", dsrect.x,dsrect.y,dsrect.w,dsrect.h);
+  // //////printf("Should be empty ---> %s\n", SDL_GetError());
   SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
-  
+  // auto a = this->clipRect;
+  // SDL_RenderCopy( Game :: GetInstance().GetRenderer(), this->texture, &this->clipRect, &dsrect );
+
+}
+
+
+void Sprite :: Render() {
+  // //////printf("Render sprite of type |---> ...\n");
+  int x = this->associated.box.x;
+  int y = this->associated.box.y;
+  this->Render(x, y);  
 }
 
 void Sprite :: Open(std::string file) {
-  if (this->texture) {  
-    SDL_DestroyTexture(this->texture);
-  }
-  Game& instance = Game::GetInstance();
-  const char * path = file.c_str();
-  // std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
+  // if (this->texture) {  
+  //   SDL_DestroyTexture(this->texture);
+  // }
+  // //////std::cout << "Error before load_texture? ~~>" << SDL_GetError() << std::endl;
   SDL_ClearError();
-  this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
+  // this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
+  this->texture = Resources::GetImage( file );
   // Trate o caso de IMG_LoadTexture retornar nullptr.
-  
-  // std::cout << "Texture ~~>" << this->texture << std::endl;
-  // std::cout << "Error after loadd_texture? ~~>" << SDL_GetError() << std::endl;
+  SDL_ABORT_IF_ZERO(this->texture);
+  // //////std::cout << "Texture ~~>" << this->texture << std::endl;
+  // //////std::cout << "Error after loadd_texture? ~~>" << SDL_GetError() << std::endl;
   
   // if(!this->texture) {
-  //   throw std::runtime_error(SDL_GetError());
+  //   LOG(std::runtime_error(SDL_GetError());
   // }
 
   // Com a textura carregada, precisamos descobrir suas dimensões.
@@ -118,4 +106,12 @@ int Sprite :: GetHeight() {
 
 bool Sprite :: IsOpen() {
   return !!this->texture; 
+}
+
+void Sprite :: Update(float dt) {
+  (void)dt;
+}
+
+bool Sprite :: Is(std :: string type) {
+  return type == "Sprite";
 }
