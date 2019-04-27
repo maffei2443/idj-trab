@@ -20,6 +20,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "CameraFollower.h"
+#include "Alien.h"
 
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * bg = new GameObject;
@@ -35,7 +36,14 @@ fundo e voilà! */
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
 	this->objectArray.emplace_back( bg );
-  this->quitRequested = false;
+	
+	// No construtor de State, crie um Alien
+	// (criar GO e adicionar componente Alien)
+	GameObject * AlienGO = new GameObject;
+	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
+	this->objectArray.emplace_back( AlienGO );
+  
+	this->quitRequested = false;
   this->music.Play(-1);
 }
 
