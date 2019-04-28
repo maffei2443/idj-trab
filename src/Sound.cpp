@@ -48,7 +48,7 @@ bool Sound::IsOpen() {
     return !!this->chunk;
 }
 
-void Sound::Update(float dt) {
+void Sound::Update(double dt) {
     (void)dt;
 }
 void Sound::Render() {

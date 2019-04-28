@@ -33,7 +33,7 @@ void Face:: Damage(int damage) {
 // Face:: herda de Componen {
 
 
-void Face:: Update(float dt) {
+void Face:: Update(double dt) {
     (void)dt;
     // Atualizar posição de acordo com a câmera
 /*  Segundo, em Update (fiz), quando for checar
@@ -42,8 +42,8 @@ void Face:: Update(float dt) {
     as coordenadas da tela, não do mundo
  */
 	// if( inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
-	// 	float mouseX = inputManager.GetMouseX();
-	// 	float mouseY = inputManager.GetMouseY();
+	// 	double mouseX = inputManager.GetMouseX();
+	// 	double mouseY = inputManager.GetMouseY();
     //     // GameObject* go = (GameObject*) objectArray[i].get();
     //     if(this->associated.box.Contains( {mouseX, mouseY} ) ) {
     //         this->Damage(/* std::rand() % 10 + 10 */20);

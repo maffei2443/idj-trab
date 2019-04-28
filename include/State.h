@@ -27,7 +27,7 @@ class State {
     void LoadAssets(); // pré-carregar os assets do state do jogo
     // carregar imagens/fontes/músicas às suas variáveis aqui sempre
     // que for possível.
-    void Update(float dt);
+    void Update(double dt);
     void Render();
 
     // t5

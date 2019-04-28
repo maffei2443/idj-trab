@@ -21,12 +21,17 @@ private:
     int hp;
     std::queue<Action*> taskQueue;
     std::vector<std::weak_ptr<GameObject>> minionArray;
+    // 
+    bool followingX = false;
+    bool followingY = false;
+
+    Vec2 targetPoint;
 public:
     const std::string type = std::string("Alien");
     Alien(GameObject&, int);
     ~Alien();
     // herda de Component
-    void Update(float dt);
+    void Update(double dt);
     void Render();
     bool Is(std::string type);
     const inline std::string GetType(){

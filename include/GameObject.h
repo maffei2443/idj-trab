@@ -15,7 +15,7 @@ public:
     GameObject();
     ~GameObject();
 
-    void Update(float dt);
+    void Update(double dt);
     void Render();
     bool IsDead();
     void RequestDelete();

@@ -17,7 +17,7 @@ private:
     Sprite tileSet;
 public:
     TileSet(int, int, std::string, GameObject&);
-    void RenderTile(unsigned, float, float);
+    void RenderTile(unsigned, double, double);
     int GetTileWidth();
     int GetTileHeight();
 };

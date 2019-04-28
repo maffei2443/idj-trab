@@ -5,8 +5,8 @@
 
 class Rect{
 public:
-    float x, y, w, h;
-    Rect(float x = 0, float y = 0, float w = 0, float h = 0);
+    double x, y, w, h;
+    Rect(double x = 0, double y = 0, double w = 0, double h = 0);
     bool Contains(const Vec2&);
     bool Contains(const int&, const int&);
 };

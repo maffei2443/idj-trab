@@ -15,7 +15,7 @@ class CameraFollower : public Component {
     const std::string GetType();
 
     CameraFollower(GameObject&);
-    void Update(float dt);
+    void Update(double dt);
     void Render();
     bool Is(std::string);
 };

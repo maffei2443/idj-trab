@@ -27,7 +27,7 @@ public:
     bool IsOpen();
 
     // Herdou
-    void Update(float dt);
+    void Update(double dt);
     void Render();
     bool Is(std::string type);
 

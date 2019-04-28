@@ -11,7 +11,7 @@ public:
     Face(GameObject& associated);
     void Damage(int damage);
     // herda de Component
-    void Update(float dt);
+    void Update(double dt);
     void Render();
     bool Is(std::string type);
     const inline std::string GetType(){

@@ -11,18 +11,18 @@
 class Camera {
   private:
     static GameObject * focus;
-    static float GetHorizontalSpeed();
-    static float GetVerticalSpeed();
+    static double GetHorizontalSpeed();
+    static double GetVerticalSpeed();
   public:
     static Vec2 pos;
     static Vec2 speed;
     static void Follow(GameObject* newFocus);
     static void Unfollow();
-    static void Update(float dt);
+    static void Update(double dt);
 
     // auxiliar para a velocidade; no momento, camera
     // nao muda a velocidade
-    static const float SPEED;
+    static const double SPEED;
 
 };
 

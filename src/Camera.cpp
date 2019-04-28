@@ -9,16 +9,16 @@ Vec2 Camera::pos(0,0);
 // observador [camera] parado
 Vec2 Camera::speed(0,0);
 InputManager* inputManager = &InputManager::GetInstance();
-const float Camera::SPEED = 0.7;
+const double Camera::SPEED = 0.7;
 
-float Camera::GetHorizontalSpeed() {
+double Camera::GetHorizontalSpeed() {
     return (
         inputManager->IsKeyDown(SDLK_RIGHT) + inputManager->IsKeyDown('d')  // right speed
         - inputManager->IsKeyDown(SDLK_LEFT) - inputManager->IsKeyDown('a')  // left speed
     );
 }
 
-float Camera::GetVerticalSpeed() {
+double Camera::GetVerticalSpeed() {
     return (
         inputManager->IsKeyDown(SDLK_UP) + inputManager->IsKeyDown('w')  // right speed
         - inputManager->IsKeyDown(SDLK_DOWN) - inputManager->IsKeyDown('s')  // left speed
@@ -34,7 +34,7 @@ void Camera::Unfollow() {
     focus = nullptr;
 }
 
-void Camera::Update(float dt) {
+void Camera::Update(double dt) {
     // (void)dt;  // TODO: usar esse dt
     /* Se a câmera tiver um foco, faremos com que ele fique 
     centralizado na tela. Nesse caso, o movimento independe de dt,
@@ -52,8 +52,8 @@ void Camera::Update(float dt) {
 
         // TODO: pegar, do inputManager, quais (wasd) tecla está pressionada.
         // e setar velocidade conforme tais fatos.
-        float horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
-        float verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
+        double horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
+        double verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
         Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
         Camera::pos = Camera::pos + (Camera::speed/* *dt */);
     }

@@ -53,7 +53,7 @@ State::~State() {
 }
 
 
-void State::Update(float dt) {
+void State::Update(double dt) {
     /* Setar a flag de quit de State se ESC 
     for pressionado ou se o
     InputManager apontar evento de Quit; */
@@ -86,7 +86,7 @@ void State::Update(float dt) {
 			// printf("DAMAGE?? %d\n", i);
 			// Obtem o ponteiro e casta pra Face.
 			GameObject* go = (GameObject*) objectArray[i].get();
-			if(go->box.Contains( {(float)mouseX, (float)mouseY} ) ) {
+			if(go->box.Contains( {(double)mouseX, (double)mouseY} ) ) {
 				Face* face = (Face*)go->GetComponent( "Face" );
 				if ( face != nullptr ) {
 					// Aplica dano

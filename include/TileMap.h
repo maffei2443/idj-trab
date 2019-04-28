@@ -24,8 +24,8 @@ public:
     void SetTileSet(TileSet*);
     int& At(int, int, int z = 0);
     // Fazendo ajuste: por padrao, recebe posicao da camera para fazer os ajustes
-    void RenderLayer(int, float cameraX=Camera::pos.x, 
-                     float cameraY=Camera::pos.y, bool paralax = true);
+    void RenderLayer(int, double cameraX=Camera::pos.x, 
+                     double cameraY=Camera::pos.y, bool paralax = true);
     
     int GetTileWidth();
     int GetTileHeight();
@@ -34,7 +34,7 @@ public:
     // Herda de component
     void Render();
     bool Is(std::string);
-    void Update(float);
+    void Update(double);
 
     const inline std::string GetType(){        
         return this->type;

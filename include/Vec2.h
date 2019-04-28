@@ -5,12 +5,12 @@
 #define DEG2RAD (M_PI / 180)
 class Vec2 {
 private:
-    float norm;
+    double norm;
 public:
-    static float lineSlope(const Vec2&, const Vec2&);
-    float x, y;
+    static double lineSlope(const Vec2&, const Vec2&);
+    double x, y;
     Vec2();
-    Vec2(float, float);
+    Vec2(double, double);
     Vec2(const Vec2&);
     Vec2 operator+(const Vec2&) const;
     Vec2 operator-(const Vec2&) const;
@@ -23,12 +23,12 @@ public:
     Vec2 operator/(const int&) const;
 
 
-    float abs();
+    double abs();
     Vec2 unitary();
-    float dist(const Vec2&) const;
-    float xAxisSlope() const;
-    void rotate(const float& degree);
-    Vec2 GetRotated(const float& degree);
+    double dist(const Vec2&) const;
+    double xAxisSlope() const;
+    void rotate(const double& degree);
+    Vec2 GetRotated(const double& degree);
     // add rect and vet2
     // distancia dentro de rects
     // 4 operações elementares

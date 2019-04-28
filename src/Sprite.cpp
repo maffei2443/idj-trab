@@ -111,7 +111,7 @@ bool Sprite::IsOpen() {
   return !!this->texture; 
 }
 
-void Sprite::Update(float dt) {
+void Sprite::Update(double dt) {
   (void)dt;
 }
 

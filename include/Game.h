@@ -33,7 +33,7 @@ class Game {
 
     // Novos mebros de Game (T4)
     int frameStart;
-    float dt;
+    double dt;
     void CalculateDeltaTime();
   public:
     // GetDEltaTime() add p/ T4

@@ -8,9 +8,12 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include <memory>
+#include "Util.h"
+
 using std::cout;
 using std::endl;
 static InputManager& inputManager = InputManager::GetInstance();
+const int VEL = 3;
 
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
 hitspoints(Alien::HEALTH_POINTS){
@@ -34,7 +37,7 @@ Alien::~Alien() {
 
 
 
-void Alien::Update(float dt) {
+void Alien::Update(double dt) {
     (void)dt;
     /* Primeiro, CHECAMOS
 SE HOUVE INPUT QUE GERE UMA AÇÃO: clique do botão esquerdo do mouse para
@@ -47,7 +50,7 @@ um tiro, ou direito para movimento. */
         fflush(stdout);
         // clique do botão esquerdo do mouse para um tiro
         this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
-        printf("TIRO ADICIONADO\n");
+        // printf("TIRO ADICIONADO\n");
     }
     if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
         // direito para movimento
@@ -67,51 +70,33 @@ um tiro, ou direito para movimento. */
 
                 break;}
             case Action::ActionType::MOVE:{
-                // IMPLEMENTAR MOVIMENTO
-            /*  Para ações de
-            movimento, devemos calcular velocidades nos eixos x e y de forma que O ALIEN
-            SE MOVA EM LINHA RETA ATÉ AQUELE PONTO, E QUE O MÓDULO DA VELOCIDADE DELE
-            SEJA SEMPRE CONSTANTE. */
-            Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-            float midX = (this->associated.box.x + (float)AlienSprite->GetWidth()/2);
-            float midY = (this->associated.box.y + (float)AlienSprite->GetHeight()/2);
-    
-            // DESCOMENTAR
-            // Ajuste para centralizar corretamente no ponteiro do mouse
-            // this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
-            // this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
+                this->followingX = true;
+                this->followingY = true;
 
-            float deltaX = mouseX - midX;
-            float deltaY = mouseY - midY;
+                Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+                double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
+                double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
+        
+                double deltaX = mouseX - midX;
+                double absDeltaX = abs(deltaX);
 
-            float absDeltaX = abs(deltaX);
-            float absDeltaY = abs(deltaY);
+                double deltaY = mouseY - midY;
+                double absDeltaY = abs(deltaY);
 
-            float slope = deltaY / deltaX;
-            float slopeInverse = deltaX / deltaY;
+                double slope = deltaY / deltaX;
+                double slopeInverse = deltaX / deltaY;
 
-            const int FAC = 10;
-            const int VEL = 3;
-            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL);
-                this->speed.x = this->speed.y * slopeInverse ;  // 
-                // this->speed.x = (this->speed.y  * (absDeltaX / absDeltaY) * (deltaY > 0 ? 1 : -1)/absDeltaX)/FAC;  // 
-            }
-            else {
-                this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                this->speed.y = this->speed.x * slope;  // 
-                // this->speed.y = (this->speed.x  * (absDeltaY / absDeltaX) * (deltaX > 0 ? 1 : -1)/absDeltaY)/FAC;  // 
-                
-            }
-            printf("HUEHUEHUE\n");
-            // this->speed.x = 0.1 * (deltaX > 0 ? 1 : -1);
-            // this->speed.y = 0.1 * (deltaY > 0 ? 1 : -1);
-            // // }            
-            // this->speed.y = 0.7 * (deltaY > 0 ? 1 : -1)/abs(deltaY);
-            // this->speed.x = 0.7 * (deltaX > 0 ? 1 : -1)/abs(deltaX);
-            break;}
+                if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
+                    this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                    this->speed.x = this->speed.y * slopeInverse ;  // 
+                }
+                else {
+                    this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                    this->speed.y = this->speed.x * slope;  //                 
+                }
+                break;}
         }
-        // Queue.pop chama o destrutor
+        // Queue.pop CHAMA O DESTRUTOR
         this->taskQueue.pop();
     }
     // Devemos pedir para remover esse GameObject se a vida dele ficar
@@ -128,8 +113,47 @@ void Alien::Render() {
     // Primeiro, faça A RENDERIZAÇÃO deles levar em
     // consideração a posição da câmera. (FIZ O UPDATE)
     // printf("Alien RENDER\n");
+    if (this->followingX || this->followingY) {
+        int mouseX = inputManager.GetMouseX();
+        int mouseY = inputManager.GetMouseY();
+
+        Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+        double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
+        double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
+
+        double deltaX = mouseX - midX;
+        double deltaY = mouseY - midY;
+
+        double absDeltaX = abs(deltaX);
+        double absDeltaY = abs(deltaY);
+
+        double slope = deltaY / deltaX;
+        double slopeInverse = deltaX / deltaY;
+
+
+        if ( deltaX != 0 && deltaY != 0) {
+            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.x = this->speed.y * slopeInverse ;  // 
+            }
+            else {
+                this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                this->speed.y = this->speed.x * slope;  //                 
+            }
+        }
+        if (IsFloatZero(deltaX)) {
+            this->followingX = false;
+            this->speed.x = 0;
+        }
+        if (IsFloatZero(deltaY)) {
+            this->followingY = 0;
+            this->speed.y = 0;
+        }
+        // printf("My point!\n");
+    }
     this->associated.box.x = this->associated.box.x + this->speed.x;
     this->associated.box.y = this->associated.box.y + this->speed.y;
+    printf("x,y: %lf, %lf \n", this->associated.box.x, this->associated.box.y);
 }
 bool Alien::Is(std::string type) {
     return type == "Alien";

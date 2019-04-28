@@ -14,7 +14,7 @@ GameObject::~GameObject() {
     fflush(stdout);
 }
 
-void GameObject::Update(float dt) {
+void GameObject::Update(double dt) {
     // cout << "GAMEOBJECT UPDATE" << endl;
     for(auto& comp : this->components) {
         // cout << "\ttype: " << comp->GetType() << ", addr: " << &comp << endl;

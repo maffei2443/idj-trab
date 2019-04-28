@@ -38,7 +38,7 @@ class Sprite : public Component {
     bool IsOpen();
 
     // herda de Component
-    void Update(float dt);
+    void Update(double dt);
     bool Is(std::string type);
     void Render();
     const inline std::string GetType(){

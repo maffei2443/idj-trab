@@ -15,7 +15,7 @@ TileSet::TileSet(int tileWidth, int tileHeight,std::string file, GameObject& ass
 
 // Ok está sendo chamado.
 // Ok testado. Funciona.
-void TileSet::RenderTile (unsigned index, float x, float y) {
+void TileSet::RenderTile (unsigned index, double x, double y) {
     if( index < totalTileSize) {
         int xSet = index%this->columns;
         int ySet = index/this->columns;
