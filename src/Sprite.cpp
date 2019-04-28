@@ -11,7 +11,7 @@
 Sprite::Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
 
-  // this->texture = nullptr;
+  this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
 Sprite::Sprite(GameObject& associated, std::string file) : Component(associated) {

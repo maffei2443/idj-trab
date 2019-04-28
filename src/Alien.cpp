@@ -70,8 +70,10 @@ um tiro, ou direito para movimento. */
             printf("Alien.x: %lf, Alien.y: %lf\n",
             this->associated.box.x, this->associated.box.y);
             printf("MouseX: %d, MouseY: %d\n", mouseX, mouseY);
-            this->associated.box.x = mouseX;
-            this->associated.box.y = mouseY;
+            // Ajuste para centralizar corretamente no ponteiro do mouse
+            Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+            this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
+            this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
             break;
         }
         // Queue.pop chama o destrutor
