@@ -57,24 +57,59 @@ um tiro, ou direito para movimento. */
     if (this->taskQueue.size() > (size_t)0) {
         Action *action = this->taskQueue.front();
         switch(action->type) {
-            case Action::ActionType::SHOOT:
+            case Action::ActionType::SHOOT:{
                 // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
                 // Precisamos implementar mais algumas coisas antes.
-                break;
-            case Action::ActionType::MOVE:
+                this->speed = {0, 0};
+                Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+                this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
+                this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
+
+                break;}
+            case Action::ActionType::MOVE:{
                 // IMPLEMENTAR MOVIMENTO
             /*  Para ações de
             movimento, devemos calcular velocidades nos eixos x e y de forma que O ALIEN
             SE MOVA EM LINHA RETA ATÉ AQUELE PONTO, E QUE O MÓDULO DA VELOCIDADE DELE
             SEJA SEMPRE CONSTANTE. */
-            printf("Alien.x: %lf, Alien.y: %lf\n",
-            this->associated.box.x, this->associated.box.y);
-            printf("MouseX: %d, MouseY: %d\n", mouseX, mouseY);
-            // Ajuste para centralizar corretamente no ponteiro do mouse
             Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-            this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
-            this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
-            break;
+            float midX = (this->associated.box.x + (float)AlienSprite->GetWidth()/2);
+            float midY = (this->associated.box.y + (float)AlienSprite->GetHeight()/2);
+    
+            // DESCOMENTAR
+            // Ajuste para centralizar corretamente no ponteiro do mouse
+            // this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
+            // this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
+
+            float deltaX = mouseX - midX;
+            float deltaY = mouseY - midY;
+
+            float absDeltaX = abs(deltaX);
+            float absDeltaY = abs(deltaY);
+
+            float slope = deltaY / deltaX;
+            float slopeInverse = deltaX / deltaY;
+
+            const int FAC = 10;
+            const int VEL = 3;
+            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.x = this->speed.y * slopeInverse ;  // 
+                // this->speed.x = (this->speed.y  * (absDeltaX / absDeltaY) * (deltaY > 0 ? 1 : -1)/absDeltaX)/FAC;  // 
+            }
+            else {
+                this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                this->speed.y = this->speed.x * slope;  // 
+                // this->speed.y = (this->speed.x  * (absDeltaY / absDeltaX) * (deltaX > 0 ? 1 : -1)/absDeltaY)/FAC;  // 
+                
+            }
+            printf("HUEHUEHUE\n");
+            // this->speed.x = 0.1 * (deltaX > 0 ? 1 : -1);
+            // this->speed.y = 0.1 * (deltaY > 0 ? 1 : -1);
+            // // }            
+            // this->speed.y = 0.7 * (deltaY > 0 ? 1 : -1)/abs(deltaY);
+            // this->speed.x = 0.7 * (deltaX > 0 ? 1 : -1)/abs(deltaX);
+            break;}
         }
         // Queue.pop chama o destrutor
         this->taskQueue.pop();
@@ -93,6 +128,8 @@ void Alien::Render() {
     // Primeiro, faça A RENDERIZAÇÃO deles levar em
     // consideração a posição da câmera. (FIZ O UPDATE)
     // printf("Alien RENDER\n");
+    this->associated.box.x = this->associated.box.x + this->speed.x;
+    this->associated.box.y = this->associated.box.y + this->speed.y;
 }
 bool Alien::Is(std::string type) {
     return type == "Alien";

@@ -95,6 +95,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
   this->clipRect.y = y;
   this->clipRect.w = w;
   this->clipRect.h = h;
+  // printf("x, y, w, h : %d, %d ,%d, %d\n", x, y, w, h);
 }
 
 int Sprite::GetWidth() {
