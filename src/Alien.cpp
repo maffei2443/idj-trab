@@ -36,6 +36,7 @@ void Alien::Update(float dt) {
     /* Primeiro, CHECAMOS
 SE HOUVE INPUT QUE GERE UMA AÇÃO: clique do botão esquerdo do mouse para
 um tiro, ou direito para movimento. */
+    printf("ALIEN UPDATE\n");
     int mouseX = inputManager.GetMouseX();
     int mouseY = inputManager.GetMouseY();
     if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {

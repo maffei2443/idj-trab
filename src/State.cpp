@@ -77,6 +77,7 @@ void State::Update(float dt) {
 	// Acerta [UM] pinguim sobre o mouse
 	#pragma region
 	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
+		printf("LEFT CLICK\n");
 		int mouseX = this->inputManager->GetMouseX();
 		int mouseY = this->inputManager->GetMouseY();
 		// Iterar de tras para frente para dar dano no ultimo inserido.

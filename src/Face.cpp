@@ -50,7 +50,8 @@ void Face:: Update(float dt) {
     //         printf("Dano! %d\n", this->hitspoints);
     //     }
 	// }
-
+    this->associated.box.x += Camera::speed.x;
+    this->associated.box.y += Camera::speed.y;
 
 }
 void Face:: Render() {
