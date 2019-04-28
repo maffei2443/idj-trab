@@ -70,8 +70,8 @@ dev: debug run
 gdb: RUN := gdb $(RUN)
 gdb: dev
 
-release: DIRECTIVES += -Ofast -mtune=native
-release: all
+RELEASE: DIRECTIVES += -Ofast -mtune=native
+RELEASE: all
 
 run:
 	$(RUN)$(EXEC)
@@ -82,6 +82,6 @@ clean:
 
 .PRECIOUS: $(DEP_PATH)/%.D
 
-.PHONY: debug clean release
+.PHONY: debug clean RELEASE
 
 -include $(DEP_FILES)

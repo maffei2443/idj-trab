@@ -3,6 +3,8 @@
 #include "Macros.h"
 #include <cstdio>
 #include <iostream>
+using std::cout;
+using std::endl;
 GameObject::GameObject() : isDead(false), box(),started(false) {}
 
 GameObject::~GameObject() {
@@ -10,11 +12,12 @@ GameObject::~GameObject() {
     // Liberando em ordem reversa À que foi alocado
     this->components.clear();
     fflush(stdout);
-
 }
 
 void GameObject::Update(float dt) {
+    // cout << "GAMEOBJECT UPDATE" << endl;
     for(auto& comp : this->components) {
+        // cout << "\ttype: " << comp->GetType() << ", addr: " << &comp << endl;
         comp->Update(dt);
     }
 }

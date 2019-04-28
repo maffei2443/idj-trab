@@ -36,13 +36,14 @@ fundo e voilà! */
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
 	this->objectArray.emplace_back( bg );
-	
+	printf("emplaced background\n");
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
 	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
-  
+	printf("emplaced alien\n");
+  printf("HOW MANY GO : %lu\n", this->objectArray.size());
 	this->quitRequested = false;
   this->music.Play(-1);
 }
@@ -66,7 +67,6 @@ void State::Update(float dt) {
 	// } 
 	if( this->inputManager->KeyPress(SPACE_KEY)) {
 		// printf("GG SPACE!\n");fflush(stdout);
-		// abort();
 		Vec2 objPos = Vec2( 200, 0 );
 		objPos.rotate( rand() % 360 );
 		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
@@ -100,8 +100,11 @@ void State::Update(float dt) {
 	#pragma endregion
 
 	for(auto& GO : this->objectArray) {
+		// std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
 		GO->Update(dt);
 	}
+	// abort();
+
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
 			if((**it).IsDead()) {

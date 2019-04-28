@@ -16,7 +16,6 @@ GameObjects (serão os Minions), os quais ele usará para atirar. */
 private:
     const static int HEALTH_POINTS = 30;
     int hitspoints;
-
     // t5
     Vec2 speed;
     int hp;
