@@ -72,7 +72,8 @@ um tiro, ou direito para movimento. */
             case Action::ActionType::MOVE:{
                 this->followingX = true;
                 this->followingY = true;
-
+                this->targetPoint.x = mouseX;
+                this->targetPoint.y = mouseY;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
                 double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
                 double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
@@ -130,10 +131,23 @@ void Alien::Render() {
         double slope = deltaY / deltaX;
         double slopeInverse = deltaX / deltaY;
 
-
-        if ( deltaX != 0 && deltaY != 0) {
+        // TODO  encontrar forma melhor, 
+        // que nao multiplicando por um booleano
+        if (IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
+            this->speed.x = this->speed.y = 0;
+            this->followingX = this->followingY = false;
+        }
+        else if (IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
+            this->speed.x = 0;  this->followingX = false;
+            this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->followingY;
+        }
+        else if (!IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
+            this->speed.y = 0;  this->followingY = false;
+            this->speed.x = (deltaX > 0 ? VEL : -VEL) * this->followingX;
+        }
+        else if (!IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->followingY;
                 this->speed.x = this->speed.y * slopeInverse ;  // 
             }
             else {
@@ -141,19 +155,13 @@ void Alien::Render() {
                 this->speed.y = this->speed.x * slope;  //                 
             }
         }
-        if (IsFloatZero(deltaX)) {
-            this->followingX = false;
-            this->speed.x = 0;
-        }
-        if (IsFloatZero(deltaY)) {
-            this->followingY = 0;
-            this->speed.y = 0;
-        }
+
         // printf("My point!\n");
     }
-    this->associated.box.x = this->associated.box.x + this->speed.x;
-    this->associated.box.y = this->associated.box.y + this->speed.y;
-    printf("x,y: %lf, %lf \n", this->associated.box.x, this->associated.box.y);
+    this->associated.box.x += this->speed.x;
+    this->associated.box.y += this->speed.y;
+    printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
+
 }
 bool Alien::Is(std::string type) {
     return type == "Alien";
