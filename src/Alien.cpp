@@ -43,18 +43,22 @@ void Alien::Update(double dt) {
 SE HOUVE INPUT QUE GERE UMA AÇÃO: clique do botão esquerdo do mouse para
 um tiro, ou direito para movimento. */
     // printf("ALIEN UPDATE\n");
-    int mouseX = inputManager.GetMouseX();
-    int mouseY = inputManager.GetMouseY();
     if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
         // printf("TIRO!\n");
         fflush(stdout);
         // clique do botão esquerdo do mouse para um tiro
+        int mouseX = inputManager.GetMouseX();
+        int mouseY = inputManager.GetMouseY();
+
         this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
         // printf("TIRO ADICIONADO\n");
     }
     if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
         // direito para movimento
+        int mouseX = inputManager.GetMouseX();
+        int mouseY = inputManager.GetMouseY();
         Action * action = new Action(Action::ActionType::MOVE, mouseX, mouseY);
+        printf("MOVE TO %d %d\n", mouseX, mouseY);
         this->taskQueue.push( action );
     }
     if (this->taskQueue.size() > (size_t)0) {
@@ -65,25 +69,25 @@ um tiro, ou direito para movimento. */
                 // Precisamos implementar mais algumas coisas antes.
                 this->speed = {0, 0};
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                this->associated.box.x = mouseX - AlienSprite->GetWidth()/2;
-                this->associated.box.y = mouseY - AlienSprite->GetHeight()/2;
+                this->associated.box.x = action->pos.x - AlienSprite->GetWidth()/2;
+                this->associated.box.y = action->pos.y - AlienSprite->GetHeight()/2;
 
                 break;}
             case Action::ActionType::MOVE:{
                 this->click.targetX = true;
                 this->click.targetY = true;
-                this->click.x = mouseX;
-                this->click.y = mouseY;
-                printf("META DO ALIEN : %d, %d\n", mouseX, mouseY);
+                this->click.x = action->pos.x;
+                this->click.y = action->pos.y;
+                printf("META DO ALIEN : %d, %d\n", this->click.x, this->click.y);
                 // abort();
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
                 double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
                 double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
         
-                double deltaX = mouseX - midX;
+                double deltaX = this->click.x - midX;
                 double absDeltaX = abs(deltaX);
 
-                double deltaY = mouseY - midY;
+                double deltaY = this->click.y - midY;
                 double absDeltaY = abs(deltaY);
 
                 double slope = deltaY / deltaX;
@@ -174,7 +178,7 @@ void Alien::Render() {
     // consideração a posição da câmera. (FIZ O UPDATE)
     // printf("Alien RENDER\n");
 
-    printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
+    // printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
 
 }
 bool Alien::Is(std::string type) {
