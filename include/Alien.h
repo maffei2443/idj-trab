@@ -5,6 +5,7 @@
 #include <queue>
 #include <memory>
 #include "Action.h"
+#include "Click.h"
 
 class Alien : public Component {
     /* Alien é um objeto controlado pelo mouse. Ele executa uma
@@ -22,9 +23,7 @@ private:
     std::queue<Action*> taskQueue;
     std::vector<std::weak_ptr<GameObject>> minionArray;
     // 
-    bool followingX = false;
-    bool followingY = false;
-
+    Click click;
     Vec2 targetPoint;
 public:
     const std::string type = std::string("Alien");

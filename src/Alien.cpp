@@ -70,10 +70,12 @@ um tiro, ou direito para movimento. */
 
                 break;}
             case Action::ActionType::MOVE:{
-                this->followingX = true;
-                this->followingY = true;
-                this->targetPoint.x = mouseX;
-                this->targetPoint.y = mouseY;
+                this->click.targetX = true;
+                this->click.targetY = true;
+                this->click.x = mouseX;
+                this->click.y = mouseY;
+                printf("META DO ALIEN : %d, %d\n", mouseX, mouseY);
+                // abort();
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
                 double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
                 double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
@@ -95,26 +97,15 @@ um tiro, ou direito para movimento. */
                     this->speed.x = (deltaX > 0 ? VEL : -VEL);
                     this->speed.y = this->speed.x * slope;  //                 
                 }
-                break;}
+                break;
+            }
         }
         // Queue.pop CHAMA O DESTRUTOR
         this->taskQueue.pop();
     }
-    // Devemos pedir para remover esse GameObject se a vida dele ficar
-    // menor ou igual a 0.
+    // Mantem o alien andando ATEH QUE encontre o ponto clicado.
     #pragma region
-    if(this->hitspoints >> 31) {
-        this->associated.RequestDelete();
-    }
-    #pragma endregion
-    // printf("END ALIEN UPDATE\n");fflush(stdout);
-}
-void Alien::Render() {
-    // Itentionally left empty.
-    // Primeiro, faça A RENDERIZAÇÃO deles levar em
-    // consideração a posição da câmera. (FIZ O UPDATE)
-    // printf("Alien RENDER\n");
-    if (this->followingX || this->followingY) {
+    if (this->click.targetX || this->click.targetY) {
         int mouseX = inputManager.GetMouseX();
         int mouseY = inputManager.GetMouseY();
 
@@ -135,19 +126,21 @@ void Alien::Render() {
         // que nao multiplicando por um booleano
         if (IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
             this->speed.x = this->speed.y = 0;
-            this->followingX = this->followingY = false;
+            this->click.targetX = this->click.targetY = false;
+            // this->associated.box.x = this->click.x - midX;
+            // this->associated.box.y = this->click.y - midY;
         }
         else if (IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
-            this->speed.x = 0;  this->followingX = false;
-            this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->followingY;
+            this->speed.x = 0;  this->click.targetX = false;
+            this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
         }
         else if (!IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
-            this->speed.y = 0;  this->followingY = false;
-            this->speed.x = (deltaX > 0 ? VEL : -VEL) * this->followingX;
+            this->speed.y = 0;  this->click.targetY = false;
+            this->speed.x = (deltaX > 0 ? VEL : -VEL) * this->click.targetX;
         }
         else if (!IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->followingY;
+                this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
                 this->speed.x = this->speed.y * slopeInverse ;  // 
             }
             else {
@@ -158,8 +151,29 @@ void Alien::Render() {
 
         // printf("My point!\n");
     }
+    else {
+        printf("reached : %lf, %lf\n", this->associated.box.x, this->associated.box.y);
+    }
+    #pragma endregion
+
+    // Devemos pedir para remover esse GameObject se a vida dele ficar
+    // menor ou igual a 0.
+    #pragma region
+    if(this->hitspoints >> 31) {
+        this->associated.RequestDelete();
+    }
+    #pragma endregion
+    // printf("END ALIEN UPDATE\n");fflush(stdout);
     this->associated.box.x += this->speed.x;
     this->associated.box.y += this->speed.y;
+
+}
+void Alien::Render() {
+    // Itentionally left empty.
+    // Primeiro, faça A RENDERIZAÇÃO deles levar em
+    // consideração a posição da câmera. (FIZ O UPDATE)
+    // printf("Alien RENDER\n");
+
     printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
 
 }
