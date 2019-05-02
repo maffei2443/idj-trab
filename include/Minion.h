@@ -25,6 +25,7 @@ public:
     }
     // t5
     void Shoot(Vec2);
+    void Start();
 };
 
 #endif

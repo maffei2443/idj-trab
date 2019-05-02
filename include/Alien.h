@@ -23,7 +23,7 @@ private:
     // t5
     Vec2 speed;
     int hp;
-    int nMinion;
+    int nMinions;
     queue<Action*> taskQueue;
     vector<weak_ptr<GameObject>> minionArray;
     // 

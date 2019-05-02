@@ -7,7 +7,7 @@ class Action {
         enum ActionType {MOVE=0, SHOOT};
         ActionType type;
         Vec2 pos;
-        Action(ActionType, double, double);
+        Action(ActionType, int, int);
 };
 
 

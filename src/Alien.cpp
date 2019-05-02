@@ -10,6 +10,7 @@
 #include <memory>
 #include "Util.h"
 #include "Minion.h"
+#include "Game.h"
 
 using std::cout;
 using std::endl;
@@ -47,24 +48,6 @@ void Alien::Update(double dt) {
 SE HOUVE INPUT QUE GERE UMA AÇÃO: clique do botão esquerdo do mouse para
 um tiro, ou direito para movimento. */
     // printf("ALIEN UPDATE\n");
-    if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
-        // printf("TIRO!\n");
-        fflush(stdout);
-        // clique do botão esquerdo do mouse para um tiro
-        int mouseX = inputManager.GetMouseX();
-        int mouseY = inputManager.GetMouseY();
-
-        this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
-        // printf("TIRO ADICIONADO\n");
-    }
-    if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
-        // direito para movimento
-        int mouseX = inputManager.GetMouseX();
-        int mouseY = inputManager.GetMouseY();
-        Action * action = new Action(Action::ActionType::MOVE, mouseX, mouseY);
-        printf("MOVE TO %d %d\n", mouseX, mouseY);
-        this->taskQueue.push( action );
-    }
     if (this->taskQueue.size() > (size_t)0) {
         Action *action = this->taskQueue.front();
         switch(action->type) {
@@ -85,8 +68,8 @@ um tiro, ou direito para movimento. */
                 printf("META DO ALIEN : %d, %d\n", this->click.x, this->click.y);
                 // abort();
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
-                double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
+                double midX = (this->associated.box.x + AlienSprite->GetWidth()/2);
+                double midY = (this->associated.box.y + AlienSprite->GetHeight()/2);
         
                 double deltaX = this->click.x - midX;
                 double absDeltaX = abs(deltaX);
@@ -110,19 +93,41 @@ um tiro, ou direito para movimento. */
         }
         // Queue.pop CHAMA O DESTRUTOR
         this->taskQueue.pop();
-    }
-    // Mantem o alien andando ATEH QUE encontre o ponto clicado.
-    #pragma region
-    if (this->click.targetX || this->click.targetY) {
+    }    
+    if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
+        // printf("TIRO!\n");
+        fflush(stdout);
+        // clique do botão esquerdo do mouse para um tiro
         int mouseX = inputManager.GetMouseX();
         int mouseY = inputManager.GetMouseY();
+
+        this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
+        // printf("TIRO ADICIONADO\n");
+    }
+    if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
+        // direito para movimento
+        int mouseX = inputManager.GetMouseX();
+        int mouseY = inputManager.GetMouseY();
+        Action * action = new Action(Action::ActionType::MOVE, mouseX, mouseY);
+        printf("MOVE TO %d %d\n", mouseX, mouseY);
+        this->taskQueue.push( action );
+    }
+
+    // Mantem o alien andando ATEH QUE encontre o ponto clicado.
+    #pragma region
+    int mouseX = inputManager.GetMouseX();
+    int mouseY = inputManager.GetMouseY();
+    if (this->click.targetX || this->click.targetY) {
 
         Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
         double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
         double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
 
-        double deltaX = mouseX - midX;
-        double deltaY = mouseY - midY;
+        // double deltaX = mouseX - midX;
+        // double deltaY = mouseY - midY;
+
+        double deltaX = -(midX-mouseX);
+        double deltaY = -(midY-mouseY);
 
         double absDeltaX = abs(deltaX);
         double absDeltaY = abs(deltaY);
@@ -132,35 +137,50 @@ um tiro, ou direito para movimento. */
 
         // TODO  encontrar forma melhor, 
         // que nao multiplicando por um booleano
-        if (IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
+        if (IsFloatZero(absDeltaX) or IsFloatZero(absDeltaY)) {
+            // printf("DELTA == 0! %lf %lf\n", absDeltaX, absDeltaY);
+            // printf("this->click.x :: %lf\n", this->click.x - midX);
+            // printf("this->click.y :: %lf\n", this->click.y - midY);
+
+            // printf("this->associated.box.x :: %lf\n", this->click.x - midX);
+            // printf("this->associated.box.y :: %lf\n", this->click.y - midY);
             this->speed.x = this->speed.y = 0;
             this->click.targetX = this->click.targetY = false;
-            // this->associated.box.x = this->click.x - midX;
-            // this->associated.box.y = this->click.y - midY;
+            // this->associated.box.x = -(midX - this->click.x);
+            // this->associated.box.y = -(midY - this->click.y);
+
+            this->associated.box.x = this->click.x - ((double)AlienSprite->GetWidth())/2;
+            this->associated.box.y = this->click.y - ((double)AlienSprite->GetHeight())/2;
+            // abort();
         }
-        else if (IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
-            this->speed.x = 0;  this->click.targetX = false;
-            this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
-        }
-        else if (!IsFloatZero(absDeltaX) and IsFloatZero(absDeltaY)) {
-            this->speed.y = 0;  this->click.targetY = false;
-            this->speed.x = (deltaX > 0 ? VEL : -VEL) * this->click.targetX;
-        }
-        else if (!IsFloatZero(absDeltaX) and !IsFloatZero(absDeltaY)) {
+        else {
+            // printf("$$$$$$$ UPE! %lf %lf\n", absDeltaX, absDeltaY);
+            // printf("$$$$$$$ this->click.x :: %lf\n", this->click.x - midX);
+            // printf("$$$$$$$ this->click.y :: %lf\n", this->click.y - midY);
+
+            // printf("$$$$$$$ this->associated.box.x :: %lf\n", this->click.x - midX);
+            // printf("$$$$$$$ this->associated.box.y :: %lf\n", this->click.y - midY);
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
                 this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
                 this->speed.x = this->speed.y * slopeInverse ;  // 
             }
             else {
                 this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                this->speed.y = this->speed.x * slope;  //                 
+                this->speed.y = this->speed.x * slope;
             }
+            // printf("SPEED.x : %lf\n",  this->speed.x);
+            // printf("SPEED.y : %lf\n",  this->speed.y);
+            this->associated.box.x += this->speed.x;
+            this->associated.box.y += this->speed.y;            
         }
-
-        // printf("My point!\n");
     }
     else {
+        if(IsFloatZero(this->associated.box.x) == 0 and IsFloatZero(this->associated.box.y) == 0) {
+            // printf("ALIEN ZERADO, PORRA!\n");
+            // abort();
+        }
         // printf("[Aien.Update] reached : %lf, %lf\n", this->associated.box.x, this->associated.box.y);
+        // printf("[Aien.Update] speed now is : %lf, %lf\n", this->speed.x, this->speed.y);
     }
     #pragma endregion
 
@@ -172,8 +192,9 @@ um tiro, ou direito para movimento. */
     }
     #pragma endregion
     // printf("END ALIEN UPDATE\n");fflush(stdout);
-    this->associated.box.x += this->speed.x;
-    this->associated.box.y += this->speed.y;
+    // printf("final position : %lf %lf\n", this->associated.box.x, this->associated.box.y);
+    // printf("META : %d %d\n", mouseX, mouseY);
+
 
 }
 void Alien::Render() {
@@ -196,11 +217,21 @@ void Alien::Start() {
 espaçados igualmente. Enquanto não tiver certeza que o Alien funciona como
 desejado, não faça nada aqui. */
     if(this->nMinions) {
+        weak_ptr<GameObject> self_weak = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+
         // add apenas um minion no momento (TESTE)
         // pegar versao weak de this->associated
-        shared_ptr
-        weak_ptr<GameObject> weakPtrOfAssociated = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+        // shared_ptr
+        GameObject * minionGO = new GameObject();
+        shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak, 90.0) );
+        shared_ptr<Sprite> minionSprite(new Sprite(*minionGO, "assets/img/minion.png"));
+        // TODO: chamar SetScale p/ redimentsionar imagem do minion
+        
 
+        weak_ptr<GameObject> minionWeakPtr = weak_ptr<GameObject>(shared_ptr<GameObject>(&this->associated));
+
+
+        this->minionArray.push_back( minionWeakPtr );
 
     }
 }

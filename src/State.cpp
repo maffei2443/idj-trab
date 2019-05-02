@@ -45,7 +45,7 @@ fundo e voilà! */
 	printf("emplaced alien\n");
   printf("HOW MANY GO : %lu\n", this->objectArray.size());
 	this->quitRequested = false;
-  this->music.Play(-1);
+  // this->music.Play(-1);
 }
 
 State::~State() {

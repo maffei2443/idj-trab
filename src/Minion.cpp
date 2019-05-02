@@ -33,4 +33,10 @@ bool Minion::Is(std::string){
 
 
 // t5
-void Shoot(Vec2);
+void Minion::Shoot(Vec2) {
+
+}
+
+void Minion::Start() {
+
+}
