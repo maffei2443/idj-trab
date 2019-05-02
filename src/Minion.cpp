@@ -7,11 +7,11 @@ using std::string;
 
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-float arc) : Component(associated) {
-    this->alienCenter = alienCenter.lock();
+float arc) : Component(associated), alienCenter(*alienCenter.lock().get()) {
+    // this->alienCenter = *alienCenter.lock();
 }
 
-~Minion::Minion () {
+Minion::~Minion () {
 
 }
 
@@ -28,8 +28,5 @@ bool Minion::Is(std::string){
 }
 
 
-const inline std::string GetType(){
-    return this->type;
-}
 // t5
 void Shoot(Vec2);
