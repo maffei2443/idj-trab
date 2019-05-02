@@ -9,15 +9,18 @@
 #include "Sprite.h"
 #include <memory>
 #include "Util.h"
+#include "Minion.h"
 
 using std::cout;
 using std::endl;
+using std::weak_ptr;
+using std::shared_ptr;
+
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
-hitspoints(Alien::HEALTH_POINTS){
-    (void)nMinions;
+hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
     new Sprite(this->associated, "assets/img/alien.png");
@@ -29,6 +32,7 @@ desvantagem. Consegue descobrir qual é? [DUVIDA] */
     this->associated.box.y = 300;
     this->associated.AddComponent(this);
     this->taskQueue = std::queue<Action*>();
+    this->nMinions = nMinions;
 }
 Alien::~Alien() {
     // Esvaziar o array com os minions.
@@ -156,7 +160,7 @@ um tiro, ou direito para movimento. */
         // printf("My point!\n");
     }
     else {
-        printf("reached : %lf, %lf\n", this->associated.box.x, this->associated.box.y);
+        // printf("[Aien.Update] reached : %lf, %lf\n", this->associated.box.x, this->associated.box.y);
     }
     #pragma endregion
 
@@ -191,4 +195,12 @@ void Alien::Start() {
     /* Devemos popular o array de Minions com alguns destes objetos,
 espaçados igualmente. Enquanto não tiver certeza que o Alien funciona como
 desejado, não faça nada aqui. */
+    if(this->nMinions) {
+        // add apenas um minion no momento (TESTE)
+        // pegar versao weak de this->associated
+        shared_ptr
+        weak_ptr<GameObject> weakPtrOfAssociated = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+
+
+    }
 }

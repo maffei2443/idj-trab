@@ -13,7 +13,7 @@ private:
   GameObject& alienCenter;  
 public:
     const string type = string("Minion");
-    Minion(GameObject&, weak_ptr<GameObject>, float);
+    Minion(GameObject&, weak_ptr<GameObject>, double);
     ~Minion();
     // herda de Component
     void Update(double);
