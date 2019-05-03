@@ -87,6 +87,7 @@ void Game::Run() {
   Em Game::Run, chame o Start do State logo antes do while. */
   InputManager* inputManager = &InputManager::GetInstance();
   this->state->Start();
+  // printf("STATE.START FINISHED \n");
   while (!this->state->QuitRequested()) {
 /* Agora, vamos integrar o InputManager ao programa. Acrescente uma
 chamada ao método Update em Game::Run(), logo antes da chamada ao

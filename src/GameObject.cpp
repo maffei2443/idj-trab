@@ -15,11 +15,14 @@ GameObject::~GameObject() {
 }
 
 void GameObject::Update(double dt) {
-    // cout << "GAMEOBJECT UPDATE" << endl;
+    cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
     for(auto& comp : this->components) {
-        // cout << "\ttype: " << comp->GetType() << ", addr: " << &comp << endl;
+        printf("WILL CALL comp->GetType() of ======> %p\n", comp);
+        cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
         comp->Update(dt);
     }
+    cout << "END GAMEOBJECT " << this <<  " UPDATE" << endl;
+
 }
 void GameObject::Render() {
     for(auto& comp : this->components) {
@@ -45,6 +48,7 @@ void GameObject::AddComponent(Component* cpt) {
     // BUG POSSIVEL
     // this->components.push_back(cpt);
     this->components.emplace_back(cpt);
+    cout << "[GameObject " << this << "] Emplaced ---> " << cpt->GetType() << endl;
 }
 
 void GameObject::RemoveComponent(Component * cpt) {
@@ -71,10 +75,11 @@ void GameObject::Start() {
     /* no Start percorrer os componentes chamando o Start
     deles, setando started;*/
     this->started = true;
-    printf("GameObject::Start\n");
+    printf("GameObject::Start %p\n", this);
     for(auto& i : this->components) {
         i->Start();
     }
+    printf("Started all of %p\n", this);
     /*  e depois chamando o Start dos componentes
     adicionados em AddComponent quando Start já tiver sido chamado.  */
     // POSSIVEL BUG [????] [DUVIDA]

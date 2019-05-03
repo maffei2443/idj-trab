@@ -186,27 +186,30 @@ bool Alien::Is(std::string type) {
 
 // t5
 void Alien::Start() {
-    printf("Alien.Start");
+    // printf("Alien.Start %p\n", this);
     this->started = true;
     /* Devemos popular o array de Minions com alguns destes objetos,
 espaçados igualmente. Enquanto não tiver certeza que o Alien funciona como
 desejado, não faça nada aqui. */
     if(this->nMinions) {
-        weak_ptr<GameObject> self_weak = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+        weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
 
         // add apenas um minion no momento (TESTE)
         // pegar versao weak de this->associated
         // shared_ptr
         GameObject * minionGO = new GameObject();
-        shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak, 90.0) );
+        // shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak_GO, 90.0) );
+        new Minion(*minionGO, self_weak_GO, 90.0);
         // shared_ptr<Sprite> minionSprite(new Sprite(*minionGO, "assets/img/minion.png"));
         // TODO: chamar SetScale p/ redimentsionar imagem do minion
         
 
-        weak_ptr<GameObject> minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
+        weak_ptr<GameObject> minionWeakPtr;
+        minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
 
 
         this->minionArray.push_back( minionWeakPtr );
 
     }
+    printf("Alien.Start END %p\n", this);
 }

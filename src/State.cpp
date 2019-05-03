@@ -21,7 +21,9 @@
 #include "Camera.h"
 #include "CameraFollower.h"
 #include "Alien.h"
+#include "Util.h"
 
+using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * bg = new GameObject;
   new Sprite( *bg, "assets/img/ocean.jpg" );
@@ -36,12 +38,15 @@ fundo e voilà! */
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
 	this->objectArray.emplace_back( bg );
+	printf("Added >>>>>>>>>> %p\n", bg);
 	printf("emplaced background\n");
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
 	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
+	printf("Added >>>>>>>>>> %p\n", AlienGO);
+
 	printf("emplaced alien\n");
   printf("HOW MANY GO : %lu\n", this->objectArray.size());
 	this->quitRequested = false;
@@ -101,10 +106,11 @@ void State::Update(double dt) {
 
 	for(auto& GO : this->objectArray) {
 		// std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
+		printf("State.Update %p\n", GO.get());
 		GO->Update(dt);
 	}
 	// abort();
-
+	ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
 			if((**it).IsDead()) {
@@ -163,7 +169,8 @@ void State::AddObject(int mouseX, int mouseY) {
   enemy->AddComponent(sprite);
   enemy->AddComponent(enemySound);
   enemy->AddComponent(enemyFace);
-  
+	
+	
 	this->objectArray.emplace_back( enemy );
 }
 

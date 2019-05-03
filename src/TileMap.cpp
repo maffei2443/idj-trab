@@ -7,7 +7,7 @@
 #include <vector>
 #include <cstdio>
 #include <fstream>
-#define ERR std::cerr
+#include "Util.h"
 // TileMap simula uma matriz tridimensional, representando
 // nosso mapa e suas diversas camadas. Essa matriz contém, em cada
 // posição, um índice de tile no TileSet.
