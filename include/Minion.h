@@ -10,7 +10,9 @@ using std::string;
 class Minion : public Component {
 private:
   double arc;
-  GameObject& alienCenter;  
+  // GameObject& alienCenter;  
+  // TESTE
+  std::weak_ptr<GameObject> alienCenter;
 public:
     const string type = string("Minion");
     Minion(GameObject&, weak_ptr<GameObject>, double);

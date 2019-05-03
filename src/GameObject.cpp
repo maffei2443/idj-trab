@@ -71,6 +71,7 @@ void GameObject::Start() {
     /* no Start percorrer os componentes chamando o Start
     deles, setando started;*/
     this->started = true;
+    printf("GameObject::Start\n");
     for(auto& i : this->components) {
         i->Start();
     }

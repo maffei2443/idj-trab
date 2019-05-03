@@ -177,11 +177,14 @@ void State::LoadAssets() {
 
 // t5
 void State::Start() {
-	/* Em State::Start você deve chamar LoadAssets e depois deve percorrer
-o objectArray chamando o Start de todos eles. Ao final, coloque true em
-started. */
+// 	Em State::Start você deve chamar LoadAssets e depois deve percorrer
+// o objectArray chamando o Start de todos eles. Ao final, coloque true em
+// started.
 	this->LoadAssets();
-	this->started = true;
+	this->started = true;;
+	for(auto& i : this->objectArray) {
+		i.get()->Start();
+	}
 }
 
 // t5

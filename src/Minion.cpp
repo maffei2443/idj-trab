@@ -8,10 +8,12 @@ using std::string;
 
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-    double arcOffsetDeg) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
+    double arcOffsetDeg) : arc(arcOffsetDeg),Component(associated) {
+    this->alienCenter = alienCenter;
     new Sprite(this->associated, "assets/img/minion.png");
     this->associated.box.x = 100;
     this->associated.box.y = 100;
+    printf("Minion EXISTS\n");
 }
 
 Minion::~Minion () {
@@ -28,7 +30,7 @@ void Minion::Render(){
 }
 
 bool Minion::Is(std::string){ 
-
+    return type == "Minion";
 }
 
 
