@@ -113,7 +113,7 @@ bool Sprite::IsOpen() {
 
 void Sprite::Update(double dt) {
   (void)dt;
-  printf("\tSprite UPDATE OK\n");
+  // printf("\tSprite UPDATE OK\n");
 }
 
 bool Sprite::Is(std::string type) {

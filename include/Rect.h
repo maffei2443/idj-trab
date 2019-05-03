@@ -6,6 +6,7 @@
 class Rect{
 public:
     double x, y, w, h;
+    Vec2 center;
     Rect(double x = 0, double y = 0, double w = 0, double h = 0);
     bool Contains(const Vec2&);
     bool Contains(const int&, const int&);

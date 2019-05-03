@@ -1,7 +1,10 @@
 #include "Rect.h"
 #include "Vec2.h"
 #include <cstdio>
-Rect::Rect(double x, double y, double w, double h) : x(x), y(y), w(w), h(h){};
+Rect::Rect(double x, double y, double w, double h) : x(x), y(y), w(w), h(h){
+    this->center.x = (x+w)/2;
+    this->center.y = (y+h)/2;
+};
 
 bool Rect::Contains(const Vec2& point) {
     // //////printf("x,y ==> %f, %f\n", this->x, this->y);

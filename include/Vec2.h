@@ -17,17 +17,26 @@ public:
     Vec2 operator*(const Vec2&) const;
     Vec2 operator/(const Vec2&) const;
 
+    void operator+=(const Vec2&);
+    void operator-=(const Vec2&);
+    void operator*=(const Vec2&);
+    void operator/=(const Vec2&);
+
     Vec2 operator+(const int&) const;
     Vec2 operator-(const int&) const;
     Vec2 operator*(const int&) const;
     Vec2 operator/(const int&) const;
 
+    void operator+=(const int&);
+    void operator-=(const int&);
+    void operator*=(const int&);
+    void operator/=(const int&);
 
     double abs();
     Vec2 unitary();
     double dist(const Vec2&) const;
     double xAxisSlope() const;
-    void rotate(const double& degree);
+    void rotate(double degree, double offX=0, double offY=0);
     Vec2 GetRotated(const double& degree);
     // add rect and vet2
     // distancia dentro de rects

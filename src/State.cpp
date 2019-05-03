@@ -106,11 +106,11 @@ void State::Update(double dt) {
 
 	for(auto& GO : this->objectArray) {
 		// std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
-		printf("State.Update %p\n", GO.get());
+		// printf("State.Update %p\n", GO.get());
 		GO->Update(dt);
 	}
 	// abort();
-	ERR << "Checking for dead... " << endl;
+	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
 			if((**it).IsDead()) {

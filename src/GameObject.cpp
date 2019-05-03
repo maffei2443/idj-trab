@@ -15,13 +15,13 @@ GameObject::~GameObject() {
 }
 
 void GameObject::Update(double dt) {
-    cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
+    // cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
     for(auto& comp : this->components) {
-        printf("WILL CALL comp->GetType() of ======> %p\n", comp);
-        cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
+        // printf("WILL CALL comp->GetType() of ======> %p\n", comp);
+        // cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
         comp->Update(dt);
     }
-    cout << "END GAMEOBJECT " << this <<  " UPDATE" << endl;
+    // cout << "END GAMEOBJECT " << this <<  " UPDATE" << endl;
 
 }
 void GameObject::Render() {

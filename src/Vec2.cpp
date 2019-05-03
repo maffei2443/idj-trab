@@ -8,7 +8,7 @@
 
 Vec2::Vec2() : x(0), y(0){}
 Vec2::Vec2(double x, double y) : x(x), y(y){}
-
+Vec2::Vec2(const Vec2& vet):x(vet.x), y(vet.y){}
 // Operações elementares entre vetores
 
 Vec2 Vec2::operator+(const Vec2& toAdd) const{
@@ -20,25 +20,60 @@ Vec2 Vec2::operator-(const Vec2& toSub) const{
 Vec2 Vec2::operator*(const Vec2& toMul) const{
     return {this->x * toMul.x, this->y * toMul.y};
 }
-
 Vec2 Vec2::operator/(const Vec2& toSub) const{
     return {this->x / toSub.x, this->y / toSub.y};
 }
+
+void Vec2::operator+=(const Vec2& toAdd){
+    this->x += toAdd.x;
+    this->y += toAdd.y;
+}
+void Vec2::operator-=(const Vec2& toAdd){
+    this->x -= toAdd.x;
+    this->y -= toAdd.y;
+}
+void Vec2::operator*=(const Vec2& toAdd){
+    this->x *= toAdd.x;
+    this->y *= toAdd.y;
+}
+void Vec2::operator/=(const Vec2& toAdd){
+    this->x /= toAdd.x;
+    this->y /= toAdd.y;
+}
+
 // 
 
 // Operação <vetor> & escalar
-Vec2 Vec2::operator*(const int& scalar) const{
-    return {this->x  * scalar, this->y  * scalar};
-}
-Vec2 Vec2::operator/(const int& scalar) const{
-    return {this->x  / scalar, this->y  / scalar};
-}
 Vec2 Vec2::operator+(const int& scalar) const{
     return {this->x  + scalar, this->y  + scalar};
 }
 Vec2 Vec2::operator-(const int& scalar) const{
     return {this->x  - scalar, this->y  - scalar};
 }
+Vec2 Vec2::operator*(const int& scalar) const{
+    return {this->x  * scalar, this->y  * scalar};
+}
+Vec2 Vec2::operator/(const int& scalar) const{
+    return {this->x  / scalar, this->y  / scalar};
+}
+
+void Vec2::operator+=(const int& scalar){
+    this->x += scalar;
+    this->y += scalar;
+}
+void Vec2::operator-=(const int& scalar){
+    this->x -= scalar;
+    this->y -= scalar;
+}
+void Vec2::operator*=(const int& scalar){
+    this->x *= scalar;
+    this->y *= scalar;
+}
+void Vec2::operator/=(const int& scalar){
+    this->x /= scalar;
+    this->y /= scalar;
+}
+
 
 double Vec2::abs() {
     return sqrt(this->x*this->x + this->y*this->y);
@@ -59,12 +94,14 @@ double Vec2::xAxisSlope() const{
     return atan2(this->y, this->x);
 }
 
-void Vec2::rotate(const double& degree) {
+void Vec2::rotate(double degree,  double offX=0,  double offY=0) {
     const double radian = degree * DEG2RAD;
-    auto xOld = this->x;
-    auto yOld = this->y;
-    this->x = xOld * cos(radian) - yOld * sin(radian);
-    this->y = yOld * cos(radian) + xOld * sin(radian);
+    auto xOld = this->x-offX;
+    auto yOld = this->y-offY;
+    double coss = cos(radian);
+    double sen = sin(radian);
+    this->x = xOld * coss - yOld * sen + offX;
+    this->y = yOld * coss + xOld * sen + offY;
 }
 
 Vec2 Vec2::GetRotated(const double& degree) {
