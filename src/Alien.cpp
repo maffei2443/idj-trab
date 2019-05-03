@@ -21,7 +21,7 @@ static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
-hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
+hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions), speed(new Vec2(0,0)){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
     new Sprite(this->associated, "assets/img/alien.png");
@@ -38,6 +38,7 @@ desvantagem. Consegue descobrir qual é? [DUVIDA] */
 Alien::~Alien() {
     // Esvaziar o array com os minions.
     this->minionArray.clear();
+    delete this->speed;
 }
 
 
@@ -54,18 +55,18 @@ um tiro, ou direito para movimento. */
             case Action::ActionType::SHOOT:{
                 // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
                 // Precisamos implementar mais algumas coisas antes.
-                this->speed = {0, 0};
+                this->speed= new Vec2(0, 0);
                 this->click.targetX = this->click.targetY = false;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                this->associated.box.x = action->pos.x - AlienSprite->GetWidth()/2;
-                this->associated.box.y = action->pos.y - AlienSprite->GetHeight()/2;
+                this->associated.box.x = action->pos->x - AlienSprite->GetWidth()/2;
+                this->associated.box.y = action->pos->y - AlienSprite->GetHeight()/2;
 
                 break;}
             case Action::ActionType::MOVE:{
                 this->click.targetX = true;
                 this->click.targetY = true;
-                this->click.x = action->pos.x;
-                this->click.y = action->pos.y;
+                this->click.x = action->pos->x;
+                this->click.y = action->pos->y;
                 printf("META DO ALIEN : %d, %d\n", this->click.x, this->click.y);
                 // abort();
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
@@ -82,12 +83,12 @@ um tiro, ou direito para movimento. */
                 double slopeInverse = deltaX / deltaY;
 
                 if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                    this->speed.y = (deltaY > 0 ? VEL : -VEL);
-                    this->speed.x = this->speed.y * slopeInverse ;  // 
+                    this->speed->y = (deltaY > 0 ? VEL : -VEL);
+                    this->speed->x = this->speed->y * slopeInverse ;  // 
                 }
                 else {
-                    this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                    this->speed.y = this->speed.x * slope;  //                 
+                    this->speed->x = (deltaX > 0 ? VEL : -VEL);
+                    this->speed->y = this->speed->x * slope;  //                 
                 }
                 break;
             }
@@ -137,7 +138,7 @@ um tiro, ou direito para movimento. */
         // TODO  encontrar forma melhor, 
         // que nao multiplicando por um booleano
         if (IsFloatZero(absDeltaX) or IsFloatZero(absDeltaY)) {
-            this->speed.x = this->speed.y = 0;
+            this->speed->x = this->speed->y = 0;
             this->click.targetX = this->click.targetY = false;
 
             this->associated.box.x = this->click.x - ((double)AlienSprite->GetWidth())/2;
@@ -145,15 +146,15 @@ um tiro, ou direito para movimento. */
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
-                this->speed.x = this->speed.y * slopeInverse ;  // 
+                this->speed->y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
+                this->speed->x = this->speed->y * slopeInverse ;  // 
             }
             else {
-                this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                this->speed.y = this->speed.x * slope;
+                this->speed->x = (deltaX > 0 ? VEL : -VEL);
+                this->speed->y = this->speed->x * slope;
             }
-            this->associated.box.x += this->speed.x;
-            this->associated.box.y += this->speed.y;            
+            this->associated.box.x += this->speed->x;
+            this->associated.box.y += this->speed->y;            
         }
     }
     #pragma endregion

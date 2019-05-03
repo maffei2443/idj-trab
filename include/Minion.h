@@ -15,7 +15,9 @@ using std::string;
 class Minion : public Component {
 private:
   double arc;
-  GameObject& alienCenter;  
+  GameObject& alienCenter;
+  int restoreX;
+  int restoreY;
   // TESTE FUNCIONA
   // std::weak_ptr<GameObject> alienCenter;
 public:
