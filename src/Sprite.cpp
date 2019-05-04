@@ -57,9 +57,8 @@ void Sprite::Render() {
   // //////printf("Render sprite of type |---> ...\n");
   // this->associated.box.x += Camera::speed.x;
   // this->associated.box.y += Camera::speed.y;
-  int x = this->associated.box.x + Camera::speed.x;
-  int y = this->associated.box.y + Camera::speed.y;
-  this->Render(x, y);  
+
+  this->Render(this->associated.box.x, this->associated.box.y);  
 }
 
 void Sprite::Open(std::string file) {
@@ -112,6 +111,8 @@ bool Sprite::IsOpen() {
 
 void Sprite::Update(float dt) {
   (void)dt;
+  int x = this->associated.box.x + Camera::speed.x*dt;
+  int y = this->associated.box.y + Camera::speed.y*dt;  
 }
 
 bool Sprite::Is(std::string type) {

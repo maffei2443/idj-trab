@@ -51,8 +51,8 @@ void Face:: Update(float dt) {
     //     }
 	// }
 
-    this->associated.box.x += Camera::speed.x;
-    this->associated.box.y += Camera::speed.y;
+    this->associated.box.x += Camera::speed.x*dt;
+    this->associated.box.y += Camera::speed.y*dt;
 
 }
 void Face:: Render() {

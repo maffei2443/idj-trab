@@ -50,12 +50,10 @@ void Camera::Update(float dt) {
         SETAMOS A VELOCIDADE DA CÂMERA DE ACORDO COM DT E COM AS
         TECLAS PRESSIONADAS, E SOMAMOS À POSIÇÃO */
 
-        // TODO: pegar, do inputManager, quais (wasd) tecla está pressionada.
-        // e setar velocidade conforme tais fatos.
         float horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
         float verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
         Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
-        Camera::pos = Camera::pos + (Camera::speed/* *dt */);
+        Camera::pos = Camera::pos + (Camera::speed*dt);
     }
     
 }
