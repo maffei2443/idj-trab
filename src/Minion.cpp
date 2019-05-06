@@ -40,9 +40,9 @@ void Minion::Update(double dt) {
     );
     // Vec2 newMinionPos = Vec2(this->associated.box.x, this->associated.box.y);
 
-    // newMinionPos /= 10;
     newMinionPos.rotate( 0.07 );
-    double di = 1;
+    // newMinionPos /= 5;
+    // double di = 1;
     // newMinionPos.x = newMinionPos.x/di ;
     // newMinionPos.y = newMinionPos.y/di ;
 

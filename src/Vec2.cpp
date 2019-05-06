@@ -94,7 +94,7 @@ double Vec2::xAxisSlope() const{
     return atan2(this->y, this->x);
 }
 
-void Vec2::rotate(double degree,  double offX=0,  double offY=0) {
+void Vec2::rotate(double degree,  double offX,  double offY) {
     const double radian = degree * DEG2RAD;
     auto xOld = this->x-offX;
     auto yOld = this->y-offY;

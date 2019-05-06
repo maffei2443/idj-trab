@@ -75,8 +75,6 @@ bool InputManager::KeyPress(int key) {
   if(state == true and (counter-1 == this->keyUpdate[key] || counter == this->keyUpdate[key])) {
       return true;
   }
-  else
-    ;// printf("Key %d is NOT pressed\n", key);
   return false;
 }
 

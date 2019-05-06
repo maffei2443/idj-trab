@@ -2,6 +2,6 @@
 
 Action::Action(ActionType actionType, int x, int y) {
     this->type = actionType;
-    this->pos = {x, y};
+    this->pos = {(double)x, (double)y};
 }
 

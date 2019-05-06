@@ -29,8 +29,9 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
 GameObjects também, como veremos abaixo) para o construtor reduz o
 tamanho e simplifica o construtor do state mas possui, na nossa engine, uma
 desvantagem. Consegue descobrir qual é? [DUVIDA] */
-    this->associated.box.x = 512;
-    this->associated.box.y = 300;
+    // this->associated.box.x = 512;
+    // this->associated.box.y = 300;
+    this->associated.box.SetXY(512, 300);
     this->associated.AddComponent(this);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
@@ -57,8 +58,11 @@ um tiro, ou direito para movimento. */
                 this->speed = {0, 0};
                 this->click.targetX = this->click.targetY = false;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                this->associated.box.x = action->pos.x - AlienSprite->GetWidth()/2;
-                this->associated.box.y = action->pos.y - AlienSprite->GetHeight()/2;
+                // this->associated.box.x = ;
+                // this->associated.box.y = ;
+                this->associated.box.SetXY(
+                    action->pos.x - AlienSprite->GetWidth()/2,
+                    action->pos.y - AlienSprite->GetHeight()/2);
 
                 break;}
             case Action::ActionType::MOVE:{
@@ -140,8 +144,11 @@ um tiro, ou direito para movimento. */
             this->speed.x = this->speed.y = 0;
             this->click.targetX = this->click.targetY = false;
 
-            this->associated.box.x = this->click.x - ((double)AlienSprite->GetWidth())/2;
-            this->associated.box.y = this->click.y - ((double)AlienSprite->GetHeight())/2;
+            // this->associated.box.x = this->click.x - ((double)AlienSprite->GetWidth())/2;
+            // this->associated.box.y = this->click.y - ((double)AlienSprite->GetHeight())/2;
+            this->associated.box.SetXY(
+                this->click.x - ((double)AlienSprite->GetWidth())/2,
+                this->click.y - ((double)AlienSprite->GetHeight())/2);
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
@@ -152,8 +159,9 @@ um tiro, ou direito para movimento. */
                 this->speed.x = (deltaX > 0 ? VEL : -VEL);
                 this->speed.y = this->speed.x * slope;
             }
-            this->associated.box.x += this->speed.x;
-            this->associated.box.y += this->speed.y;            
+            this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
+            // this->associated.box.x += this->speed.x;
+            // this->associated.box.y += this->speed.y;            
         }
     }
     #pragma endregion
