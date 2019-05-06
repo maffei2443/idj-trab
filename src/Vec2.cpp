@@ -7,10 +7,8 @@
 // }
 
 Vec2::Vec2() : x(0), y(0){}
-Vec2::Vec2(double x, double y) : x(x), y(y){
-    this->center = (x + y)/2;
-}
-Vec2::Vec2(const Vec2& vet):x(vet.x), y(vet.y), center(vet.center){}
+Vec2::Vec2(double x, double y) : x(x), y(y){}
+Vec2::Vec2(const Vec2& vet):x(vet.x), y(vet.y){}
 // Operações elementares entre vetores
 
 Vec2 Vec2::operator+(const Vec2& toAdd) const{

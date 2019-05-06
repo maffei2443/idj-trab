@@ -6,11 +6,10 @@
 class Vec2 {
 private:
     double norm;
-    Vec2();
 public:
     static double lineSlope(const Vec2&, const Vec2&);
     double x, y;
-    double center;
+    Vec2();
     Vec2(double, double);
     Vec2(const Vec2&);
     Vec2 operator+(const Vec2&) const;

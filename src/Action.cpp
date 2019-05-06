@@ -2,8 +2,6 @@
 
 Action::Action(ActionType actionType, int x, int y) {
     this->type = actionType;
-    this->pos = new Vec2(x, y);
+    this->pos = {x, y};
 }
-Action::~Action() {
-    delete this->pos;
-}
+

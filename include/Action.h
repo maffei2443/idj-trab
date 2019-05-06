@@ -6,9 +6,8 @@ class Action {
     public:
         enum ActionType {MOVE=0, SHOOT};
         ActionType type;
-        Vec2 * pos;
+        Vec2 pos;
         Action(ActionType, int, int);
-        Action::~Action();
 };
 
 

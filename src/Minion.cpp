@@ -15,7 +15,6 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     new Sprite(this->associated, "assets/img/minion.png");
     this->associated.box.x = this->alienCenter.box.x;
     this->associated.box.y = this->alienCenter.box.y;
-    this->associated.box.center = this->alienCenter.box.center;
     
     // printf("MINION X,Y %lf %lf\n", this->alienCenter.box.x, this->alienCenter.box.y);
     
@@ -35,20 +34,26 @@ void Minion::Update(double dt) {
 
     Vec2 centerOfAlien = this->alienCenter.box.center;
 
-    // Vec2 newMinionPos(
-    //     (this->associated.box.x - centerOfAlien.x),
-    //     (this->associated.box.y - centerOfAlien.y)
-    // );
-    Vec2 newMinionPos = Vec2(this->associated.box.x, this->associated.box.y);
+    Vec2 newMinionPos(
+        (this->associated.box.x - centerOfAlien.x),
+        (this->associated.box.y - centerOfAlien.y)
+    );
+    // Vec2 newMinionPos = Vec2(this->associated.box.x, this->associated.box.y);
+
     // newMinionPos /= 10;
-    newMinionPos.rotate( 0.01 );
-    // newMinionPos.x = newMinionPos.x - 0.01;
-    // newMinionPos.y = newMinionPos.y - 0.01;
+    newMinionPos.rotate( 0.07 );
+    double di = 1;
+    // newMinionPos.x = newMinionPos.x/di ;
+    // newMinionPos.y = newMinionPos.y/di ;
 
-    printf("alien center : x, y = %lf, %lf\n", centerOfAlien.x, centerOfAlien.y);
-    this->associated.box.x = newMinionPos.x + 100000*centerOfAlien.x;
 
-    this->associated.box.y = newMinionPos.y + 1000*centerOfAlien.y;
+    this->associated.box.x = (newMinionPos.x + centerOfAlien.x);
+    printf("this->associated.box.x ------------ %lf\n", this->associated.box.x);
+    // this->associated.box.x /= 2;
+    printf("this->associated.box.x/2 ------------ %lf\n", this->associated.box.x/2);
+
+    this->associated.box.y = (newMinionPos.y + centerOfAlien.y);
+    printf("this->associated.box.y ------------ %lf\n", this->associated.box.y);
 
     // Vec2 newMinionPos(this->associated.box.x, this->associated.box.y);
 

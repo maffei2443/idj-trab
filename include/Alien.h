@@ -21,7 +21,7 @@ private:
     const static int HEALTH_POINTS = 30;
     int hitspoints;
     // t5
-    Vec2* speed = new Vec2(0,0);
+    Vec2 speed;
     int hp;
     int nMinions;
     queue<Action*> taskQueue;
