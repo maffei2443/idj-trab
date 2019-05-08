@@ -1,7 +1,10 @@
 #include "Vec2.h"
 #include <cmath>
 #define PI M_PI
-
+#include <iostream>
+using std::cout;
+using std::endl;
+using std::ostream;
 // static double lineSlope(const Vec2& va, const Vec2& vb) {
 //     return ( (va.x - vb.x)/(va.y - vb.y) );
 // }
@@ -108,4 +111,8 @@ Vec2 Vec2::GetRotated(const double& degree) {
     Vec2 toRotate(this->x, this->y);
     toRotate.rotate(degree);
     return toRotate;
+}
+std::ostream & operator << (std::ostream &out, const Vec2 &vec) {
+    out << "(x,y) == (" << vec.x << ", " << vec.y << ")\n";
+    return out;
 }

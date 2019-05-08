@@ -1,5 +1,7 @@
 #ifndef VEC2_H
 #define VEC2_H
+#include <iostream>
+using std::ostream;
 
 #define RAD2DEG (180 / M_PI)
 #define DEG2RAD (M_PI / 180)
@@ -42,5 +44,7 @@ public:
     // distancia dentro de rects
     // 4 operações elementares
 };
+
+ostream & operator << (ostream &, const Vec2 &);
 
 #endif

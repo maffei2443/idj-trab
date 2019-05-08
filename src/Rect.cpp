@@ -1,10 +1,16 @@
 #include "Rect.h"
 #include "Vec2.h"
 #include <cstdio>
+#include <iostream>
+using std::cout;
+using std::endl;
+
 void Rect::UpdateCenter() {
     this->center.x = (this->x+this->w)/2;
     this->center.y = (this->y+this->h)/2;
 }
+
+
 
 Rect::Rect(double x, double y, double w, double h) : _x(x), _y(y), _w(w), _h(h){
     this->UpdateCenter();
@@ -40,6 +46,11 @@ void Rect::SetH(double h) {
     this->h = h;
     this->UpdateCenter();
 }
+void Rect::SetWH(double w, double h) {
+    this->w = w;
+    this->h = h;
+    this->UpdateCenter();
+}
 void Rect::SetXY(double x, double y) {
     this->x = x; this->y = y;
     this->UpdateCenter();
@@ -56,4 +67,117 @@ bool Rect::Contains(const Vec2& point) {
 bool Rect::Contains(const int&x , const int& y) {
     Vec2 point(x,y);
     return this->Contains(point);
+}
+
+void Rect::AddXY(double _x, double _y) {
+    this->SetXY(this->x+_x, this->y+_y);
+}
+
+void Rect::AddX(double _x) {
+    this->SetX(this->x+_x);
+}
+
+void Rect::AddY(double _y) {
+    this->SetY(this->y+_y);
+}
+
+
+void Rect::AddW(double _w) {
+    this->SetW(this->w+_w);
+}
+
+void Rect::AddH(double _h) {
+    this->SetH(this->h+_h);
+}
+void Rect::AddWH(double _w, double _h) {
+    this->SetWH(this->w+_w, this->h+_h);
+}
+
+void Rect::Add(double x, double y, double w, double h) {
+    this->x += x; this->y += y; this->w += w; this->h +=h;
+    this->UpdateCenter();
+}
+
+void Rect::AddXYWH(double x, double y, double w, double h) {
+    this->Add(x,y,w,h);
+}
+
+void Rect::Add(double add) {
+    this->x += add; this->y += add; this->w += add; this->h +=add;
+    this->UpdateCenter();
+}
+
+
+std::ostream & operator << (std::ostream &out, const Rect &ret) {
+    out << "(x, y) == (" << ret.x << ", " << ret.y << ")\n";
+    out << "Center: " << ret.center;
+    out << "(x,y) == (" << ret.x << ", " << ret.y << ")\n";
+    return out;
+}
+
+
+Rect Rect::operator+(const Rect& toAdd) const{
+
+    return *this + toAdd;
+}
+Rect Rect::operator-(const Rect& toSub) const{
+    return {this->x - toSub.x, this->y - toSub.y};
+}
+Rect Rect::operator*(const Rect& toMul) const{
+    return {this->x * toMul.x, this->y * toMul.y};
+}
+Rect Rect::operator/(const Rect& toSub) const{
+    return {this->x / toSub.x, this->y / toSub.y};
+}
+
+void Rect::operator+=(const Rect& toAdd){
+    this->x += toAdd.x;
+    this->y += toAdd.y;
+}
+void Rect::operator-=(const Rect& toAdd){
+    this->x -= toAdd.x;
+    this->y -= toAdd.y;
+}
+void Rect::operator*=(const Rect& toAdd){
+    this->x *= toAdd.x;
+    this->y *= toAdd.y;
+}
+void Rect::operator/=(const Rect& toAdd){
+    this->x /= toAdd.x;
+    this->y /= toAdd.y;
+}
+
+// 
+
+// Operação <vetor> & escalar
+Rect Rect::operator+(const int& scalar) const{
+    Rect neo(*this);
+    neo.Add(scalar);
+    return neo;
+}
+Rect Rect::operator-(const int& scalar) const{
+    return {this->x  - scalar, this->y  - scalar};
+}
+Rect Rect::operator*(const int& scalar) const{
+    return {this->x  * scalar, this->y  * scalar};
+}
+Rect Rect::operator/(const int& scalar) const{
+    return {this->x  / scalar, this->y  / scalar};
+}
+
+void Rect::operator+=(const int& scalar){
+    this->x += scalar;
+    this->y += scalar;
+}
+void Rect::operator-=(const int& scalar){
+    this->x -= scalar;
+    this->y -= scalar;
+}
+void Rect::operator*=(const int& scalar){
+    this->x *= scalar;
+    this->y *= scalar;
+}
+void Rect::operator/=(const int& scalar){
+    this->x /= scalar;
+    this->y /= scalar;
 }
