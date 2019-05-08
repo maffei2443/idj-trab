@@ -14,7 +14,13 @@ void Rect::UpdateCenter() {
 
 Rect::Rect(double x, double y, double w, double h) : _x(x), _y(y), _w(w), _h(h){
     this->UpdateCenter();
-};
+}
+
+Rect::Rect(const Vec2& vec) {
+    this->x = vec.x;    this->y = vec.y;
+    this->w = 0;    this->h = 0;
+    this->UpdateCenter();
+}
 
 void Rect::SetXYWH(double x, double y, double w, double h) {
     this->x = x;
@@ -54,6 +60,9 @@ void Rect::SetWH(double w, double h) {
 void Rect::SetXY(double x, double y) {
     this->x = x; this->y = y;
     this->UpdateCenter();
+}
+void Rect::SetXY(const Vec2& vec) {
+    this->SetXY(vec.x, vec.y);
 }
 
 
@@ -117,11 +126,18 @@ std::ostream & operator << (std::ostream &out, const Rect &ret) {
 
 
 Rect Rect::operator+(const Rect& toAdd) const{
-
     return *this + toAdd;
 }
+Vec2 Rect::operator+(const Vec2& toAdd) const{
+    return Vec2( this->x+toAdd.x, this->y+toAdd.y );
+}
+
 Rect Rect::operator-(const Rect& toSub) const{
-    return {this->x - toSub.x, this->y - toSub.y};
+    return {this->x - toSub.x, this->y - toSub.y,
+            this->w-toSub.w, this->h-toSub.h};
+}
+Vec2 Rect::operator-(const Vec2& toSub) const{
+    return Vec2( this->x-toSub.x, this->y-toSub.y );
 }
 Rect Rect::operator*(const Rect& toMul) const{
     return {this->x * toMul.x, this->y * toMul.y};
@@ -180,4 +196,7 @@ void Rect::operator*=(const int& scalar){
 void Rect::operator/=(const int& scalar){
     this->x /= scalar;
     this->y /= scalar;
+}
+Rect::operator Vec2() {
+    return Vec2(this->x, this->y);
 }

@@ -16,8 +16,7 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     
     // this->associated.box.SetXY(this->alienCenter.box.x, this->alienCenter.box.y);
     int x = 40;
-    this->associated.box.SetXY(x+this->alienCenter.box.x
-                            , x+this->alienCenter.box.y);
+    this->associated.box.SetXY( Vec2(this->alienCenter.box + Vec2(60, 0)) ) ;
     // printf("MINION X,Y %lf %lf\n", this->alienCenter.box.x, this->alienCenter.box.y);
     
     cout << "Minion.associated --> " << &this->associated << endl;
@@ -35,11 +34,11 @@ void Minion::Update(double dt) {
     // printf("[Minion.Update] %p\n", this);
     Vec2 centerOfAlien = this->alienCenter.box.center;
 
-    Vec2 pos = {this->associated.box.x - this->alienCenter.box.x
-                , this->associated.box.y - this->alienCenter.box.y};
+    // Vec2 pos = {this->associated.box.x - this->alienCenter.box.x
+    //             , this->associated.box.y - this->alienCenter.box.y};
+    Vec2 pos = Vec2(this->associated.box - this->alienCenter.box);  // METODO ESTAH BUGADO
     pos.rotate(0.07);
-    pos.x += this->alienCenter.box.x;
-    pos.y += this->alienCenter.box.y;
+    pos = this->alienCenter.box + pos;
     cout << "Alien Center: " << this->alienCenter.box.center << endl;
     this->associated.box.SetXY(pos.x, pos.y);
     // printf("this->associated.box.x ------------ %lf\n", this->associated.box.x);

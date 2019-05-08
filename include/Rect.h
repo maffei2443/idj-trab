@@ -15,12 +15,14 @@ public:
     double x, y, w, h;
     Vec2 center;
     Rect(double x = 0, double y = 0, double w = 0, double h = 0);
+    Rect(const Vec2& vec);
     void SetX(double);
     void SetY(double);
     void SetW(double);
     void SetH(double);
     void SetWH(double, double);
     void SetXY(double, double);
+    void SetXY(const Vec2&);
     void SetXWH (double x, double w = -1, double h = -1);
     void SetYWH (double y, double w = -1, double h = -1);
     void SetXYWH (double x, double y, double w = -1, double h = -1);
@@ -37,7 +39,9 @@ public:
     bool Contains(const int&, const int&);
 
     Rect operator+(const Rect&) const;
+    Vec2 operator+(const Vec2& toAdd) const;
     Rect operator-(const Rect&) const;
+    Vec2 operator-(const Vec2& toAdd) const;
     Rect operator*(const Rect&) const;
     Rect operator/(const Rect&) const;
 
@@ -55,6 +59,8 @@ public:
     void operator-=(const int&);
     void operator*=(const int&);
     void operator/=(const int&);
+
+    operator Vec2();
 
 };
 std::ostream & operator << (std::ostream &, const Rect &);
