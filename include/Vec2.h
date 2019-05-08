@@ -33,7 +33,7 @@ public:
     void operator-=(const int&);
     void operator*=(const int&);
     void operator/=(const int&);
-
+    bool operator==(const Vec2& vec);
     double abs();
     Vec2 unitary();
     double dist(const Vec2&) const;

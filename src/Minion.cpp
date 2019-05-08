@@ -34,9 +34,16 @@ void Minion::Update(double dt) {
     // printf("[Minion.Update] %p\n", this);
     Vec2 centerOfAlien = this->alienCenter.box.center;
 
-    // Vec2 pos = {this->associated.box.x - this->alienCenter.box.x
-    //             , this->associated.box.y - this->alienCenter.box.y};
-    Vec2 pos = Vec2(this->associated.box - this->alienCenter.box);  // METODO ESTAH BUGADO
+    Vec2 pos = {this->associated.box.x - this->alienCenter.box.x
+                , this->associated.box.y - this->alienCenter.box.y};
+    Rect t = Vec2(this->associated.box - this->alienCenter.box);
+    cout << "pos == t ? " << (pos == t) << endl;
+    // cout << "RECT_ERRADAO >>>>>>>>> " << t << endl;
+    Vec2 pos_errado = Vec2(t);  // METODO FUNCIONAA
+    
+    cout << "Certo: " << pos << endl;
+    cout << "Errado: " << pos_errado << endl;
+
     pos.rotate(0.07);
     pos = this->alienCenter.box + pos;
     cout << "Alien Center: " << this->alienCenter.box.center << endl;

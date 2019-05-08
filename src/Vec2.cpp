@@ -77,6 +77,10 @@ void Vec2::operator/=(const int& scalar){
     this->y /= scalar;
 }
 
+bool Vec2::operator==(const Vec2& vec) {
+    return this->x == vec.x and this->y == vec.y;
+}
+
 
 double Vec2::abs() {
     return sqrt(this->x*this->x + this->y*this->y);

@@ -2,31 +2,41 @@
 #include "Vec2.h"
 #include <cstdio>
 #include <iostream>
+#include "Util.h"
 using std::cout;
 using std::endl;
 
 void Rect::UpdateCenter() {
-    this->center.x = (this->x+this->w)/2;
-    this->center.y = (this->y+this->h)/2;
+    // double tmpX = 
+    // POSSIVEL BUG (problema de float ser mto pequeno)
+    this->center = Vec2( (this->x+this->w)/2, (this->y+this->h)/2);
+    cout << "[UPDATE CENTER of [" << this << "] " << this->center;
 }
 
 
 
-Rect::Rect(double x, double y, double w, double h) : _x(x), _y(y), _w(w), _h(h){
+Rect::Rect(double x, double y, double w, double h) : x(x), y(y), w(w), h(h){
+    cout << "--------------------- :: " << this << "\n";
+    cout << "\tx, y, w, h\n\t" << x << ", " << y << ", " << w << ", " << h << endl;
     this->UpdateCenter();
+    cout << "END RECT_CONTRUCTOR\n";
 }
 
 Rect::Rect(const Vec2& vec) {
+    cout << "+++++++++++++++++++++ :: " << this << "\n";
+    cout << "\tx, y, w, h\n\t" << x << ", " << y << ", " << w << ", " << h << endl;
+
     this->x = vec.x;    this->y = vec.y;
     this->w = 0;    this->h = 0;
     this->UpdateCenter();
+    cout << "[Rect::Rect(const Vec2& vec)] " << *this << endl;
 }
 
 void Rect::SetXYWH(double x, double y, double w, double h) {
     this->x = x;
     this->y = y;
-    this->w = w > 0.0 ? w : this->w;
-    this->h = h > 0.0 ? h : this->h;
+    this->w = IsDoubleZero(w) ? w : this->w;
+    this->h = IsDoubleZero(h) ? h : this->h;
     this->UpdateCenter();
 }
 void Rect::SetXWH (double x, double w, double h){
@@ -64,7 +74,6 @@ void Rect::SetXY(double x, double y) {
 void Rect::SetXY(const Vec2& vec) {
     this->SetXY(vec.x, vec.y);
 }
-
 
 bool Rect::Contains(const Vec2& point) {
     // //////printf("x,y ==> %f, %f\n", this->x, this->y);
@@ -133,8 +142,29 @@ Vec2 Rect::operator+(const Vec2& toAdd) const{
 }
 
 Rect Rect::operator-(const Rect& toSub) const{
-    return {this->x - toSub.x, this->y - toSub.y,
-            this->w-toSub.w, this->h-toSub.h};
+    // cout << "THIS : " << endl;
+    // cout <<  *this << endl;
+    // cout << "END THIS" << endl;
+
+    
+    double deltaX = this->x-toSub.x;
+    double deltaY = this->y-toSub.y;
+    double deltaW = this->w-toSub.w;
+    double deltaH = this->h-toSub.h;
+    // cout << "TOSUB : " << toSub << endl;
+    Rect t = Rect(
+            IsDoubleZero(deltaX) ? 0.0: deltaX ,
+            IsDoubleZero(deltaY) ? 0.0: deltaY ,
+            IsDoubleZero(deltaW) ? 0.0: deltaW ,
+            IsDoubleZero(deltaH) ? 0.0: deltaH );
+    // cout << "END TOSUB : " << toSub << endl;
+    // cout << "Delta x... " << this->x-toSub.x << endl;
+    // cout << "Delta y... " << this->y-toSub.y << endl;
+    // cout << "Delta w... " << this->w-toSub.w << endl;
+    // cout << "Delta h... " << this->h-toSub.h << endl;
+    // cout << "NEW RECT FROM SUB : " << t;
+    // abort();
+    return t;
 }
 Vec2 Rect::operator-(const Vec2& toSub) const{
     return Vec2( this->x-toSub.x, this->y-toSub.y );
@@ -198,5 +228,9 @@ void Rect::operator/=(const int& scalar){
     this->y /= scalar;
 }
 Rect::operator Vec2() {
+    return Vec2(this->x, this->y);
+}
+
+Vec2 Rect::castVec2() {
     return Vec2(this->x, this->y);
 }

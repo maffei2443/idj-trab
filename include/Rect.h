@@ -9,7 +9,6 @@ using std::endl;
 class Rect{
 private:
     void UpdateCenter();
-    double _x, _y, _w, _h;
     void _Mul(double);
 public:
     double x, y, w, h;
@@ -61,6 +60,7 @@ public:
     void operator/=(const int&);
 
     operator Vec2();
+    Vec2 castVec2();
 
 };
 std::ostream & operator << (std::ostream &, const Rect &);
