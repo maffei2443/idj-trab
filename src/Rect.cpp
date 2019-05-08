@@ -10,7 +10,7 @@ void Rect::UpdateCenter() {
     // double tmpX = 
     // POSSIVEL BUG (problema de float ser mto pequeno)
     this->center = Vec2( (this->x+this->w)/2, (this->y+this->h)/2);
-    cout << "[UPDATE CENTER of [" << this << "] " << this->center;
+    // cout << "[UPDATE CENTER of [" << this << "] " << this->center;
 }
 
 
@@ -142,28 +142,15 @@ Vec2 Rect::operator+(const Vec2& toAdd) const{
 }
 
 Rect Rect::operator-(const Rect& toSub) const{
-    // cout << "THIS : " << endl;
-    // cout <<  *this << endl;
-    // cout << "END THIS" << endl;
-
-    
     double deltaX = this->x-toSub.x;
     double deltaY = this->y-toSub.y;
     double deltaW = this->w-toSub.w;
     double deltaH = this->h-toSub.h;
-    // cout << "TOSUB : " << toSub << endl;
     Rect t = Rect(
-            IsDoubleZero(deltaX) ? 0.0: deltaX ,
-            IsDoubleZero(deltaY) ? 0.0: deltaY ,
-            IsDoubleZero(deltaW) ? 0.0: deltaW ,
-            IsDoubleZero(deltaH) ? 0.0: deltaH );
-    // cout << "END TOSUB : " << toSub << endl;
-    // cout << "Delta x... " << this->x-toSub.x << endl;
-    // cout << "Delta y... " << this->y-toSub.y << endl;
-    // cout << "Delta w... " << this->w-toSub.w << endl;
-    // cout << "Delta h... " << this->h-toSub.h << endl;
-    // cout << "NEW RECT FROM SUB : " << t;
-    // abort();
+            /* IsDoubleZero(deltaX) ? 0.0: */ deltaX ,
+            /* IsDoubleZero(deltaY) ? 0.0: */ deltaY ,
+            /* IsDoubleZero(deltaW) ? 0.0: */ deltaW ,
+            /* IsDoubleZero(deltaH) ? 0.0: */ deltaH );
     return t;
 }
 Vec2 Rect::operator-(const Vec2& toSub) const{
@@ -202,6 +189,7 @@ Rect Rect::operator+(const int& scalar) const{
     return neo;
 }
 Rect Rect::operator-(const int& scalar) const{
+    cout << "NUNCA MAIS VOU ME ENTREGAR\n"; abort();
     return {this->x  - scalar, this->y  - scalar};
 }
 Rect Rect::operator*(const int& scalar) const{

@@ -5,6 +5,7 @@
 using std::cout;
 using std::endl;
 using std::ostream;
+#include "Util.h"
 // static double lineSlope(const Vec2& va, const Vec2& vb) {
 //     return ( (va.x - vb.x)/(va.y - vb.y) );
 // }
@@ -18,7 +19,13 @@ Vec2 Vec2::operator+(const Vec2& toAdd) const{
     return {this->x+toAdd.x, this->y+toAdd.y};
 }
 Vec2 Vec2::operator-(const Vec2& toSub) const{
-    return {this->x - toSub.x, this->y - toSub.y};
+    double deltaX = this->x - toSub.x;
+    double deltaY = this->y - toSub.y;
+    cout << "DELTAS IN VEC : " << deltaX << " | " << deltaY << endl;
+    return {
+        IsDoubleZero(deltaX) ? 0.0: deltaX,
+        IsDoubleZero(deltaY) ? 0.0: deltaY
+    };
 }
 Vec2 Vec2::operator*(const Vec2& toMul) const{
     return {this->x * toMul.x, this->y * toMul.y};

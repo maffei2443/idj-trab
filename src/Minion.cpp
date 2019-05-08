@@ -15,7 +15,7 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     new Sprite(this->associated, "assets/img/minion.png");
     
     // this->associated.box.SetXY(this->alienCenter.box.x, this->alienCenter.box.y);
-    int x = 40;
+    // int x = 40;
     this->associated.box.SetXY( Vec2(this->alienCenter.box + Vec2(60, 0)) ) ;
     // printf("MINION X,Y %lf %lf\n", this->alienCenter.box.x, this->alienCenter.box.y);
     
@@ -31,25 +31,12 @@ Minion::~Minion () {
 // herda de Component
 void Minion::Update(double dt) {
     (void)dt;
-    // printf("[Minion.Update] %p\n", this);
-    Vec2 centerOfAlien = this->alienCenter.box.center;
-
-    Vec2 pos = {this->associated.box.x - this->alienCenter.box.x
-                , this->associated.box.y - this->alienCenter.box.y};
-    Rect t = Vec2(this->associated.box - this->alienCenter.box);
-    cout << "pos == t ? " << (pos == t) << endl;
-    // cout << "RECT_ERRADAO >>>>>>>>> " << t << endl;
-    Vec2 pos_errado = Vec2(t);  // METODO FUNCIONAA
     
-    cout << "Certo: " << pos << endl;
-    cout << "Errado: " << pos_errado << endl;
-
-    pos.rotate(0.07);
-    pos = this->alienCenter.box + pos;
+    Vec2 newPos = Vec2(this->associated.box - this->alienCenter.box);
+    newPos.rotate(0.07);
+    newPos = this->alienCenter.box + newPos;
     cout << "Alien Center: " << this->alienCenter.box.center << endl;
-    this->associated.box.SetXY(pos.x, pos.y);
-    // printf("this->associated.box.x ------------ %lf\n", this->associated.box.x);
-    // printf("this->associated.box.x/2 ------------ %lf\n", this->associated.box.x/2);
+    this->associated.box.SetXY(newPos.x, newPos.y);
 }
 
 void Minion::Render(){ 
