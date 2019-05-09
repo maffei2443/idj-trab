@@ -216,7 +216,8 @@ desejado, não faça nada aqui. */
         // shared_ptr
         GameObject * minionGO = new GameObject();
         // shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak_GO, 90.0) );
-        new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100, i+100));
+        // new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100, i+100));
+        new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
         // shared_ptr<Sprite> minionSprite(new Sprite(*minionGO, "assets/img/minion.png"));
         // TODO: chamar SetScale p/ redimentsionar imagem do minion
         
