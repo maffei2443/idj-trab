@@ -11,6 +11,7 @@ using std::string;
 // Add logic to the game through inheritance
 class Component{
 protected:
+    bool started = false;
     GameObject& associated; // where I am
 public:
     const static string type;

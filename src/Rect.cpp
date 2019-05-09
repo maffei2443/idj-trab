@@ -189,7 +189,7 @@ Rect Rect::operator+(const int& scalar) const{
     return neo;
 }
 Rect Rect::operator-(const int& scalar) const{
-    cout << "NUNCA MAIS VOU ME ENTREGAR\n"; abort();
+    // cout << "NUNCA MAIS VOU ME ENTREGAR\n"; abort();
     return {this->x  - scalar, this->y  - scalar};
 }
 Rect Rect::operator*(const int& scalar) const{

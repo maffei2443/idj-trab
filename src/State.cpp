@@ -43,12 +43,12 @@ fundo e voilà! */
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
-	new Alien(*AlienGO, 2);  // TODO: IMPLEMENTAR MINIONS
+	new Alien(*AlienGO, 1);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
 	printf("Added >>>>>>>>>> %p\n", AlienGO);
 
 	printf("emplaced alien\n");
-  printf("HOW MANY GO : %lu\n", this->objectArray.size());
+  	printf("HOW MANY GO : %lu\n", this->objectArray.size());
 	this->quitRequested = false;
   // this->music.Play(-1);
 }
@@ -97,9 +97,10 @@ void State::Update(double dt) {
 	#pragma endregion
 
 	for(auto& GO : this->objectArray) {
-		// std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
+		std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
 		GO->Update(dt);
 	}
+	// abort();
 	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
@@ -110,7 +111,6 @@ void State::Update(double dt) {
 				it++;
 			}
 	}
-	// //////printf("Apagou os mortos ? \n");
 	// [T4] Usaremos a câmera sem foco, por enquanto.
 	/* 	Em State::Update, chame o
 		update da câmera, e [...]*/ 
@@ -122,7 +122,6 @@ void State::Update(double dt) {
 void State::Render() {
 	/*em State::Render, PASSE AS COORDENADAS DA CÂMERA PARA
 		O TILEMAP, E TESTE SE ELE SE MOVE CORRETAMENTE.*/
-	// this->tileMap
 	for(auto& GO : this->objectArray) {
 		GO->Render();
 	}
@@ -135,28 +134,17 @@ void State::AddObject(int mouseX, int mouseY) {
 	// Sprite aponta para enemy
 	Sprite * sprite = new Sprite(*enemy, "assets/img/penguinface.png");
 	
-	/* 
-		Terceiro, em State::AddObject, também leve em consideração
-		a câmera na hora de posicionar as Faces. [?? Como assim?]
-	 */
-	
-
-	// setar a largura e altura da box do GameObject que o contém (associated)
-	// baseado no carregado pela Sprite em seu construtor.
 	enemy->box.x = mouseX - sprite->GetWidth()/2;
 	enemy->box.y = mouseY - sprite->GetHeight()/2;
 	enemy->box.w = sprite->GetWidth();
 	enemy->box.h = sprite->GetHeight();
-	
-	// Depois disso, adicionemos a esse GameObject [enemy] o Componente Sound
-	// usando audio/boom.wav 
 	Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
 	// e, por último, o que o define: Face.
 	Face * enemyFace = new Face(*enemy);
 	
-  enemy->AddComponent(sprite);
-  enemy->AddComponent(enemySound);
-  enemy->AddComponent(enemyFace);
+	enemy->AddComponent(sprite);
+	enemy->AddComponent(enemySound);
+	enemy->AddComponent(enemyFace);
 	
 	
 	this->objectArray.emplace_back( enemy );

@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
-#import "Sprite.h"
+#include "Sprite.h"
 #include "Vec2.h"
 #include <string>
 using std::string;
@@ -17,13 +17,15 @@ private:
     int damage;
 public:
     Bullet(GameObject&, double, double, int, double, string);
+    ~Bullet();
     void Update(double);
     void Render();
-    bool Is(const string&);
+    bool Is(string);
     const inline string GetType() const {
         return this->type;
     }
     int GetDamage();
+    void Start();
 };
 
 #endif

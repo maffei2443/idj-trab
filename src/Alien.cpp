@@ -34,13 +34,9 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
     new Sprite(this->associated, "assets/img/alien.png");
-    /* Mover a adição dos componentes de dependência (e de
-GameObjects também, como veremos abaixo) para o construtor reduz o
-tamanho e simplifica o construtor do state mas possui, na nossa engine, uma
-desvantagem. Consegue descobrir qual é? [DUVIDA] */
-
-    this->associated.box.SetXY(512, 300);
     this->associated.AddComponent(this);
+    this->associated.box.SetXY(512, 300);
+
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
 }
@@ -63,12 +59,14 @@ um tiro, ou direito para movimento. */
             case Action::ActionType::SHOOT:{
                 // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
                 // Precisamos implementar mais algumas coisas antes.
+                
                 this->speed = {0, 0};
                 this->click.targetX = this->click.targetY = false;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
                 this->associated.box.SetXY(
                     action->pos.x - AlienSprite->GetWidth()/2,
                     action->pos.y - AlienSprite->GetHeight()/2);
+                // Colcocar um bullet na origem
 
                 break;}
             case Action::ActionType::MOVE:{
@@ -173,15 +171,11 @@ um tiro, ou direito para movimento. */
     // Devemos pedir para remover esse GameObject se a vida dele ficar
     // menor ou igual a 0.
     #pragma region
-    if(this->hitspoints >> 31) {
+    if(this->hitspoints >> 31 || (this->hitspoints ^ 0x0000) == 0xFFFF) {    // se eh negativo OU igual a zero, morrreu :)
+        cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
     #pragma endregion
-    // printf("END ALIEN UPDATE\n");fflush(stdout);
-    // printf("final position : %lf %lf\n", this->associated.box.x, this->associated.box.y);
-    // printf("META : %d %d\n", mouseX, mouseY);
-
-
 }
 void Alien::Render() {
     // Itentionally left empty.
@@ -198,7 +192,6 @@ bool Alien::Is(string type) {
 
 // t5
 void Alien::Start() {
-    // printf("Alien.Start %p\n", this);
     this->started = true;
     /* Devemos popular o array de Minions com alguns destes objetos,
 espaçados igualmente. Enquanto não tiver certeza que o Alien funciona como
@@ -209,15 +202,11 @@ desejado, não faça nada aqui. */
 
         GameObject * minionGO = new GameObject();
         new Minion(*minionGO, self_weak_GO, i*10+100*(i&1? -1:1)+90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
-        // TODO: chamar SetScale p/ redimentsionar imagem do minion
-                
+        // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
 
         weak_ptr<GameObject> minionWeakPtr;
         minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
-
-
         this->minionArray.push_back( minionWeakPtr );
-
     }
     printf("Alien.Start END %p\n", this);
 }

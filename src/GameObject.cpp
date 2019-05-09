@@ -7,7 +7,9 @@
 using std::string;
 using std::cout;
 using std::endl;
-GameObject::GameObject() : isDead(false), box(),started(false) {}
+GameObject::GameObject() : isDead(false), box(),started(false) {
+    cout << "GO ADDR : " << this << endl;
+}
 
 GameObject::~GameObject() {
     //////printf("GO deletado...\n");
@@ -20,7 +22,7 @@ void GameObject::Update(double dt) {
     // cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
     for(auto& comp : this->components) {
         // printf("WILL CALL comp->GetType() of ======> %p\n", comp);
-        // cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
+        cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
         comp->Update(dt);
     }
     // cout << "END GAMEOBJECT " << this <<  " UPDATE" << endl;
@@ -31,13 +33,7 @@ void GameObject::Render() {
         //////printf("[Component.cpp] COMPONENT TYPE, ADDR |----> %s, %u\n", comp->GetType().c_str(), &comp);
         comp->Render();
     }
-    //////printf("-------------------------\n");
-    //////printf("-------------------------\n");
-    //////printf("-------------------------\n");
-    //////printf("-------------------------\n");
-    //////printf("-------------------------\n");
     fflush(stdout);
-    // abort();
 }
 
 bool GameObject::IsDead() {
