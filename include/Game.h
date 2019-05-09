@@ -8,6 +8,8 @@
 
 #define INCLUDE_SDL // main. sdl. func
 #include "SDL_include.h"
+#include <string>
+using std::string;
 
 #define GAME_CHANNELS 32
 // TODO: Create class to store "magic numbers" constants
@@ -22,10 +24,10 @@ class Game {
 
     int width;
     int height;
-    std::string title;
+    string title;
 
     
-    Game(std::string title, int width, int height, int freq, unsigned short format, int channels );
+    Game(string title, int width, int height, int freq, unsigned short format, int channels );
     static Game* instance;    
     SDL_Window* window;
     SDL_Renderer* renderer;

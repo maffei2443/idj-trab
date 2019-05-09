@@ -37,7 +37,7 @@ public:
     void Update(double);
 
     const inline string GetType() const {        
-        return TileMap::type;
+        return this->type;
     }
     // t5
     bool started = false;

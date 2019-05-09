@@ -1,8 +1,10 @@
 #include "TileSet.h"
-#include <string>
 #include <cmath>
+#include <string>
+using std::string;
+
 // "OK"
-TileSet::TileSet(int tileWidth, int tileHeight,std::string file, GameObject& associated) :
+TileSet::TileSet(int tileWidth, int tileHeight,string file, GameObject& associated) :
         tileWidth(tileWidth), tileHeight(tileHeight),  tileSet(associated, file) {
 /*     Se abertura (do Sprite) for bem sucedida, descobre, pelo
      TAMANHO DO SPRITE E DOS TILES, QUANTAS COLUNAS E QUANTAS LINHAS O TILESET TEM.*/

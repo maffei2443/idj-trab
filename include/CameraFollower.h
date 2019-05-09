@@ -19,7 +19,7 @@ class CameraFollower : public Component {
     void Render();
     bool Is(string);
     const string GetType() const {
-        return CameraFollower::type;
+        return this->type;
 }    
 };
 

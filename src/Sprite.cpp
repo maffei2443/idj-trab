@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <string>
 
 #include "Macros.h"
 #include "Sprite.h"
@@ -8,16 +7,21 @@
 #include "Resources.h"
 #include "Camera.h"
 const string Sprite::type("Sprite");
+#include <string>
+using std::string;
+
 Sprite::Sprite(GameObject& associated) : Component(associated) {
+
   this->texture = nullptr;
 
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
-Sprite::Sprite(GameObject& associated, std::string file) : Component(associated) {
+Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
+
 }
 
 Sprite::~Sprite() {
@@ -62,7 +66,7 @@ void Sprite::Render() {
   this->Render(x, y);  
 }
 
-void Sprite::Open(std::string file) {
+void Sprite::Open(string file) {
   // if (this->texture) {  
   //   SDL_DestroyTexture(this->texture);
   // }
@@ -116,7 +120,7 @@ void Sprite::Update(double dt) {
   // printf("\tSprite UPDATE OK\n");
 }
 
-bool Sprite::Is(std::string type) {
+bool Sprite::Is(string type) {
   return type == "Sprite";
 }
 

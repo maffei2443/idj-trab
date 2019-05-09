@@ -6,10 +6,12 @@
 
 #include "Rect.h"
 #include "Component.h"
+using std::vector;
+using std::string;
 // Logic grouper of the 
 class GameObject {
 private:
-    std::vector <Component*> components;
+    vector <Component*> components;
     bool isDead;
 public:
     GameObject();
@@ -21,7 +23,7 @@ public:
     void RequestDelete();
     void AddComponent(Component* cpt);
     void RemoveComponent(Component* cpt);
-    Component* GetComponent(std::string type);
+    Component* GetComponent(string type);
     Rect box;
 
     // t5

@@ -12,13 +12,15 @@
 #include "Macros.h"
 #include "Resources.h"
 #include "InputManager.h"
-
+#include <string>
+using std::string;
 Game* Game::instance = nullptr;
 
-Game::Game(std::string title, int width, int height,
+Game::Game(string title, int width, int height,
               int freq = MIX_DEFAULT_FREQUENCY,
               unsigned short format = MIX_DEFAULT_FORMAT,
               int channels = MIX_DEFAULT_CHANNELS) {
+  
   this->freq = freq;
   this->format = format;
   this->channels = channels;
@@ -69,7 +71,7 @@ Game::~Game() {
 
 Game& Game::GetInstance() {
   if (Game::instance == nullptr) {
-    auto x = std::string("Leonardo Maffei da Silva - 16/0033811");
+    auto x = string("Leonardo Maffei da Silva - 16/0033811");
     Game::instance = new Game(x, 1024, 600);
   }
   return *instance;

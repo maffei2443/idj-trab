@@ -1,4 +1,3 @@
-#include <string>
 #include <algorithm>
 #include <memory>
 #include <cmath>
@@ -22,7 +21,8 @@
 #include "CameraFollower.h"
 #include "Alien.h"
 #include "Util.h"
-
+#include <string>
+using std::string;
 using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * bg = new GameObject;
@@ -34,7 +34,7 @@ que precisa fazer é no Update fazer com que a posição de seu gameObject
 associado seja igual à posição da câmera.
 Adicione esse componente ao gameObject que contêm a Sprite de
 fundo e voilà! */
-	std::string tileSetPath("assets/img/tileset.png");
+	string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
 	this->objectArray.emplace_back( bg );

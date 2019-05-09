@@ -5,12 +5,13 @@
 #include "SDL_include.h"
 #include "Macros.h"
 #define INCLUDE_SDL_MIXER
-
+#include <string>
+using std::string;
 Music::Music() {
     this->music = nullptr;
 }
 
-Music::Music(std::string file) {
+Music::Music(string file) {
     this->Open(file);
 }
 
@@ -26,7 +27,7 @@ void Music::Stop(int msToStop = 1500) {
     Mix_FadeOutMusic(msToStop);
 }
 
-void Music::Open(std::string file) {
+void Music::Open(string file) {
     SDL_ClearError();
     this->music = Mix_LoadMUS( file.c_str() );
     if(!this->music) {

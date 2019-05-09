@@ -33,7 +33,7 @@ public:
     bool Is(string type);
 
     const inline string GetType() const {
-        return Sound::type;
+        return this->type;
     }
     // t5
     bool started = false;

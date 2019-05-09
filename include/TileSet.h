@@ -3,6 +3,7 @@
 #include <string>
 #include "GameObject.h"
 #include "Sprite.h"
+using std::string;
 /* Uma classe de tileset é responsável por armazenar os tiles
 utilizados na renderização do TileMap. Internamente, os tiles
 fazem parte de um grande Sprite (img/tileset.png). QUANDO
@@ -16,7 +17,7 @@ private:
     int tileHeight;
     Sprite tileSet;
 public:
-    TileSet(int, int, std::string, GameObject&);
+    TileSet(int, int, string, GameObject&);
     void RenderTile(unsigned, double, double);
     int GetTileWidth();
     int GetTileHeight();

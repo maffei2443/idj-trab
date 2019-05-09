@@ -1,5 +1,4 @@
 #include "TileMap.h"
-#include <string>
 #include "GameObject.h"
 #include "Sprite.h"
 #include "TileSet.h"
@@ -8,6 +7,8 @@
 #include <cstdio>
 #include <fstream>
 #include "Util.h"
+#include <string>
+using std::string;
 // TileMap simula uma matriz tridimensional, representando
 // nosso mapa e suas diversas camadas. Essa matriz contém, em cada
 // posição, um índice de tile no TileSet.
@@ -16,7 +17,7 @@
 const string TileMap::type("TileMap");
 TileMap::TileMap(GameObject& associated, TileSet* tileSet):
     Component(associated)/* , type("TileMap") */ {
-        std::string file("assets/map/tileMap.txt");
+        string file("assets/map/tileMap.txt");
         this->Load(file);
         // Setar tileSet
         this->SetTileSet(tileSet);
@@ -28,7 +29,7 @@ int& TileMap::At(int x, int y, int z){
     return this->tileMatrix[this->layerSize * z + this->mapWidth * y + x];
 }
 
-void TileMap::Load(std::string _file /* para nao conflitar com ifstream */){
+void TileMap::Load(string _file /* para nao conflitar com ifstream */){
     const char * fileName = _file.c_str();
     char c;
     std::ifstream fp(fileName, std::ifstream::in);
@@ -89,8 +90,8 @@ int TileMap::GetDepth(){
     return this->mapDepth;
 }
 
-bool TileMap::Is(std::string type) {
-    return type == this->type;
+bool TileMap::Is(string type) {
+    return this->type == type;
 }
 
 void TileMap::Update(double dt) {

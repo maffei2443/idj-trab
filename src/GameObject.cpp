@@ -3,6 +3,8 @@
 #include "Macros.h"
 #include <cstdio>
 #include <iostream>
+#include <string>
+using std::string;
 using std::cout;
 using std::endl;
 GameObject::GameObject() : isDead(false), box(),started(false) {}
@@ -60,7 +62,7 @@ void GameObject::RemoveComponent(Component * cpt) {
     }
 }
 
-Component* GameObject::GetComponent(std::string type) {
+Component* GameObject::GetComponent(string type) {
     for(auto* comp : this->components) {
         if(comp->Is(type))
             return comp;

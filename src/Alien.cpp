@@ -16,6 +16,7 @@ using std::cout;
 using std::endl;
 using std::weak_ptr;
 using std::shared_ptr;
+using std::string;
 
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
@@ -191,7 +192,7 @@ void Alien::Render() {
     // printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
 
 }
-bool Alien::Is(std::string type) {
+bool Alien::Is(string type) {
     return type == "Alien";
 }
 

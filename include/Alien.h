@@ -43,7 +43,7 @@ public:
     void Render();
     bool Is(string type);
     const inline string GetType() const {
-        return Alien::type;
+        return this->type;
     }
     // t5
     bool started = false;
