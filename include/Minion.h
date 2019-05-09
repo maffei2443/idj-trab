@@ -20,7 +20,7 @@ private:
   // std::weak_ptr<GameObject> alienCenter;
 public:
     const string type = string("Minion");
-    Minion(GameObject&, weak_ptr<GameObject>, double);
+    Minion(GameObject&, weak_ptr<GameObject>, double, const Vec2& vec=Vec2(200,0));
     ~Minion();
     // herda de Component
     void Update(double);

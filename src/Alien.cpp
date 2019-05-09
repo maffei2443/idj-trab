@@ -23,7 +23,6 @@ const int VEL = 3;
 void Alien::gotoTarget(Sprite* AlienSprite) {
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
-
     this->associated.box.SetXY(
         this->click.x - ((double)AlienSprite->GetWidth())/2,
         this->click.y - ((double)AlienSprite->GetHeight())/2);
@@ -208,7 +207,8 @@ void Alien::Start() {
     /* Devemos popular o array de Minions com alguns destes objetos,
 espaçados igualmente. Enquanto não tiver certeza que o Alien funciona como
 desejado, não faça nada aqui. */
-    if(this->nMinions) {
+    // if(this->nMinions) {
+    for(int i = 0; i < this->nMinions; i++) {
         weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
 
         // add apenas um minion no momento (TESTE)
@@ -216,7 +216,7 @@ desejado, não faça nada aqui. */
         // shared_ptr
         GameObject * minionGO = new GameObject();
         // shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak_GO, 90.0) );
-        new Minion(*minionGO, self_weak_GO, 90.0);
+        new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100, i+100));
         // shared_ptr<Sprite> minionSprite(new Sprite(*minionGO, "assets/img/minion.png"));
         // TODO: chamar SetScale p/ redimentsionar imagem do minion
         

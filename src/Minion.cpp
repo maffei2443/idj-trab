@@ -11,12 +11,12 @@ using std::endl;
 
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-    double arcOffsetDeg) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
+    double arcOffsetDeg, const Vec2& vec) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
     new Sprite(this->associated, "assets/img/minion.png");
     
     // this->associated.box.SetXY(this->alienCenter.box.x, this->alienCenter.box.y);
     // int x = 40;
-    this->associated.box.SetXY( Vec2(this->alienCenter.box + Vec2(60, 0)) ) ;
+    this->associated.box.SetXY( Vec2(this->alienCenter.box + vec ) ) ;
     // printf("MINION X,Y %lf %lf\n", this->alienCenter.box.x, this->alienCenter.box.y);
     
     cout << "Minion.associated --> " << &this->associated << endl;
@@ -31,12 +31,12 @@ Minion::~Minion () {
 // herda de Component
 void Minion::Update(double dt) {
     (void)dt;
-    
     Vec2 newPos = Vec2(this->associated.box - this->alienCenter.box);
     newPos.rotate(0.07);
     newPos = this->alienCenter.box + newPos;
     cout << "Alien Center: " << this->alienCenter.box.center << endl;
-    this->associated.box.SetXY(newPos.x, newPos.y);
+    this->associated.box.SetXY(newPos);
+    cout << "MinionCenter: " << this->associated.box.center << endl;
 }
 
 void Minion::Render(){ 
