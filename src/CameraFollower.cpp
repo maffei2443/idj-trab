@@ -6,15 +6,12 @@
 #include <memory>  // unique_ptr
 #include <string>
 #include "Camera.h"
-// using namespace std;
+using std::string;
+const string CameraFollower::type("CameraFollower");
 // Class responsible for the game logic.
 
-const std::string CameraFollower::GetType() {
-    return this->type;
-}
-
 CameraFollower::CameraFollower(GameObject& associated) : Component(associated)
-    , type("CameraFollower") {
+    {
 }
 
 void CameraFollower::Update(double dt) {
@@ -24,6 +21,6 @@ void CameraFollower::Update(double dt) {
 void CameraFollower::Render() {
 
 }
-bool CameraFollower::Is(std::string type) {
+bool CameraFollower::Is(string type) {
     return this->type == type;
 }

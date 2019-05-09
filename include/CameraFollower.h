@@ -7,17 +7,20 @@
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
+using std::string;
 // Class responsible for the game logic.
 class CameraFollower : public Component {
-
+  private:
+    static const string type;
   public:
-    const std::string type;
-    const std::string GetType();
 
     CameraFollower(GameObject&);
     void Update(double dt);
     void Render();
-    bool Is(std::string);
+    bool Is(string);
+    const string GetType() const {
+        return CameraFollower::type;
+}    
 };
 
 #endif

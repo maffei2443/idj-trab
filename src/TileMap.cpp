@@ -13,6 +13,7 @@
 // posição, um índice de tile no TileSet.
 
 // Chama Load com a string passada e seta o tileset.
+const string TileMap::type("TileMap");
 TileMap::TileMap(GameObject& associated, TileSet* tileSet):
     Component(associated)/* , type("TileMap") */ {
         std::string file("assets/map/tileMap.txt");

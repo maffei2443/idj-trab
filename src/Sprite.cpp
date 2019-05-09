@@ -7,7 +7,7 @@
 #include "Game.h"
 #include "Resources.h"
 #include "Camera.h"
-
+const string Sprite::type("Sprite");
 Sprite::Sprite(GameObject& associated) : Component(associated) {
   this->texture = nullptr;
 

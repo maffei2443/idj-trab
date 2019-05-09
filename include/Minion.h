@@ -27,7 +27,7 @@ public:
     void Render();
     bool Is(string);
 
-    const string GetType(){
+    const string GetType() const {
       return this->type;
     }
     // t5

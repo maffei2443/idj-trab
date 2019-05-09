@@ -7,12 +7,13 @@
 class GameObject;  // como nao usa o obj, permite forw. decl
 
 #include <string>
+using std::string;
 // Add logic to the game through inheritance
 class Component{
 protected:
     GameObject& associated; // where I am
 public:
-    const std::string type;
+    const static string type;
     Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
 
@@ -21,8 +22,8 @@ public:
 
     void virtual Update(double dt) = 0;
     void virtual Render() = 0;
-    bool virtual Is(std::string type) = 0;
-    const std::string virtual GetType() = 0;
+    bool virtual Is(string type) = 0;
+    const string virtual GetType() const = 0;
     Component* GetAddr() { return this;}
     // t5
     /* E, por último, em Component, adicione o método + Start() : virtual

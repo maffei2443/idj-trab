@@ -7,32 +7,33 @@
 #include "Component.h"
 #include <string>
 // Sound é quase a mesma classe de Music, mesmo na implementação.
+using std::string;
 
 class Sound : public Component{
 private:
+    const string type = string("Sound");
     Mix_Chunk* chunk;
     // TODO : e se chamar houver uma LISTA de canais? ...
     
     int channel;
 
 public:
-    const std::string type = std::string("Sound");
     Sound(GameObject& associated);
-    Sound(GameObject& associated, std::string file);
+    Sound(GameObject& associated, string file);
 
     virtual ~Sound();
     void Play(int times = 1);
     void Stop();
-    void Open(std::string file);
+    void Open(string file);
     bool IsOpen();
 
     // Herdou
     void Update(double dt);
     void Render();
-    bool Is(std::string type);
+    bool Is(string type);
 
-    const inline std::string GetType(){
-        return this->type;
+    const inline string GetType() const {
+        return Sound::type;
     }
     // t5
     bool started = false;

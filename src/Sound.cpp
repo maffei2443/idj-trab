@@ -3,6 +3,8 @@
 #include <exception>
 #include <iostream>
 #include "Macros.h"
+#include <string>
+using std::string;
 
 
 Sound::Sound(GameObject& associated) : 
@@ -10,7 +12,7 @@ Sound::Sound(GameObject& associated) :
     chunk(nullptr) {
 }
 Sound::Sound(GameObject& associated,
-                std::string file) : Component(associated) {
+                string file) : Component(associated) {
     this->Open(file);
 }
 // Se chunk for diferente de nullptr, chame Halt e 
@@ -38,11 +40,11 @@ void Sound::Stop() {
         // this->chunk = nullptr;  // resetar para ñ chamar dnovo e dar erro
     }
 }
-void Sound::Open(std::string file) {
+void Sound::Open(string file) {
     // Mix_Chunk* Mix_LoadWAV(char* file);
     this->chunk = Mix_LoadWAV(file.c_str());
     if( !chunk )    // nao conseguiu carregar arquivo
-        LOG("Sound::Open(std::string file) : NULL pointer returned\n");
+        LOG("Sound::Open(string file) : NULL pointer returned\n");
 }
 bool Sound::IsOpen() {
     return !!this->chunk;
@@ -54,7 +56,7 @@ void Sound::Update(double dt) {
 void Sound::Render() {
     
 }
-bool Sound::Is(std::string type) {
+bool Sound::Is(string type) {
     return type == "Sound";
 }
 

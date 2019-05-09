@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "InputManager.h"
 #include "GameObject.h"
-
+const string Face::type("Face");
 static InputManager& inputManager = InputManager::GetInstance();
 
 Face::Face(GameObject& associated): 

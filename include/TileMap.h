@@ -10,17 +10,17 @@
 // TileMap simula uma matriz tridimensional, representando
 // nosso mapa e suas diversas camadas. Essa matriz contém, em cada
 // posição, um índice de tile no TileSet.
-
+using std::string;
 class TileMap : public Component {
 private:
     int layerSize;
     std::vector<int> tileMatrix;
     TileSet* tileSet;
     int mapWidth, mapHeight, mapDepth;
+    const static string type;
 public:
-    const std::string type = std::string("TileMap");
     TileMap(GameObject&,  TileSet*);
-    void Load(std::string);
+    void Load(string);
     void SetTileSet(TileSet*);
     int& At(int, int, int z = 0);
     // Fazendo ajuste: por padrao, recebe posicao da camera para fazer os ajustes
@@ -33,11 +33,11 @@ public:
 
     // Herda de component
     void Render();
-    bool Is(std::string);
+    bool Is(string);
     void Update(double);
 
-    const inline std::string GetType(){        
-        return this->type;
+    const inline string GetType() const {        
+        return TileMap::type;
     }
     // t5
     bool started = false;

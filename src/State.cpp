@@ -43,7 +43,7 @@ fundo e voilà! */
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
-	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
+	new Alien(*AlienGO, 2);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
 	printf("Added >>>>>>>>>> %p\n", AlienGO);
 
@@ -59,17 +59,10 @@ State::~State() {
 
 
 void State::Update(double dt) {
-    /* Setar a flag de quit de State se ESC 
-    for pressionado ou se o
-    InputManager apontar evento de Quit; */
-
 	this->quitRequested = 
 		this->inputManager->KeyPress(ESCAPE_KEY)
 		|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao
-	// if(this->inputManager->KeyPress(SDLK_ESCAPE)) {
-	// 	printf("gg outa\n");
-	// } 
 	if( this->inputManager->KeyPress(SPACE_KEY)) {
 		// printf("GG SPACE!\n");fflush(stdout);
 		Vec2 objPos = Vec2( 200, 0 );
@@ -88,8 +81,7 @@ void State::Update(double dt) {
 		// Iterar de tras para frente para dar dano no ultimo inserido.
 		// TODO: adicionar robusteza a essa parte
 		for(int i = objectArray.size() - 1; i >= 0; --i) {
-			// printf("DAMAGE?? %d\n", i);
-			// Obtem o ponteiro e casta pra Face.
+			// Obtem o ponteiro e casta pra Face. TODO : otimizar isso. Talvez cast estahtico
 			GameObject* go = (GameObject*) objectArray[i].get();
 			if(go->box.Contains( {(double)mouseX, (double)mouseY} ) ) {
 				Face* face = (Face*)go->GetComponent( "Face" );
@@ -106,10 +98,8 @@ void State::Update(double dt) {
 
 	for(auto& GO : this->objectArray) {
 		// std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
-		// printf("State.Update %p\n", GO.get());
 		GO->Update(dt);
 	}
-	// abort();
 	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		 it != this->objectArray.end();) {
@@ -124,8 +114,6 @@ void State::Update(double dt) {
 	// [T4] Usaremos a câmera sem foco, por enquanto.
 	/* 	Em State::Update, chame o
 		update da câmera, e [...]*/ 
-	
-	
 	Camera::Update(dt);
 }
 
@@ -199,18 +187,18 @@ std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	/* Em State::AddObject, ao invés de simplesmente colocar o GameObject
 passado no vetor, você vai criar um std:shared_ptr< GameObject > passando
 esse GameObject* como argumento de seu construtor. */
-	std::shared_ptr<GameObject> weakPtr = 
-		std::shared_ptr<GameObject>(go);
+	std::shared_ptr<GameObject> sharedGO(go);/*  = 
+		std::shared_ptr<GameObject>(go); */
 	/* Depois faça um
 PUSH_BACK desse shared_ptr em objectArray */
-	this->objectArray.push_back(weakPtr);
+	this->objectArray.push_back(sharedGO);
 	/* Se started já tiver sido
 chamado, chame o start desse GameObject. */
 	if(this->started)
-		weakPtr.get()->Start();
+		sharedGO.get()->Start();
 	/* E retorne um std::weak_ptr <
 GameObject > construído usando o shared_ptr criado */
-	return std::weak_ptr<GameObject>(weakPtr);	// POSSIVEL BUG [??]
+	return std::weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
 	/* Em Game::Run, chame o Start do State logo antes do while. */
 }
 

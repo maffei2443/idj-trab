@@ -19,7 +19,7 @@ using std::shared_ptr;
 
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
-
+const string Alien::type("Alien");
 void Alien::gotoTarget(Sprite* AlienSprite) {
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
@@ -37,8 +37,7 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
 GameObjects também, como veremos abaixo) para o construtor reduz o
 tamanho e simplifica o construtor do state mas possui, na nossa engine, uma
 desvantagem. Consegue descobrir qual é? [DUVIDA] */
-    // this->associated.box.x = 512;
-    // this->associated.box.y = 300;
+
     this->associated.box.SetXY(512, 300);
     this->associated.AddComponent(this);
     this->taskQueue = std::queue<Action*>();
@@ -66,8 +65,6 @@ um tiro, ou direito para movimento. */
                 this->speed = {0, 0};
                 this->click.targetX = this->click.targetY = false;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                // this->associated.box.x = ;
-                // this->associated.box.y = ;
                 this->associated.box.SetXY(
                     action->pos.x - AlienSprite->GetWidth()/2,
                     action->pos.y - AlienSprite->GetHeight()/2);
@@ -104,18 +101,16 @@ um tiro, ou direito para movimento. */
                 break;
             }
         }
-        // Queue.pop CHAMA O DESTRUTOR
+        // Queue.pop CHAMA O DESTRUTOR APOS ter executado o que deeveria...
         this->taskQueue.pop();
     }    
     if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
-        // printf("TIRO!\n");
         fflush(stdout);
         // clique do botão esquerdo do mouse para um tiro
         int mouseX = inputManager.GetMouseX();
         int mouseY = inputManager.GetMouseY();
 
         this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
-        // printf("TIRO ADICIONADO\n");
     }
     if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
         // direito para movimento
@@ -211,16 +206,10 @@ desejado, não faça nada aqui. */
     for(int i = 0; i < this->nMinions; i++) {
         weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
 
-        // add apenas um minion no momento (TESTE)
-        // pegar versao weak de this->associated
-        // shared_ptr
         GameObject * minionGO = new GameObject();
-        // shared_ptr<Minion> minion ( new Minion(*minionGO, self_weak_GO, 90.0) );
-        // new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100, i+100));
-        new Minion(*minionGO, self_weak_GO, 90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
-        // shared_ptr<Sprite> minionSprite(new Sprite(*minionGO, "assets/img/minion.png"));
+        new Minion(*minionGO, self_weak_GO, i*10+100*(i&1? -1:1)+90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
         // TODO: chamar SetScale p/ redimentsionar imagem do minion
-        
+                
 
         weak_ptr<GameObject> minionWeakPtr;
         minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);

@@ -11,7 +11,7 @@
 using std::queue;
 using std::vector;
 using std::weak_ptr;
-
+using std::string;
 class Alien : public Component {
     /* Alien é um objeto controlado pelo mouse. Ele executa uma
      sequência de ações, uma a uma, contidas numa fila */
@@ -20,6 +20,7 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
+    const static string type;
     void gotoTarget(Sprite*);
     const static int HEALTH_POINTS = 30;
     int hitspoints;
@@ -32,16 +33,17 @@ private:
     // 
     Click click;
     Vec2 targetPoint;
+
 public:
-    const std::string type = std::string("Alien");
+    
     Alien(GameObject&, int);
     ~Alien();
     // herda de Component
     void Update(double dt);
     void Render();
-    bool Is(std::string type);
-    const inline std::string GetType(){
-        return this->type;
+    bool Is(string type);
+    const inline string GetType() const {
+        return Alien::type;
     }
     // t5
     bool started = false;
