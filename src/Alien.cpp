@@ -20,6 +20,15 @@ using std::shared_ptr;
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 
+void Alien::gotoTarget(Sprite* AlienSprite) {
+    this->speed.x = this->speed.y = 0;
+    this->click.targetX = this->click.targetY = false;
+
+    this->associated.box.SetXY(
+        this->click.x - ((double)AlienSprite->GetWidth())/2,
+        this->click.y - ((double)AlienSprite->GetHeight())/2);
+}
+
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
 hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
@@ -132,23 +141,16 @@ um tiro, ou direito para movimento. */
         double deltaX = -(midX-mouseX);
         double deltaY = -(midY-mouseY);
 
-        double absDeltaX = abs(deltaX);
-        double absDeltaY = abs(deltaY);
+        double absDeltaX = fabs(deltaX);
+        double absDeltaY = fabs(deltaY);
 
         double slope = deltaY / deltaX;
         double slopeInverse = deltaX / deltaY;
+        
+        Vec2 old_speed = this->speed;
 
-        // TODO  encontrar forma melhor, 
-        // que nao multiplicando por um booleano
-        if (IsFloatZero(absDeltaX) or IsFloatZero(absDeltaY)) {
-            this->speed.x = this->speed.y = 0;
-            this->click.targetX = this->click.targetY = false;
-
-            // this->associated.box.x = this->click.x - ((double)AlienSprite->GetWidth())/2;
-            // this->associated.box.y = this->click.y - ((double)AlienSprite->GetHeight())/2;
-            this->associated.box.SetXY(
-                this->click.x - ((double)AlienSprite->GetWidth())/2,
-                this->click.y - ((double)AlienSprite->GetHeight())/2);
+        if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
+            this->gotoTarget(AlienSprite);
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
@@ -159,9 +161,16 @@ um tiro, ou direito para movimento. */
                 this->speed.x = (deltaX > 0 ? VEL : -VEL);
                 this->speed.y = this->speed.x * slope;
             }
-            this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
-            // this->associated.box.x += this->speed.x;
-            // this->associated.box.y += this->speed.y;            
+            // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
+            if(/* IsDoubleDiffZero(old_pos.x, this->associated.box.x) or IsDoubleDiffZero(old_pos.y, this->associated.box.y)
+                or */ IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
+                this->gotoTarget(AlienSprite);
+            }
+            else {
+                this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
+            }
+            
+
         }
     }
     #pragma endregion

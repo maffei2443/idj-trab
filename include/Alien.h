@@ -6,6 +6,8 @@
 #include <memory>
 #include "Action.h"
 #include "Click.h"
+#include "Sprite.h"
+
 using std::queue;
 using std::vector;
 using std::weak_ptr;
@@ -18,6 +20,7 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
+    void gotoTarget(Sprite*);
     const static int HEALTH_POINTS = 30;
     int hitspoints;
     // t5
@@ -43,6 +46,9 @@ public:
     // t5
     bool started = false;
     void Start();
+
+    // t5 [gambs]
+    
 };
 
 #endif
