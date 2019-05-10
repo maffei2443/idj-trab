@@ -30,7 +30,6 @@ void Bullet::gotoTarget(Sprite* sprite) {
 
 
 void Bullet::SetTarget(int x, int y) {
-    #pragma region
     if (this->click.targetX || this->click.targetY) {
         Sprite * sprite = ((Sprite*)this->associated.GetComponent("Sprite"));
         double midX = (this->associated.box.x + (double)sprite->GetWidth()/2);
@@ -69,7 +68,6 @@ void Bullet::SetTarget(int x, int y) {
             }
         }
     }
-    #pragma endregion 
 }
 
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
@@ -94,7 +92,7 @@ double maxDistance, string sprite): Component(associated) {
 
     // cout << "Bullet speed [2] : " << this->speed << endl;
     // cout << "Bullet speed.unitary() [2] : " << this->speed.unitary() << endl;
-    this->speed = this->speed.unitary() * 0.01;
+    this->speed = this->speed.unitary() * speed;
     // this->speed = {0.01, 0.01};
     cout << "Bullet speed [3] : " << this->speed << endl;
     // abort();

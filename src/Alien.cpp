@@ -68,7 +68,7 @@ um tiro, ou direito para movimento. */
                     action->pos.y - AlienSprite->GetHeight()/2);
                 // Colcocar um bullet na origem
                 GameObject* GO_of_bullet = new GameObject;
-                new Bullet(*GO_of_bullet, 90.0, 0.0, 1, 0, "assets/img/minionbullet1.png");
+                new Bullet(*GO_of_bullet, 90.0, 2.0, 1, 0, "assets/img/minionbullet1.png");
                 cout << "ADDED BULLET\n";
                 Game::GetInstance().GetState().AddObject(GO_of_bullet);
                 // cout << "END GHOOT\n";
