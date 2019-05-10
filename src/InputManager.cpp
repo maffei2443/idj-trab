@@ -10,7 +10,7 @@ void InputManager::Update() {
 
 	SDL_Event event;
   // Primeiro, obter as coordenadas atuais do mouse (SDL_GetMouseState
-	SDL_GetMouseState(&this->mouseX, &this->mouseY);
+	
 	// Segundo resetar a flag de quit. [? NAO FAZ SENTIDO; PODE MUDAR 
   // ENTRE ESSA LINHA E A PRÓXIMA]
   // this->quitRequested = false;
@@ -21,7 +21,7 @@ void InputManager::Update() {
   int pressedButton;
   // POR QUE WHILE E NAO IF?
   bool flag = true;  // Controla incremento após o while
-  while (SDL_PollEvent(&event)) {
+  while (SDL_PollEvent(&event)) {    
     flag = false;
     this->updateCounter++;
     // printf("inside while counter  ++\n");
@@ -51,11 +51,13 @@ void InputManager::Update() {
         printf("ESC %d\n", SDL_QUIT);
         this->quitRequested = true;break;    // QUIT deve ser tratado simplesmente setando a flag quitRequested.
       case SDL_MOUSEBUTTONDOWN:
+        SDL_GetMouseState(&this->mouseX, &this->mouseY);
         this->mouseState[pressedButton] = true;
         this->mouseUpdate[pressedButton] = this->updateCounter;
         // printf("MOUSE_BUTTON_DOWN %d\n", pressedButton);
         break;
       case SDL_MOUSEBUTTONUP: // Botão do mouse foi solto
+        SDL_GetMouseState(&this->mouseX, &this->mouseY);
         this->mouseState[pressedButton] = false;
         this->mouseUpdate[pressedButton] = this->updateCounter;
         // printf("MOUSE_BUTTON_UP %d\n", pressedButton);

@@ -20,10 +20,10 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
-    void Shoot();
+    void Shoot(int, int);
     void UpdatePosAndSpeed();
     const static string type;
-    void gotoTarget(Sprite*);
+    void gotoTarget();
     const static int HEALTH_POINTS = 30;
     int hitspoints;
     // t5
@@ -35,7 +35,7 @@ private:
     // 
     Click click;
     Vec2 targetPoint;
-
+    Sprite* mySprite;
 public:
     
     Alien(GameObject&, int);

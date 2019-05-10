@@ -12,11 +12,12 @@ using std::endl;
 #include "Game.h"
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-    double arcOffsetDeg, const Vec2& vec) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
+    double arcOffsetDeg, Vec2 initPos=Vec2(rand()%360, 0)) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
     new Sprite(this->associated, "assets/img/minion.png");
-
-    this->associated.box.SetXY( Vec2(this->alienCenter.box + vec ) ) ;    
+    // this->associated.box.SetCenter(this->alienCenter.box.center);
+    this->associated.box.SetCenter( this->alienCenter.box.center ) ;    
     this->associated.AddComponent(this);
+    this->innerPos = initPos;
 }
 
 Minion::~Minion () {
@@ -26,12 +27,10 @@ Minion::~Minion () {
 // herda de Component
 void Minion::Update(double dt) {
     (void)dt;
-    Vec2 newPos = Vec2(this->associated.box - this->alienCenter.box);
-    newPos.rotate(0.07);
-    newPos = this->alienCenter.box + newPos;
-    // cout << "Alien Center: " << this->alienCenter.box.center << endl;
-    this->associated.box.SetXY(newPos);
-    // cout << "MinionCenter: " << this->associated.box.center << endl;
+    innerPos.rotate(0.07);
+    Vec2 newPos =  innerPos + this->alienCenter.box.center ;
+    // cout << "innerPos : " << innerPos << endl;
+    this->associated.box.SetCenter(newPos);
 }
 
 void Minion::Render(){ 

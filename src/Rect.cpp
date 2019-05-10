@@ -7,10 +7,7 @@ using std::cout;
 using std::endl;
 
 void Rect::UpdateCenter() {
-    // double tmpX = 
-    // POSSIVEL BUG (problema de float ser mto pequeno)
-    this->center = Vec2( (this->x+this->w)/2, (this->y+this->h)/2);
-    // cout << "[UPDATE CENTER of [" << this << "] " << this->center;
+    this->center = Vec2( this->x+(this->w/2.0), this->y+(this->h/2) );
 }
 
 
@@ -123,6 +120,17 @@ void Rect::AddXYWH(double x, double y, double w, double h) {
 void Rect::Add(double add) {
     this->x += add; this->y += add; this->w += add; this->h +=add;
     this->UpdateCenter();
+}
+
+void Rect::SetCenter(Vec2 center) {
+    this->SetXY( center.x-this->w/2, center.y-this->h/2 );
+}
+
+void Rect::SetCenter(double x, double y) {
+    this->SetXY( x-this->w/2, y-this->h/2 );
+}
+void Rect::SetCenter(Rect rect) {
+    this->SetXY( rect.center.x-this->w/2, rect.center.y-this->h/2 );
 }
 
 

@@ -15,6 +15,9 @@ public:
     Vec2 center;
     Rect(double x = 0, double y = 0, double w = 0, double h = 0);
     Rect(const Vec2& vec);
+    void SetCenter(Vec2);
+    void SetCenter(Rect);
+    void SetCenter(double, double);
     void SetX(double);
     void SetY(double);
     void SetW(double);
