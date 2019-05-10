@@ -75,29 +75,6 @@ um tiro, ou direito para movimento. */
                 this->click.x = action->pos.x;
                 this->click.y = action->pos.y;
                 printf("META DO ALIEN : %d, %d\n", this->click.x, this->click.y);
-                // abort();
-                Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-                double midX = (this->associated.box.x + AlienSprite->GetWidth()/2);
-                double midY = (this->associated.box.y + AlienSprite->GetHeight()/2);
-        
-                double deltaX = this->click.x - midX;
-                double absDeltaX = abs(deltaX);
-
-                double deltaY = this->click.y - midY;
-                double absDeltaY = abs(deltaY);
-
-                double slope = deltaY / deltaX;
-                double slopeInverse = deltaX / deltaY;
-
-                if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                    this->speed.y = (deltaY > 0 ? VEL : -VEL);
-                    this->speed.x = this->speed.y * slopeInverse ;  // 
-                }
-                else {
-                    this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                    this->speed.y = this->speed.x * slope;  //                 
-                }
-                break;
             }
         }
         // Queue.pop CHAMA O DESTRUTOR APOS ter executado o que deeveria...
@@ -115,24 +92,20 @@ um tiro, ou direito para movimento. */
         // direito para movimento
         int mouseX = inputManager.GetMouseX();
         int mouseY = inputManager.GetMouseY();
-        Action * action = new Action(Action::ActionType::MOVE, mouseX, mouseY);
         printf("MOVE TO %d %d\n", mouseX, mouseY);
-        this->taskQueue.push( action );
+        this->taskQueue.push( new Action(Action::ActionType::MOVE, mouseX, mouseY) );
     }
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
     #pragma region
-    int mouseX = inputManager.GetMouseX();
-    int mouseY = inputManager.GetMouseY();
-    // TODO: otimizar. Isso deveria ser feito apenas uma vez [?]
+    
     if (this->click.targetX || this->click.targetY) {
-
         Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
         double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
         double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
 
-        double deltaX = -(midX-mouseX);
-        double deltaY = -(midY-mouseY);
+        double deltaX = -(midX-this->click.x);
+        double deltaY = -(midY-this->click.y);
 
         double absDeltaX = fabs(deltaX);
         double absDeltaY = fabs(deltaY);
@@ -147,7 +120,7 @@ um tiro, ou direito para movimento. */
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL) * this->click.targetY;
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
                 this->speed.x = this->speed.y * slopeInverse ;  // 
             }
             else {
@@ -161,8 +134,6 @@ um tiro, ou direito para movimento. */
             else {
                 this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
             }
-            
-
         }
     }
     #pragma endregion
