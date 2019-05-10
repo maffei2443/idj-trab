@@ -32,7 +32,10 @@ Minion::~Minion () {
 void Minion::Update(double dt) {
     (void)dt;
     innerPos.rotate(0.07);
-    Vec2 newPos =  innerPos + this->alienCenter.box.center ;
+    Vec2 newPos =  innerPos 
+                   + this->alienCenter.box.center 
+                //    - Vec2(this->alienCenter.box.w/2, this->alienCenter.box.h/2) 
+                   ;
     // cout << "innerPos : " << innerPos << endl;
     this->associated.box.SetCenter(newPos);
 }
