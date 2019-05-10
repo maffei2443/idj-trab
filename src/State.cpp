@@ -106,8 +106,6 @@ void State::Update(double dt) {
 		}
 		else  {
 			this->objectArray[i]->Update(dt);
-			// cout << "UPDATE!!!!!!!" << endl;
-			// myAbort(999);
 			i++;
 		}
 		// cout << "[State.Update] KALL END " << GO << endl;
