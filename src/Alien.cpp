@@ -27,7 +27,11 @@ const string Alien::type("Alien");
 void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
-        ((Minion*)this->minionArray[0].lock().get())->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
+        Minion* mini = ((Minion*)this->minionArray[0].lock().get());
+        cout << "&Mini RECOVERED : " << mini << endl;
+        cout << "Mini.associated.box : " << mini->GetBox() << endl;
+        // myAbort(999);
+        mini->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
     }
     else {
         cout << "No minions to shoot" << endl;
@@ -183,10 +187,24 @@ void Alien::Start() {
             myAbort(111);
         }
         GameObject * minionGO = new GameObject();
-        new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(200, 0) );
+        Minion* added = new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(200, 0) );
+        cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
         weak_ptr<GameObject> minionWeakPtr;
         minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
+        cout << "MINION ADDED[weak_ptrVersion] ++++++++++++++++++ " << (Minion*)minionWeakPtr.lock().get() << endl;
+        if ((Minion*)minionWeakPtr.lock().get() != added) {
+            myAbort(666);
+        }
         this->minionArray.push_back( minionWeakPtr );
     }
+}
+// Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
+Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputManager.GetMouseY()) {
+    Vec2 click(x, y);
+    int idx_of_closest_minion;
+    for(int i = 0; i < this->nMinions; i++) {
+        
+    }
+    return nullptr;
 }

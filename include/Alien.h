@@ -7,6 +7,7 @@
 #include "Action.h"
 #include "Click.h"
 #include "Sprite.h"
+#include "Minion.h"
 
 using std::queue;
 using std::vector;
@@ -36,6 +37,7 @@ private:
     Click click;
     Vec2 targetPoint;
     Sprite* mySprite;
+
 public:
     
     Alien(GameObject&, int);
@@ -52,7 +54,7 @@ public:
     void Start();
 
     // t5 [gambs]
-    
+    Minion* GetNearestMinion(int, int);
 };
 
 #endif

@@ -23,8 +23,11 @@ private:
     double distanceLeft;
     int damage;
     Click click;
+    Vec2 target;
+    Sprite * mySprite;
 public:
-    Bullet(GameObject&, double, double, int, double, string);
+    Bullet(GameObject&, double, double, int,
+        double, string, int, int);
     ~Bullet();
     void Update(double);
     void Render();

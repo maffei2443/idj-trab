@@ -61,7 +61,8 @@ void Bullet::UpdatePosAndSpeed() {
         }
     }
     else
-        myAbort(1221);
+        // myAbort(1221)
+        ;
     // cout << "THIS --> SPEED ===> " << this->speed << endl;
 
 }
@@ -69,7 +70,6 @@ void Bullet::UpdatePosAndSpeed() {
 void Bullet::UpdatePos(double dt) {
     // cout << "UPDATE BUUUULLET POS\n";
     this->associated.box += (this->speed * dt);
-    // cout << "THIS --> SPEED ===> " << this->speed << endl;
 }
 
 void Bullet::gotoTarget(Sprite* sprite) {
@@ -86,28 +86,25 @@ void Bullet::SetTarget(int x, int y) {
 }
 
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
-double maxDistance, string sprite): Component(associated) {
+double maxDistance, string sprite, int x, int y): Component(associated) {
     (void)maxDistance;    (void)speed;    (void)damage;
+    this->target = Vec2(x,y);
     cout << "BULLET ON" << endl;
     this->distanceLeft = 1000000;
-    Sprite * spriteComponent = new Sprite(this->associated, sprite.c_str());
+    this->mySprite = new Sprite(this->associated, sprite.c_str());
     this->associated.AddComponent(
-        spriteComponent
+        this->mySprite
     );
     this->associated.AddComponent(this);
-
-    this->associated.box.SetXY(00, 00);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
-    
-    // cout << "Bullet speed [0] : " << this->speed << endl;
-
+    cout << "target : " << target << endl;
+    myAbort(101);
+    this->associated.box.SetXY(target);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
+    // myAbort(12);
     this->speed = Vec2(1,0);    // base speed
     this->speed.rotate(angle);
 
     this->speed = this->speed.unitary() * speed;
 
-    // this->UpdatePos(dt);
-    cout << "FINAL SPEED" << this->speed << endl;
-    // this->UpdatePosAndSpeed();
 }
 Bullet::~Bullet() {
     cout << "[Bullet] MORTO" << endl;

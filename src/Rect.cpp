@@ -13,20 +13,13 @@ void Rect::UpdateCenter() {
 
 
 Rect::Rect(double x, double y, double w, double h) : x(x), y(y), w(w), h(h){
-    // cout << "--------------------- :: " << this << "\n";
-    // cout << "\tx, y, w, h\n\t" << x << ", " << y << ", " << w << ", " << h << endl;
     this->UpdateCenter();
-    // cout << "END RECT_CONTRUCTOR\n";
 }
 
 Rect::Rect(const Vec2& vec) {
-    // cout << "+++++++++++++++++++++ :: " << this << "\n";
-    // cout << "\tx, y, w, h\n\t" << x << ", " << y << ", " << w << ", " << h << endl;
-
     this->x = vec.x;    this->y = vec.y;
     this->w = 0;    this->h = 0;
     this->UpdateCenter();
-    // cout << "[Rect::Rect(const Vec2& vec)] " << *this << endl;
 }
 
 void Rect::SetXYWH(double x, double y, double w, double h) {

@@ -194,7 +194,6 @@ weak_ptr<GameObject> State::AddObject(GameObject* go) {
 		go->Start();
 	this->objectArray.emplace_back(sharedGO);  // TINHA ME ESQUECIDO DESSA LINHA....
 	return weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
-	/* Em Game::Run, chame o Start do State logo antes do while. */
 }
 
 /* Essa função é geralmente usada para se obter o

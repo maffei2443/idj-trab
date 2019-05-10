@@ -16,10 +16,9 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
     // this->associated.box.SetCenter(this->alienCenter.box.center);
     this->associated.box.SetXYWH(this->alienCenter.box.center.x, this->alienCenter.box.center.y , mySprite->GetWidth(), mySprite->GetHeight()  ) ;    
-    cout << "CENTER OF DAMMIT ALIEN : " << this->alienCenter.box.center;
-    cout << "CENTER OF FUCKING MINION : " << this->associated.box.center;
-    cout << "BOX OF FUCKING MINION : " << this->associated.box;
-    // myAbort(1006);
+/*     cout << "CENTER OF DAMMIT ALIEN : " << this->alienCenter.box.center << endl;
+    cout << "CENTER OF FUCKING MINION : " << this->associated.box.center << endl;
+ */ 
     this->associated.AddComponent(this);
     this->innerPos = initPos;
 }
@@ -36,8 +35,9 @@ void Minion::Update(double dt) {
                    + this->alienCenter.box.center 
                 //    - Vec2(this->alienCenter.box.w/2, this->alienCenter.box.h/2) 
                    ;
-    // cout << "innerPos : " << innerPos << endl;
     this->associated.box.SetCenter(newPos);
+    // cout << "??? : " << this->associated.box << endl;
+    // OK funcionando
 }
 
 void Minion::Render(){ 
@@ -53,23 +53,35 @@ bool Minion::Is(string type){
 void Minion::Shoot(Vec2 direction) {
     GameObject* GO_of_bullet = new GameObject;
     cout << "Old direction : " << direction << endl;
-    cout << "Alin.Center => " << this->associated.box.center;
+    cout << "Alien.box.Center => " << this->associated.box.center << endl;
+    cout << "Alien.associated.box => " << this->associated.box << endl;
+    // myAbort(14);
     direction = direction - Vec2(this->associated.box);
 
-    cout << "New direction : " << direction << endl;
+    // cout << "New direction : " << direction << endl;
 
     Vec2 vecNormalized = direction.unitary();
     Vec2 myPos = Vec2(this->associated.box);
     cout << "this->associated.box ==> " << this->associated.box << endl;
     cout << "MyPos : " << myPos << endl;
-    // abort();
+    // myAbort(13);
+
     double angle = RAD2DEG * atan2(vecNormalized.y, vecNormalized.x) ;
-    new Bullet(*GO_of_bullet, angle, .20, 1, 0, "assets/img/minionbullet1.png");
+    cout << "Minion.associated.box == " << this->associated.box << endl;
+    int damage = 0;
+    double speed = 0.2;
+    double maxDistance = 100000;
+    new Bullet(*GO_of_bullet, angle, speed, damage, maxDistance,
+        "assets/img/minionbullet1.png", this->associated.box.x, this->associated.box.y);
     // cout << "ADDED BULLET\n";
     Game::GetInstance().GetState().AddObject(GO_of_bullet);
 
 }
 
 void Minion::Start() {
+    this->started = true;
+}
 
+Rect Minion::GetBox() {
+    return this->associated.box;
 }
