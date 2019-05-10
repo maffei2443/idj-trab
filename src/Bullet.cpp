@@ -33,6 +33,7 @@ double maxDistance, string sprite): Component(associated) {
     this->speed = {0.01, 0.01};
 }
 Bullet::~Bullet() {
+    cout << "[Bullet] MORTO" << endl;
     myAbort(111222);
 }
 void Bullet::Update(double dt) {
@@ -41,6 +42,7 @@ void Bullet::Update(double dt) {
     if(this->distanceLeft > 0) {
         this->associated.box += this->speed;
         this->distanceLeft -= this->speed.abs();
+        // this->associated.RequestDelete();
     }
     else {
         this->associated.RequestDelete();

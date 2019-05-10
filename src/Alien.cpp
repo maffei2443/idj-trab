@@ -155,8 +155,7 @@ um tiro, ou direito para movimento. */
                 this->speed.y = this->speed.x * slope;
             }
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
-            if(/* IsDoubleDiffZero(old_pos.x, this->associated.box.x) or IsDoubleDiffZero(old_pos.y, this->associated.box.y)
-                or */ IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
+            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
                 this->gotoTarget(AlienSprite);
             }
             else {

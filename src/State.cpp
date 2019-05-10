@@ -101,10 +101,12 @@ void State::Update(double dt) {
 	// abort();
 	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
-		 it != this->objectArray.end();) {
+		it != this->objectArray.end();) {
 			if((**it).IsDead()) {
-        it = this->objectArray.erase(it);
-      }
+        		it = this->objectArray.erase(it);
+				cout << "IS MORTO" << endl;
+				// delete &*it;
+      		}
 			else {
 				it++;
 			}

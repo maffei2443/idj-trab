@@ -8,3 +8,4 @@
 
 3. Tiro!
  
+4. Add static_cast
