@@ -27,8 +27,7 @@ const string Alien::type("Alien");
 void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
-        // Minion* mini = ((Minion*)this->minionArray[0].lock().get());
-        Minion* mini = (Minion*)this->usefulMinionArray[0];
+        Minion* mini = (Minion*) (this->minionArray[0].lock().get())->GetComponent("Minion");
         cout << "&Mini RECOVERED : " << mini << endl;
         cout << "Mini.associated.box : " << mini->GetBox() << endl;
         // myAbort(999);
@@ -110,7 +109,6 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
 Alien::~Alien() {
     // Esvaziar o array com os minions.
     this->minionArray.clear();
-    this->usefulMinionArray.clear();
 }
 
 
@@ -202,7 +200,6 @@ void Alien::Start() {
             // myAbort(666);
         }
         this->minionArray.emplace_back( minionWeakPtr );
-        this->usefulMinionArray.push_back(added);
     }
 }
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
