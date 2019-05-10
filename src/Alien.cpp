@@ -24,6 +24,18 @@ static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 const string Alien::type("Alien");
 
+void Alien::Shoot() {
+    GameObject* GO_of_bullet = new GameObject;
+    cout << "Alin.Center => " << this->associated.box.center;
+    Vec2 vecNormalized = this->associated.box.center.unitary();
+    double angle = RAD2DEG * atan2(-vecNormalized.x, -vecNormalized.y);
+    cout << "angle :: " << angle << endl;
+    new Bullet(*GO_of_bullet, angle, .20, 1, 0, "assets/img/minionbullet1.png");
+    cout << "ADDED BULLET\n";
+    Game::GetInstance().GetState().AddObject(GO_of_bullet);
+
+}
+
 void Alien::UpdatePosAndSpeed() {
     if (this->click.targetX || this->click.targetY) {
         Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
@@ -110,11 +122,7 @@ um tiro, ou direito para movimento. */
                     action->pos.x - AlienSprite->GetWidth()/2,
                     action->pos.y - AlienSprite->GetHeight()/2);
                 // Colcocar um bullet na origem
-                GameObject* GO_of_bullet = new GameObject;
-
-                new Bullet(*GO_of_bullet, rand()%360, .20, 1, 0, "assets/img/minionbullet1.png");
-                cout << "ADDED BULLET\n";
-                Game::GetInstance().GetState().AddObject(GO_of_bullet);
+                this->Shoot();
                 // cout << "END GHOOT\n";
                 break;}
             case Action::ActionType::MOVE:{
