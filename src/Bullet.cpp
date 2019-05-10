@@ -20,6 +20,58 @@ int damage;
 const int VEL = 3;
 static InputManager& inputManager = InputManager::GetInstance();
 
+void Bullet::UpdatePosAndSpeed() {
+    cout << "UPDATE BUUUULLET SPEEEED\n";
+    if (true) {
+        Sprite * mySprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+        double midX = (this->associated.box.x + (double)mySprite->GetWidth()/2);
+        double midY = (this->associated.box.y + (double)mySprite->GetHeight()/2);
+
+        double deltaX = -(midX-this->click.x);
+        double deltaY = -(midY-this->click.y);
+
+        double absDeltaX = fabs(deltaX);
+        double absDeltaY = fabs(deltaY);
+
+        double slope = deltaY / deltaX;
+        double slopeInverse = deltaX / deltaY;
+        
+        Vec2 old_speed = this->speed;
+
+        if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
+            this->gotoTarget(mySprite);
+        }
+        else {
+            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.x = this->speed.y * slopeInverse ;  // 
+            }
+            else {
+                this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                this->speed.y = this->speed.x * slope;
+            }
+            // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
+            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
+                this->gotoTarget(mySprite);
+            }
+            else {
+                this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
+                // cout << "NOT NOT NOT NOT" << endl;
+            }
+        }
+    }
+    else
+        myAbort(1221);
+    // cout << "THIS --> SPEED ===> " << this->speed << endl;
+
+}
+
+void Bullet::UpdatePos(double dt) {
+    // cout << "UPDATE BUUUULLET POS\n";
+    this->associated.box += (this->speed * dt);
+    // cout << "THIS --> SPEED ===> " << this->speed << endl;
+}
+
 void Bullet::gotoTarget(Sprite* sprite) {
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
@@ -27,7 +79,6 @@ void Bullet::gotoTarget(Sprite* sprite) {
         this->click.x - ((double)sprite->GetWidth())/2,
         this->click.y - ((double)sprite->GetHeight())/2);
 }
-
 
 void Bullet::SetTarget(int x, int y) {
     if (this->click.targetX || this->click.targetY) {
@@ -47,7 +98,7 @@ void Bullet::SetTarget(int x, int y) {
         Vec2 old_speed = this->speed;
 
         if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
-            // this->gotoTarget(AlienSprite);
+            // this->gotoTarget(mySprite);
             cout << "BULLET BULLET BULLET BILL\n";
         }
         else {
@@ -77,29 +128,27 @@ double maxDistance, string sprite): Component(associated) {
     (void)damage;
     cout << "BULLET ON" << endl;
     this->distanceLeft = 1000000;
-    
+    Sprite * spriteComponent = new Sprite(this->associated, sprite.c_str());
     this->associated.AddComponent(
-        new Sprite(this->associated, sprite.c_str())
+        spriteComponent
     );
     this->associated.AddComponent(this);
-    this->associated.box.SetXY(200, 200);   // colocar na origem o bullet. Soh pra ver.
+
+    int mouseX = inputManager.GetMouseX();
+    int mouseY = inputManager.GetMouseY();
+
+    this->associated.box.SetXY(400, 400);   // colocar na origem o bullet. Soh pra ver.
     
     // cout << "Bullet speed [0] : " << this->speed << endl;
 
     this->speed = Vec2(1,0);    // base speed
-    // cout << "Bullet speed [1] : " << this->speed << endl;
-    // this->speed.rotate(angle);
+    this->speed.rotate(angle);
 
-    // cout << "Bullet speed [2] : " << this->speed << endl;
-    // cout << "Bullet speed.unitary() [2] : " << this->speed.unitary() << endl;
     this->speed = this->speed.unitary() * speed;
-    // this->speed = {0.01, 0.01};
-    cout << "Bullet speed [3] : " << this->speed << endl;
-    // abort();
-    int mouseX = inputManager.GetMouseX();
-    int mouseY = inputManager.GetMouseY();
 
     this->SetTarget(mouseX, mouseY);
+    cout << "FINAL SPEED" << this->speed << endl;
+    // this->UpdatePosAndSpeed();
 }
 Bullet::~Bullet() {
     cout << "[Bullet] MORTO" << endl;
@@ -110,18 +159,20 @@ void Bullet::Update(double dt) {
     (void)dt;
     // cout << "BULLET UPDATING\n";
     // todo : add robusteza (i.e, impedir que a bala passe do ponto)
-    if(this->distanceLeft > 0) {
-        this->associated.box += this->speed;
-        this->distanceLeft -= this->speed.abs();
+/*     if(this->distanceLeft > 0) {
+ */        /* this->UpdatePos(); */
+        
+        // this->distanceLeft -= this->speed.abs();
+    Bullet::UpdatePos(dt);
         // this->associated.RequestDelete();
-    }
+/*     }
     else {
         this->associated.RequestDelete();
-        // myAbort(11);
+        myAbort(11);
 
         // this->distanceLeft -= (speed*;
     }
-    // cout << "BULLET UPDATE << " << this << endl;
+ */    // cout << "BULLET UPDATE << " << this << endl;
 }
 
 void Bullet::Render() {

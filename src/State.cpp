@@ -114,7 +114,6 @@ void State::Update(double dt) {
 	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		it != this->objectArray.end();) {
-			// cout << "oooooooo" << endl;
 			if((**it).IsDead()) {
         		it = this->objectArray.erase(it);
 				cout << "IS MORTO" << endl;
@@ -123,13 +122,11 @@ void State::Update(double dt) {
 			else {
 				it++;
 			}
-			// cout << "aaaaaaaa" << endl;
 	}
 	// [T4] Usaremos a câmera sem foco, por enquanto.
 	/* 	Em State::Update, chame o
 		update da câmera, e [...]*/ 
 	Camera::Update(dt);
-
 }
 
 

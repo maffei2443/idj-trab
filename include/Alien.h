@@ -20,6 +20,7 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
+    void UpdatePosAndSpeed();
     const static string type;
     void gotoTarget(Sprite*);
     const static int HEALTH_POINTS = 30;

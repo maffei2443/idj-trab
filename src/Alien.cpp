@@ -12,6 +12,7 @@
 #include "Minion.h"
 #include "Game.h"
 #include "Bullet.h"
+#include <cmath>
 
 using std::cout;
 using std::endl;
@@ -22,6 +23,48 @@ using std::string;
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 const string Alien::type("Alien");
+
+void Alien::UpdatePosAndSpeed() {
+    if (this->click.targetX || this->click.targetY) {
+        Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+        double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
+        double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
+
+        double deltaX = -(midX-this->click.x);
+        double deltaY = -(midY-this->click.y);
+
+        double absDeltaX = fabs(deltaX);
+        double absDeltaY = fabs(deltaY);
+
+        double slope = deltaY / deltaX;
+        double slopeInverse = deltaX / deltaY;
+        
+        Vec2 old_speed = this->speed;
+
+        if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
+            this->gotoTarget(AlienSprite);
+        }
+        else {
+            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.x = this->speed.y * slopeInverse ;  // 
+            }
+            else {
+                this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                this->speed.y = this->speed.x * slope;
+            }
+            // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
+            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
+                this->gotoTarget(AlienSprite);
+            }
+            else {
+                this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
+            }
+        }
+    }
+
+}
+
 void Alien::gotoTarget(Sprite* AlienSprite) {
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
@@ -68,7 +111,8 @@ um tiro, ou direito para movimento. */
                     action->pos.y - AlienSprite->GetHeight()/2);
                 // Colcocar um bullet na origem
                 GameObject* GO_of_bullet = new GameObject;
-                new Bullet(*GO_of_bullet, 90.0, 2.0, 1, 0, "assets/img/minionbullet1.png");
+
+                new Bullet(*GO_of_bullet, rand()%360, .20, 1, 0, "assets/img/minionbullet1.png");
                 cout << "ADDED BULLET\n";
                 Game::GetInstance().GetState().AddObject(GO_of_bullet);
                 // cout << "END GHOOT\n";
@@ -101,46 +145,7 @@ um tiro, ou direito para movimento. */
     }
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
-    #pragma region
-    
-    if (this->click.targetX || this->click.targetY) {
-        Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
-        double midX = (this->associated.box.x + (double)AlienSprite->GetWidth()/2);
-        double midY = (this->associated.box.y + (double)AlienSprite->GetHeight()/2);
-
-        double deltaX = -(midX-this->click.x);
-        double deltaY = -(midY-this->click.y);
-
-        double absDeltaX = fabs(deltaX);
-        double absDeltaY = fabs(deltaY);
-
-        double slope = deltaY / deltaX;
-        double slopeInverse = deltaX / deltaY;
-        
-        Vec2 old_speed = this->speed;
-
-        if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
-            this->gotoTarget(AlienSprite);
-        }
-        else {
-            if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL);
-                this->speed.x = this->speed.y * slopeInverse ;  // 
-            }
-            else {
-                this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                this->speed.y = this->speed.x * slope;
-            }
-            // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
-            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
-                this->gotoTarget(AlienSprite);
-            }
-            else {
-                this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
-            }
-        }
-    }
-    #pragma endregion
+    this->UpdatePosAndSpeed();    
 
     // Devemos pedir para remover esse GameObject se a vida dele ficar
     // menor ou igual a 0.

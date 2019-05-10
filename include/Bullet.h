@@ -14,6 +14,8 @@ using std::string;
 // Bullet é um projétil que segue em linha reta após sua criação.
 class Bullet : public Component {
 private:
+    void UpdatePos(double);
+    void UpdatePosAndSpeed();
     void SetTarget(int, int);
     void gotoTarget(Sprite* );
     const static string type;
