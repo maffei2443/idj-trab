@@ -6,7 +6,9 @@ RUN = ./
 
 DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d
 
-DIRECTIVES = -std=c++1z -Wall -Wno-reorder -Wextra -Wno-comment -Wno-unknown-pragmas -fpermissive  -c -I $(HEADER_PATH)
+DIRECTIVES = -std=c++1z -fpermissive  -c -I $(HEADER_PATH)
+
+WARNINGS = -Wall -Wno-reorder -Wextra -Wno-comment -Wno-unknown-pragmas -Wfloat-conversion -Wdouble-conversion
 
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
@@ -30,7 +32,7 @@ RUN =
 
 SDL_PATH = C:\SDL2\SDL2-2.0.5\x86_64-w64-mingw32
 
-DIRECTIVES += -I $(SDL_PATH)\include\SDL2
+DIRECTIVES += $(WARNINGS) -I $(SDL_PATH)\include\SDL2
 
 LIBS = -L $(SDL_PATH)\lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 

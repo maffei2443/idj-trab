@@ -4,6 +4,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::cerr;
 using std::ostream;
 #include "Util.h"
 // static double lineSlope(const Vec2& va, const Vec2& vb) {
@@ -61,9 +62,22 @@ Vec2 Vec2::operator-(const int& scalar) const{
     return {this->x  - scalar, this->y  - scalar};
 }
 Vec2 Vec2::operator*(const int& scalar) const{
+    cerr << "DESGRÇAAA" << endl;
     return {this->x  * scalar, this->y  * scalar};
 }
 Vec2 Vec2::operator/(const int& scalar) const{
+    return {this->x  / scalar, this->y  / scalar};
+}
+Vec2 Vec2::operator+(const double& scalar) const{
+    return {this->x  + scalar, this->y  + scalar};
+}
+Vec2 Vec2::operator-(const double& scalar) const{
+    return {this->x  - scalar, this->y  - scalar};
+}
+Vec2 Vec2::operator*(const double& scalar) const{
+    return {this->x  * scalar, this->y  * scalar};
+}
+Vec2 Vec2::operator/(const double& scalar) const{
     return {this->x  / scalar, this->y  / scalar};
 }
 
@@ -95,6 +109,7 @@ double Vec2::abs() {
 
 Vec2 Vec2::unitary() {
     this->norm = this->abs();
+    // cout << "NORMA : " << this->norm << endl;
     return Vec2(this->x/this->norm, this->y/this->norm);
 }
 

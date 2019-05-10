@@ -11,6 +11,7 @@
 #include "Util.h"
 #include "Minion.h"
 #include "Game.h"
+#include "Bullet.h"
 
 using std::cout;
 using std::endl;
@@ -59,7 +60,6 @@ um tiro, ou direito para movimento. */
             case Action::ActionType::SHOOT:{
                 // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
                 // Precisamos implementar mais algumas coisas antes.
-                
                 this->speed = {0, 0};
                 this->click.targetX = this->click.targetY = false;
                 Sprite * AlienSprite = ((Sprite*)this->associated.GetComponent("Sprite"));
@@ -67,7 +67,11 @@ um tiro, ou direito para movimento. */
                     action->pos.x - AlienSprite->GetWidth()/2,
                     action->pos.y - AlienSprite->GetHeight()/2);
                 // Colcocar um bullet na origem
-
+                GameObject* GO_of_bullet = new GameObject;
+                new Bullet(*GO_of_bullet, 90.0, 0.0, 1, 0, "assets/img/minionbullet1.png");
+                cout << "ADDED BULLET\n";
+                Game::GetInstance().GetState().AddObject(GO_of_bullet);
+                // cout << "END GHOOT\n";
                 break;}
             case Action::ActionType::MOVE:{
                 this->click.targetX = true;
@@ -145,6 +149,7 @@ um tiro, ou direito para movimento. */
         cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
+    // cout << "END ALIEN.UPDATE\n";
     #pragma endregion
 }
 void Alien::Render() {
@@ -178,5 +183,5 @@ desejado, não faça nada aqui. */
         minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
         this->minionArray.push_back( minionWeakPtr );
     }
-    printf("Alien.Start END %p\n", this);
+    // printf("Alien.Start END %p\n", this);
 }

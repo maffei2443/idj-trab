@@ -14,6 +14,7 @@ GameObject::GameObject() : isDead(false), box(),started(false) {
 GameObject::~GameObject() {
     //////printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
+    cout << "SOOOO Oi DIED ! " << this << endl;
     this->components.clear();
     fflush(stdout);
 }
@@ -22,7 +23,7 @@ void GameObject::Update(double dt) {
     // cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
     for(auto& comp : this->components) {
         // printf("WILL CALL comp->GetType() of ======> %p\n", comp);
-        cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
+        // cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;
         comp->Update(dt);
     }
     // cout << "END GAMEOBJECT " << this <<  " UPDATE" << endl;
@@ -54,6 +55,7 @@ void GameObject::RemoveComponent(Component * cpt) {
     for(std::size_t i = 0; i < len; i++ ) {
         if (cpt != this->components[i]) continue;
         this->components.erase(this->components.begin() + i);
+        cout << "ERASEDD " << cpt << endl;
         break;
     }
 }
@@ -63,8 +65,9 @@ Component* GameObject::GetComponent(string type) {
         if(comp->Is(type))
             return comp;
     }
-    // LOG("Objeto não exixtente\n");
-    // LOG("Método incompleto!!! Terminna logo  isso..\n");
+    LOG("Objeto não existente\n");
+    LOG("Método incompleto!!! Terminna logo  isso..\n");
+    fflush(stdout);
     return nullptr;
 }
 

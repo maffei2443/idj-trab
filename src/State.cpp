@@ -38,17 +38,17 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
 	this->objectArray.emplace_back( bg );
-	printf("Added >>>>>>>>>> %p\n", bg);
+	// printf("Added >>>>>>>>>> %p\n", bg);
 	printf("emplaced background\n");
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
 	new Alien(*AlienGO, 1);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
-	printf("Added >>>>>>>>>> %p\n", AlienGO);
+	// printf("Added >>>>>>>>>> %p\n", AlienGO);
 
 	printf("emplaced alien\n");
-  	printf("HOW MANY GO : %lu\n", this->objectArray.size());
+  	// printf("HOW MANY GO : %lu\n", this->objectArray.size());
 	this->quitRequested = false;
   // this->music.Play(-1);
 }
@@ -93,15 +93,27 @@ void State::Update(double dt) {
 		}
 	}
 	#pragma endregion
-
-	for(auto& GO : this->objectArray) {
-		std::cout << "CALLING UPDATE FROM --> " << &GO << std::endl;
-		GO->Update(dt);
+	// cout << "STATE.UPDATE.UPDATE\n";
+	auto siz = this->objectArray.size();
+	auto begin = this->objectArray.begin();
+	// Por alguma razão, alguns GO estava virando nullptr (TODO: descobrir motivo)
+	for(int i = 0; i < siz;) {
+		if (!this->objectArray[i].get()) {
+			cout << "GHOOOOSST!" << endl;
+			this->objectArray.erase(begin + i);
+			siz--;
+			continue;
+		}
+		else  {
+			this->objectArray[i++]->Update(dt);
+		}
+		// cout << "[State.Update] KALL END " << GO << endl;
 	}
 	// abort();
 	// ERR << "Checking for dead... " << endl;
 	for(auto it = this->objectArray.begin();
 		it != this->objectArray.end();) {
+			// cout << "oooooooo" << endl;
 			if((**it).IsDead()) {
         		it = this->objectArray.erase(it);
 				cout << "IS MORTO" << endl;
@@ -110,6 +122,7 @@ void State::Update(double dt) {
 			else {
 				it++;
 			}
+			// cout << "aaaaaaaa" << endl;
 	}
 	// [T4] Usaremos a câmera sem foco, por enquanto.
 	/* 	Em State::Update, chame o
@@ -165,9 +178,15 @@ void State::Start() {
 // o objectArray chamando o Start de todos eles. Ao final, coloque true em
 // started.
 	this->LoadAssets();
-	this->started = true;;
+	this->started = true;
 	for(auto& i : this->objectArray) {
-		i.get()->Start();
+		auto p = i.get();
+		if(!p) {
+			myAbort(666);
+		}
+		cout << "STAT STAT STAT\n";
+		p->Start();
+		cout << "END END END\n";
 	}
 }
 

@@ -17,10 +17,6 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
 
     this->associated.box.SetXY( Vec2(this->alienCenter.box + vec ) ) ;    
     this->associated.AddComponent(this);
-    
-    GameObject* GO_of_bullet = new GameObject;
-    new Bullet(*GO_of_bullet, 90.0, 0.0, 1, 0, "assets/img/minionbullet1.png");
-    Game::GetInstance().GetState().AddObject(GO_of_bullet);
 }
 
 Minion::~Minion () {

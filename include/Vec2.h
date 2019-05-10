@@ -29,6 +29,11 @@ public:
     Vec2 operator*(const int&) const;
     Vec2 operator/(const int&) const;
 
+    Vec2 operator+(const double&) const;
+    Vec2 operator-(const double&) const;
+    Vec2 operator*(const double&) const;
+    Vec2 operator/(const double&) const;
+
     void operator+=(const int&);
     void operator-=(const int&);
     void operator*=(const int&);
