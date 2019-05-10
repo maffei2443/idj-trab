@@ -137,7 +137,7 @@ double maxDistance, string sprite): Component(associated) {
     int mouseX = inputManager.GetMouseX();
     int mouseY = inputManager.GetMouseY();
 
-    this->associated.box.SetXY(0, 0);   // colocar na origem o bullet. Ver se vai em direcao ao Alien
+    this->associated.box.SetXY(100, 100);   // colocar na origem o bullet. Ver se vai em direcao ao Alien
     
     // cout << "Bullet speed [0] : " << this->speed << endl;
 

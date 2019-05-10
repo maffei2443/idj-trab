@@ -28,7 +28,8 @@ void Alien::Shoot() {
     GameObject* GO_of_bullet = new GameObject;
     cout << "Alin.Center => " << this->associated.box.center;
     Vec2 vecNormalized = this->associated.box.center.unitary();
-    double angle = RAD2DEG * atan2(-vecNormalized.x, -vecNormalized.y);
+    cout << "normalizado: " << vecNormalized << endl;
+    double angle = RAD2DEG * atan2(-vecNormalized.y, -vecNormalized.x) + 180.0;
     cout << "angle :: " << angle << endl;
     new Bullet(*GO_of_bullet, angle, .20, 1, 0, "assets/img/minionbullet1.png");
     cout << "ADDED BULLET\n";
