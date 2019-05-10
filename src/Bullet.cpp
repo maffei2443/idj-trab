@@ -75,9 +75,9 @@ void Bullet::UpdatePos(double dt) {
 void Bullet::gotoTarget(Sprite* sprite) {
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
-    this->associated.box.SetXY(
-        this->click.x - ((double)sprite->GetWidth())/2,
-        this->click.y - ((double)sprite->GetHeight())/2);
+    this->associated.box.SetCenter(
+        this->click.x,
+        this->click.y);
 }
 
 void Bullet::SetTarget(int x, int y) {
@@ -96,7 +96,7 @@ double maxDistance, string sprite): Component(associated) {
     );
     this->associated.AddComponent(this);
 
-    this->associated.box.SetXY(00, 00);   // colocar na origem o bullet. Ver se vai em direcao ao Alien
+    this->associated.box.SetXY(00, 00);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
     
     // cout << "Bullet speed [0] : " << this->speed << endl;
 

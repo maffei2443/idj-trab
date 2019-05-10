@@ -16,6 +16,10 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     new Sprite(this->associated, "assets/img/minion.png");
     // this->associated.box.SetCenter(this->alienCenter.box.center);
     this->associated.box.SetCenter( this->alienCenter.box.center ) ;    
+    cout << "CENTER OF DAMMIT ALIEN : " << this->alienCenter.box.center;
+    cout << "CENTER OF FUCKING MINION : " << this->associated.box.center;
+    cout << "BOX OF FUCKING MINION : " << this->associated.box;
+    // abort();
     this->associated.AddComponent(this);
     this->innerPos = initPos;
 }
@@ -44,6 +48,18 @@ bool Minion::Is(string type){
 
 // t5
 void Minion::Shoot(Vec2 direction) {
+    GameObject* GO_of_bullet = new GameObject;
+    cout << "Alin.Center => " << this->associated.box.center;
+    Vec2 vecNormalized = direction.unitary();
+    Vec2 myPos = Vec2(this->associated.box);
+    cout << "this->associated.box ==> " << this->associated.box << endl;
+    cout << "MyPos : " << myPos << endl;
+    // abort();
+    double angle = RAD2DEG * atan2(vecNormalized.y, vecNormalized.x) ;
+    new Bullet(*GO_of_bullet, angle, .20, 1, 0, "assets/img/minionbullet1.png");
+    // cout << "ADDED BULLET\n";
+    Game::GetInstance().GetState().AddObject(GO_of_bullet);
+
 }
 
 void Minion::Start() {

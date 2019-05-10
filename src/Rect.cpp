@@ -32,8 +32,9 @@ Rect::Rect(const Vec2& vec) {
 void Rect::SetXYWH(double x, double y, double w, double h) {
     this->x = x;
     this->y = y;
-    this->w = IsDoubleZero(w) ? w : this->w;
-    this->h = IsDoubleZero(h) ? h : this->h;
+    // QUE BUG BESTA...... SE MATA NA MORAL
+    this->w = IsDoubleZero(w) ? 0 : w;
+    this->h = IsDoubleZero(h) ? 0 : h;
     this->UpdateCenter();
 }
 void Rect::SetXWH (double x, double w, double h){
@@ -135,9 +136,8 @@ void Rect::SetCenter(Rect rect) {
 
 
 std::ostream & operator << (std::ostream &out, const Rect &ret) {
-    out << "(x, y) == (" << ret.x << ", " << ret.y << ")\n";
-    out << "Center: " << ret.center;
-    out << "(x,y) == (" << ret.x << ", " << ret.y << ")\n";
+    out << "(x, y, w, h) == (";
+    out << ret.x << ", " << ret.y << ", " << ret.w << ", " << ret.h << ")";
     return out;
 }
 

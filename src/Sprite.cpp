@@ -21,7 +21,9 @@ Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
-
+  printf("IMG: %s\n", file.c_str());
+  printf("SPRITE DIM : %d, %d\n", this->width, this->height);
+  // abort();
 }
 
 Sprite::~Sprite() {

@@ -182,9 +182,9 @@ void State::Start() {
 		if(!p) {
 			myAbort(666);
 		}
-		cout << "STAT STAT STAT\n";
+		// cout << "STAT STAT STAT\n";
 		p->Start();
-		cout << "END END END\n";
+		// cout << "END END END\n";
 	}
 }
 

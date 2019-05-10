@@ -47,7 +47,7 @@ void GameObject::AddComponent(Component* cpt) {
     // BUG POSSIVEL
     // this->components.push_back(cpt);
     this->components.emplace_back(cpt);
-    cout << "[GameObject " << this << "] Emplaced ---> " << cpt->GetType() << endl;
+    // cout << "[GameObject " << this << "] Emplaced ---> " << cpt->GetType() << endl;
 }
 
 void GameObject::RemoveComponent(Component * cpt) {

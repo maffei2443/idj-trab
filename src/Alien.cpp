@@ -24,15 +24,14 @@ static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 const string Alien::type("Alien");
 
-void Alien::Shoot(int mouseX, int mouseY) {
-    GameObject* GO_of_bullet = new GameObject;
-    cout << "Alin.Center => " << this->associated.box.center;
-    Vec2 vecNormalized = (Vec2(mouseX, mouseY)).unitary();
-
-    double angle = RAD2DEG * atan2(-vecNormalized.y, -vecNormalized.x) + 180.0;
-    new Bullet(*GO_of_bullet, angle, .20, 1, 0, "assets/img/minionbullet1.png");
-    cout << "ADDED BULLET\n";
-    Game::GetInstance().GetState().AddObject(GO_of_bullet);
+void Alien::Shoot(Vec2 pos) {
+    // abort();
+    if(this->nMinions) {
+        ((Minion*)this->minionArray[0].lock().get())->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
+    }
+    else {
+        cout << "No minions to shoot" << endl;
+    }
 
 }
 
@@ -83,8 +82,8 @@ void Alien::gotoTarget() {
     
     this->click.targetX = this->click.targetY = false;
     this->associated.box.SetCenter(
-        this->click.x - ((double)this->mySprite->GetWidth())/2,
-        this->click.y - ((double)this->mySprite->GetHeight())/2);
+        this->click.x,
+        this->click.y);
     // myAbort (222);
 }
 
@@ -92,10 +91,13 @@ Alien::Alien(GameObject& associated, int nMinions):Component(associated),
 hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
-    new Sprite(this->associated, "assets/img/alien.png");
+    this->mySprite = new Sprite(this->associated, "assets/img/alien.png");
     this->associated.AddComponent(this);
-    this->associated.box.SetXY(512, 300);
-
+    this->associated.box.SetXYWH(512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
+    cout << "ALIEN BOX :: " << this->associated.box << endl;
+    printf("SHOULD BE %d, %d, %d, %d\n", 512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
+    fflush(stdout);
+    // myAbort(12345);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
     this->mySprite = ((Sprite*)this->associated.GetComponent("Sprite"));
@@ -117,11 +119,7 @@ um tiro, ou direito para movimento. */
         Action *action = this->taskQueue.front();
         switch(action->type) {
             case Action::ActionType::SHOOT:{
-                // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
-                // Precisamos implementar mais algumas coisas antes.
-                // Colcocar um bullet na origem
-                this->Shoot(action->pos.x, action->pos.y);
-                // cout << "END GHOOT\n";
+                this->Shoot(Vec2(action->pos.x, action->pos.y));
                 break;}
             case Action::ActionType::MOVE:{
                 this->click.targetX = true;
