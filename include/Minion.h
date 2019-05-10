@@ -6,6 +6,7 @@
 #include <memory>
 
 #include <iostream>
+#include "Sprite.h"
 using std::cout;
 using std::endl;
 
@@ -19,6 +20,7 @@ private:
   Vec2 innerPos;  // de raio arbitrario, em relacao aa origem
   // TESTE FUNCIONA
   // std::weak_ptr<GameObject> alienCenter;
+  Sprite* mySprite;
 public:
     const string type = string("Minion");
     Minion(GameObject&, weak_ptr<GameObject>, double, Vec2);

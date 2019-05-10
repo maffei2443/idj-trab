@@ -183,7 +183,7 @@ void Alien::Start() {
             myAbort(111);
         }
         GameObject * minionGO = new GameObject();
-        new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(100, 0) );
+        new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(200, 0) );
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
         weak_ptr<GameObject> minionWeakPtr;
         minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);

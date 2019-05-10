@@ -13,13 +13,13 @@ using std::endl;
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     double arcOffsetDeg, Vec2 initPos=Vec2(rand()%360, 0)) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
-    new Sprite(this->associated, "assets/img/minion.png");
+    this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
     // this->associated.box.SetCenter(this->alienCenter.box.center);
-    this->associated.box.SetCenter( this->alienCenter.box.center ) ;    
+    this->associated.box.SetXYWH(this->alienCenter.box.center.x, this->alienCenter.box.center.y , mySprite->GetWidth(), mySprite->GetHeight()  ) ;    
     cout << "CENTER OF DAMMIT ALIEN : " << this->alienCenter.box.center;
     cout << "CENTER OF FUCKING MINION : " << this->associated.box.center;
     cout << "BOX OF FUCKING MINION : " << this->associated.box;
-    // abort();
+    // myAbort(1006);
     this->associated.AddComponent(this);
     this->innerPos = initPos;
 }
@@ -52,7 +52,12 @@ bool Minion::Is(string type){
 // t5
 void Minion::Shoot(Vec2 direction) {
     GameObject* GO_of_bullet = new GameObject;
+    cout << "Old direction : " << direction << endl;
     cout << "Alin.Center => " << this->associated.box.center;
+    direction = direction - Vec2(this->associated.box);
+
+    cout << "New direction : " << direction << endl;
+
     Vec2 vecNormalized = direction.unitary();
     Vec2 myPos = Vec2(this->associated.box);
     cout << "this->associated.box ==> " << this->associated.box << endl;
