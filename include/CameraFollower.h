@@ -20,7 +20,8 @@ class CameraFollower : public Component {
     bool Is(string);
     const string GetType() const {
         return this->type;
-}    
+    }
+    void Start();    
 };
 
 #endif

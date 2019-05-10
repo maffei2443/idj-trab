@@ -27,13 +27,13 @@ using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * bg = new GameObject;
   new Sprite( *bg, "assets/img/ocean.jpg" );
-	// new CameraFollower(*bg); // still not sure about this necessity
+  
+	// bg->AddComponent(new CameraFollower(*bg));
+	// Causa efeito de repetiçã oda imagem...
 	/* T5
-	A única coisa
-que precisa fazer é no Update fazer com que a posição de seu gameObject
-associado seja igual à posição da câmera.
-Adicione esse componente ao gameObject que contêm a Sprite de
-fundo e voilà! */
+	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
+	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
+	que contêm a Sprite de fundo e voilà! */
 	string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
 	new TileMap(*bg, tileSet);
@@ -59,12 +59,10 @@ State::~State() {
 
 
 void State::Update(double dt) {
-	this->quitRequested = 
-		this->inputManager->KeyPress(ESCAPE_KEY)
-		|| this->inputManager->QuitRequested();
+	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
+	|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao
 	if( this->inputManager->KeyPress(SPACE_KEY)) {
-		// printf("GG SPACE!\n");fflush(stdout);
 		Vec2 objPos = Vec2( 200, 0 );
 		objPos.rotate( rand() % 360 );
 		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
@@ -115,6 +113,7 @@ void State::Update(double dt) {
 	/* 	Em State::Update, chame o
 		update da câmera, e [...]*/ 
 	Camera::Update(dt);
+
 }
 
 
@@ -170,30 +169,19 @@ void State::Start() {
 	}
 }
 
-// t5
-std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
-	/* Em State::AddObject, ao invés de simplesmente colocar o GameObject
-passado no vetor, você vai criar um std:shared_ptr< GameObject > passando
-esse GameObject* como argumento de seu construtor. */
-	std::shared_ptr<GameObject> sharedGO(go);/*  = 
-		std::shared_ptr<GameObject>(go); */
-	/* Depois faça um
-PUSH_BACK desse shared_ptr em objectArray */
-	this->objectArray.push_back(sharedGO);
-	/* Se started já tiver sido
-chamado, chame o start desse GameObject. */
-	if(this->started)
-		sharedGO.get()->Start();
-	/* E retorne um std::weak_ptr <
-GameObject > construído usando o shared_ptr criado */
-	return std::weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
+weak_ptr<GameObject> State::AddObject(GameObject* go) {
+	shared_ptr<GameObject> sharedGO(go);
+	if(this->started && !go->started)
+		go->Start();
+	this->objectArray.emplace_back(sharedGO);  // TINHA ME ESQUECIDO DESSA LINHA....
+	return weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
 	/* Em Game::Run, chame o Start do State logo antes do while. */
 }
 
 /* Essa função é geralmente usada para se obter o
 weak_ptr de algum objeto que já temos o ponteiro puro dele e que já foi
 adicionado ao vetor de objetos. */
-std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
 	/* percorrer o vetor de objetos que
 temos comparando o endereço armazenado em cada std::shared_ptr com o
 passado como argumento. */

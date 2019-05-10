@@ -24,3 +24,6 @@ void CameraFollower::Render() {
 bool CameraFollower::Is(string type) {
     return this->type == type;
 }
+void CameraFollower::Start() {
+    this->started = true;
+}

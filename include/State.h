@@ -6,6 +6,10 @@
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
+using std::weak_ptr;
+using std::shared_ptr;
+using std::vector;
+
 #include "InputManager.h"
 // Class responsible for the game logic.
 class State {
@@ -13,13 +17,12 @@ class State {
     Music music;
     GameObject* bg;
     bool quitRequested;
-    std::vector<std::shared_ptr<GameObject>> objectArray;
+    vector<shared_ptr<GameObject>> objectArray;
 
-    void AddObject(int mouseX, int mouseY);
+    void AddObject(int, int );
     InputManager* inputManager = &InputManager::GetInstance();
     // t5
     bool started = false;
-
   public:
     State();
     ~State();
@@ -32,8 +35,8 @@ class State {
 
     // t5
     void Start();
-    std::weak_ptr<GameObject> AddObject(GameObject*);
-    std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
+    weak_ptr<GameObject> AddObject(GameObject*);
+    weak_ptr<GameObject> GetObjectPtr(GameObject*);
 };
 
 #endif
