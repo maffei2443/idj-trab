@@ -192,7 +192,7 @@ weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	shared_ptr<GameObject> sharedGO(go);
 	if(this->started && !go->started)
 		go->Start();
-	this->objectArray.emplace_back(sharedGO);  // TINHA ME ESQUECIDO DESSA LINHA....
+	this->objectArray.push_back(sharedGO);  // TINHA ME ESQUECIDO DESSA LINHA....
 	return weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
 }
 

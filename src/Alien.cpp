@@ -27,7 +27,8 @@ const string Alien::type("Alien");
 void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
-        Minion* mini = ((Minion*)this->minionArray[0].lock().get());
+        // Minion* mini = ((Minion*)this->minionArray[0].lock().get());
+        Minion* mini = (Minion*)this->usefulMinionArray[0];
         cout << "&Mini RECOVERED : " << mini << endl;
         cout << "Mini.associated.box : " << mini->GetBox() << endl;
         // myAbort(999);
@@ -109,6 +110,7 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
 Alien::~Alien() {
     // Esvaziar o array com os minions.
     this->minionArray.clear();
+    this->usefulMinionArray.clear();
 }
 
 
@@ -190,13 +192,17 @@ void Alien::Start() {
         Minion* added = new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(200, 0) );
         cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
+        shared_ptr<GameObject>* srd = new shared_ptr<GameObject>(minionGO);
         weak_ptr<GameObject> minionWeakPtr;
-        minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
+        
+        minionWeakPtr = Game::GetInstance().GetState().AddObject(srd->get());
         cout << "MINION ADDED[weak_ptrVersion] ++++++++++++++++++ " << (Minion*)minionWeakPtr.lock().get() << endl;
         if ((Minion*)minionWeakPtr.lock().get() != added) {
-            myAbort(666);
+            cout << "Alien[199] NÃO SALVOU CORRETAMENTE O WEAK_PTR DO MINION :/" << endl;
+            // myAbort(666);
         }
-        this->minionArray.push_back( minionWeakPtr );
+        this->minionArray.emplace_back( minionWeakPtr );
+        this->usefulMinionArray.push_back(added);
     }
 }
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.

@@ -33,6 +33,7 @@ private:
     int nMinions;
     queue<Action*> taskQueue;
     vector<weak_ptr<GameObject>> minionArray;
+    vector<Minion*> usefulMinionArray;  // €sse funciona mesmo
     // 
     Click click;
     Vec2 targetPoint;

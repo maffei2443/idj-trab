@@ -97,7 +97,7 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     );
     this->associated.AddComponent(this);
     cout << "target : " << target << endl;
-    myAbort(101);
+    // myAbort(101);
     this->associated.box.SetXY(target);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
     // myAbort(12);
     this->speed = Vec2(1,0);    // base speed
