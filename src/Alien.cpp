@@ -119,10 +119,6 @@ um tiro, ou direito para movimento. */
             case Action::ActionType::SHOOT:{
                 // Caso a ação seja de tiro... por enquanto, apenas tire a ação da fila.
                 // Precisamos implementar mais algumas coisas antes.
-                this->speed = {0, 0};
-                this->click.targetX = this->click.targetY = false;                
-                this->gotoTarget();
-                cout << "NEW CENTER : " << this->associated.box.center << endl;
                 // Colcocar um bullet na origem
                 this->Shoot(action->pos.x, action->pos.y);
                 // cout << "END GHOOT\n";
