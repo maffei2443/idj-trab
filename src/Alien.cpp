@@ -24,12 +24,15 @@ static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 const string Alien::type("Alien");
 
+Minion* Alien::GetMinion(int i) {
+    Minion* ret =  (Minion*)(this->minionArray[i].lock().get())->GetComponent("Minion");
+    return ret;
+}
 
 void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
-        // Minion* mini = (Minion*) (this->minionArray[0].lock().get())->GetComponent("Minion");
-        Minion* mini = this->GetNearestMinion(pos.x, pos.y);
+        Minion* mini = this->GetNearestMinion(pos);
         cout << "&Mini RECOVERED : " << mini << endl;
         cout << "Mini.associated.box : " << mini->GetBox() << endl;
         mini->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
@@ -105,6 +108,8 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     // myAbort(12345);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
+    cout << "LIEN GOT " << nMinions << " minions\n";
+    // myAbort(1991919);
     this->mySprite = ((Sprite*)this->associated.GetComponent("Sprite"));
 }
 Alien::~Alien() {
@@ -215,11 +220,35 @@ void Alien::Start() {
         this->minionArray.push_back( minionWeakPtr );
     } */
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
+// Retorna nullptr se nao houver minions
 Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputManager.GetMouseY()) {
     Vec2 click(x, y);
-    int idx_of_closest_minion;
-    for(int i = 0; i < this->nMinions; i++) {
-        
+    if (!this->nMinions){
+        return nullptr;
     }
-    return nullptr;
+    cout << "\n\n\n\n" << endl;
+    cout << "TARGETO: " << Vec2(x,y) << endl;
+    Minion* nearestMinion = this->GetMinion(0);
+    Minion* nearestCandidate;
+    double minDist = nearestMinion->GetBox().center.dist(click);
+    double minDistCanditate;
+    for(int i = 1; i < this->nMinions; i++) {
+        nearestCandidate = this->GetMinion(i);
+        Vec2 center = nearestCandidate->GetBox().center;
+        // cout << "Candidate ::: " << nearestCandidate << endl;
+        cout << i << " - Candidate.center: " << center << endl;
+        minDistCanditate = center.dist(click);
+        if (minDistCanditate < minDist) {
+            nearestMinion = nearestCandidate;
+            minDist = minDistCanditate;
+        }
+    }
+    cout << "Nearest Center : =============> " << nearestMinion->GetBox().center << endl;
+    // sleep(1);
+    return (Minion*)nearestMinion;   // que coisa FEIA e aparentemente INEFICIENTE
+}
+
+Minion* Alien::GetNearestMinion(Vec2 pos) {
+    cout << "Wrapperzao" << endl;
+    return this->GetNearestMinion(pos.x, pos.y);
 }

@@ -8,7 +8,7 @@
 #include "Click.h"
 #include "Sprite.h"
 #include "Minion.h"
-
+#define BIG_DIST 1e12
 using std::queue;
 using std::vector;
 using std::weak_ptr;
@@ -36,6 +36,7 @@ private:
     queue<Action*> taskQueue;
     vector<weak_ptr<GameObject>> minionArray;
     // 
+    Minion* GetMinion(int);
     Click click;
     Vec2 targetPoint;
     Sprite* mySprite;
@@ -55,6 +56,7 @@ public:
     void Start();
     // t5 [gambs]
     Minion* GetNearestMinion(int, int);
+    Minion* GetNearestMinion(Vec2);
 };
 
 #endif

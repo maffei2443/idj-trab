@@ -8,9 +8,9 @@ using std::endl;
 
 class Rect{
 private:
-    void UpdateCenter();
     void _Mul(double);
 public:
+    void UpdateCenter();
     double x, y, w, h;
     Vec2 center;
     Rect(double x = 0, double y = 0, double w = 0, double h = 0);
