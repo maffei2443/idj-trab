@@ -181,27 +181,38 @@ bool Alien::Is(string type) {
 // t5
 void Alien::Start() {
     this->started = true;
+    cout << "MINIONS : " << this->nMinions << endl; 
+    double offSet = 360.0 / this->nMinions;
+    double arc = 0.0;
     for(int i = 0; i < this->nMinions; i++) {
-        weak_ptr<GameObject> weak_GO_of_this = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
-        if(&this->associated != (GameObject*)weak_GO_of_this.lock().get() ) {
-            myAbort(111);
-        }
+        weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+
         GameObject * minionGO = new GameObject();
-        Minion* added = new Minion(*minionGO, weak_GO_of_this, 90.0, Vec2(200, 0) );
-        cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
+        Minion* added = /* new Minion(*minionGO, self_weak_GO, 90.0, Vec2(200, 0) ); */
+        // new Minion(*minionGO, self_weak_GO, arc, Vec2(200, 0) );
+        new Minion(*minionGO, self_weak_GO, arc, Vec2(100, 0));
+        arc += offSet;
+        // cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
         shared_ptr<GameObject>* srd = new shared_ptr<GameObject>(minionGO);
         weak_ptr<GameObject> minionWeakPtr;
         
         minionWeakPtr = Game::GetInstance().GetState().AddObject(srd->get());
-        cout << "MINION ADDED[weak_ptrVersion] ++++++++++++++++++ " << (Minion*)minionWeakPtr.lock().get() << endl;
-        if ((Minion*)minionWeakPtr.lock().get() != added) {
-            cout << "Alien[199] NÃO SALVOU CORRETAMENTE O WEAK_PTR DO MINION :/" << endl;
-            // myAbort(666);
-        }
+        // cout << "MINION ADDED[weak_ptrVersion] ++++++++++++++++++ " << (Minion*)minionWeakPtr.lock().get() << endl;
         this->minionArray.emplace_back( minionWeakPtr );
     }
+    // myAbort(1121);
 }
+/*         weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+
+        GameObject * minionGO = new GameObject();
+        new Minion(*minionGO, self_weak_GO, i*10+100*(i&1? -1:1)+90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
+        // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
+
+        weak_ptr<GameObject> minionWeakPtr;
+        minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
+        this->minionArray.push_back( minionWeakPtr );
+    } */
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
 Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputManager.GetMouseY()) {
     Vec2 click(x, y);

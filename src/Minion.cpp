@@ -12,15 +12,23 @@ using std::endl;
 #include "Game.h"
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-    double arcOffsetDeg, Vec2 initPos=Vec2(rand()%360, 0)) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
+    double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
     this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
-    // this->associated.box.SetCenter(this->alienCenter.box.center);
-    this->associated.box.SetXYWH(this->alienCenter.box.center.x, this->alienCenter.box.center.y , mySprite->GetWidth(), mySprite->GetHeight()  ) ;    
+    initPos.rotate(arcOffsetDeg);
+    this->innerPos = initPos;
+    cout << "OFF_SET DEGREE : " << arcOffsetDeg << endl;
+
+    this->associated.box.SetXYWH(
+        this->alienCenter.box.center.x, 
+        this->alienCenter.box.center.y, 
+        mySprite->GetWidth(), 
+        mySprite->GetHeight()
+    ) ;
+    this->associated.box.AddX( arcOffsetDeg ); 
 /*     cout << "CENTER OF DAMMIT ALIEN : " << this->alienCenter.box.center << endl;
     cout << "CENTER OF FUCKING MINION : " << this->associated.box.center << endl;
  */ 
     this->associated.AddComponent(this);
-    this->innerPos = initPos;
 }
 
 Minion::~Minion () {
@@ -58,16 +66,10 @@ void Minion::Shoot(Vec2 direction) {
     // myAbort(14);
     direction = direction - Vec2(this->associated.box);
 
-    // cout << "New direction : " << direction << endl;
-
     Vec2 vecNormalized = direction.unitary();
     Vec2 myPos = Vec2(this->associated.box);
-    cout << "this->associated.box ==> " << this->associated.box << endl;
-    cout << "MyPos : " << myPos << endl;
-    // myAbort(13);
-
     double angle = RAD2DEG * atan2(vecNormalized.y, vecNormalized.x) ;
-    cout << "Minion.associated.box == " << this->associated.box << endl;
+    // cout << "Minion.associated.box == " << this->associated.box << endl;
     int damage = 0;
     double speed = 0.2;
     double maxDistance = 100000;

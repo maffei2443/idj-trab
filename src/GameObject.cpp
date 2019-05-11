@@ -8,7 +8,7 @@ using std::string;
 using std::cout;
 using std::endl;
 GameObject::GameObject() : isDead(false), box(),started(false) {
-    cout << "GO ADDR : " << this << endl;
+    // cout << "GO ADDR : " << this << endl;
 }
 
 GameObject::~GameObject() {
@@ -76,11 +76,11 @@ void GameObject::Start() {
     /* no Start percorrer os componentes chamando o Start
     deles, setando started;*/
     this->started = true;
-    printf("GameObject::Start %p\n", this);
+    // printf("GameObject::Start %p\n", this);
     for(auto& i : this->components) {
         i->Start();
     }
-    printf("Started all of %p\n", this);
+    // printf("Started all of %p\n", this);
     /*  e depois chamando o Start dos componentes
     adicionados em AddComponent quando Start já tiver sido chamado.  */
     // POSSIVEL BUG [????] [DUVIDA]

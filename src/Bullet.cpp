@@ -89,14 +89,14 @@ Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
 double maxDistance, string sprite, int x, int y): Component(associated) {
     (void)maxDistance;    (void)speed;    (void)damage;
     this->target = Vec2(x,y);
-    cout << "BULLET ON" << endl;
+    // cout << "BULLET ON" << endl;
     this->distanceLeft = 1000000;
     this->mySprite = new Sprite(this->associated, sprite.c_str());
     this->associated.AddComponent(
         this->mySprite
     );
     this->associated.AddComponent(this);
-    cout << "target : " << target << endl;
+    // cout << "target : " << target << endl;
     // myAbort(101);
     this->associated.box.SetXY(target);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
     // myAbort(12);

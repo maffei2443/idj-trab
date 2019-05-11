@@ -23,7 +23,7 @@ private:
   Sprite* mySprite;
 public:
     const string type = string("Minion");
-    Minion(GameObject&, weak_ptr<GameObject>, double, Vec2);
+    Minion(GameObject&, weak_ptr<GameObject>, double, Vec2 initPos=Vec2(rand()%360, 0));
     ~Minion();
     // herda de Component
     void Update(double);
