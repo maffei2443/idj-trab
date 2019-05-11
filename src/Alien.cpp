@@ -24,13 +24,14 @@ static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
 const string Alien::type("Alien");
 
+
 void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
-        Minion* mini = (Minion*) (this->minionArray[0].lock().get())->GetComponent("Minion");
+        // Minion* mini = (Minion*) (this->minionArray[0].lock().get())->GetComponent("Minion");
+        Minion* mini = this->GetNearestMinion(pos.x, pos.y);
         cout << "&Mini RECOVERED : " << mini << endl;
         cout << "Mini.associated.box : " << mini->GetBox() << endl;
-        // myAbort(999);
         mini->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
     }
     else {
@@ -190,7 +191,7 @@ void Alien::Start() {
         GameObject * minionGO = new GameObject();
         Minion* added = /* new Minion(*minionGO, self_weak_GO, 90.0, Vec2(200, 0) ); */
         // new Minion(*minionGO, self_weak_GO, arc, Vec2(200, 0) );
-        new Minion(*minionGO, self_weak_GO, arc, Vec2(100, 0));
+        new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius , 0));
         arc += offSet;
         // cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION

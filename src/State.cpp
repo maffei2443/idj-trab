@@ -43,7 +43,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 	// No construtor de State, crie um Alien
 	// (criar GO e adicionar componente Alien)
 	GameObject * AlienGO = new GameObject;
-	new Alien(*AlienGO, 100);  // TODO: IMPLEMENTAR MINIONS
+	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
 	this->objectArray.emplace_back( AlienGO );
 	// printf("Added >>>>>>>>>> %p\n", AlienGO);
 

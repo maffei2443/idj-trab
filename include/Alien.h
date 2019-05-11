@@ -21,6 +21,8 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
+    int baseRadius = 100;
+    int maxExtraRadius = 40;
     void Shoot(Vec2);
     void UpdatePosAndSpeed();
     const static string type;
@@ -37,7 +39,6 @@ private:
     Click click;
     Vec2 targetPoint;
     Sprite* mySprite;
-
 public:
     
     Alien(GameObject&, int);
@@ -52,7 +53,6 @@ public:
     // t5
     bool started = false;
     void Start();
-
     // t5 [gambs]
     Minion* GetNearestMinion(int, int);
 };
