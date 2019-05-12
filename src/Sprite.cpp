@@ -50,9 +50,9 @@ void Sprite::Render(int x, int y) {
       SDL_FLIP_NONE
     )
   );
-  // this->associated.box.x + Camera::speed.x/* *dt */;
-  // this->associated.box.y + Camera::speed.y/* *dt */;
-  // this->associated.box.UpdateCenter();
+  this->associated.box.x + Camera::speed.x/* *dt */;
+  this->associated.box.y + Camera::speed.y/* *dt */;
+  this->associated.box.UpdateCenter();
 
 }
 
@@ -102,10 +102,10 @@ bool Sprite::IsOpen() {
 }
 
 void Sprite::Update(double dt) {
-  this->associated.box.AddXY(
-    Camera::speed.x*dt,
-    Camera::speed.y*dt
-  );
+  // this->associated.box.AddXY(
+  //   Camera::speed.x*dt,
+  //   Camera::speed.y*dt
+  // );
   this->angleCurrent += this->angleToRotate * dt;
 }
 
