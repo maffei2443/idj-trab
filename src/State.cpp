@@ -25,19 +25,20 @@
 using std::string;
 using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
-  GameObject * bg = new GameObject;
-  new Sprite( *bg, "assets/img/ocean.jpg" );
+  GameObject * me = new GameObject;
+  new Sprite( *me, "assets/img/ocean.jpg" );
   
-	// bg->AddComponent(new CameraFollower(*bg));
+	// me->AddComponent(new CameraFollower(*me));
+	// new CameraFollower(*me);
 	// Causa efeito de repetiçã oda imagem...
 	/* T5
 	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
 	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
 	que contêm a Sprite de fundo e voilà! */
 	string tileSetPath("assets/img/tileset.png");
-	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *bg);
-	new TileMap(*bg, tileSet);
-	this->objectArray.emplace_back( bg );
+	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
+	new TileMap(*me, tileSet);
+	this->objectArray.emplace_back( me );
 	// printf("Added >>>>>>>>>> %p\n", bg);
 	printf("emplaced background\n");
 	// No construtor de State, crie um Alien

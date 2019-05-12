@@ -15,7 +15,7 @@ CameraFollower::CameraFollower(GameObject& associated) : Component(associated)
 }
 
 void CameraFollower::Update(double dt) {
-    this->associated.box.SetXY(Camera::pos);
+    this->associated.box.SetXY(Camera::pos*dt);
 }
 void CameraFollower::Render() {
 

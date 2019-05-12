@@ -54,8 +54,8 @@ void Camera::Update(double dt) {
         // e setar velocidade conforme tais fatos.
         double horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
         double verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
-        Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
-        Camera::pos = Camera::pos + (Camera::speed/* *dt */);
+        Camera::speed = Vec2(horizontalSpeed, verticalSpeed);
+        Camera::pos = Camera::pos + (Camera::speed*dt);
     }
     
 }
