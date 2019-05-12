@@ -89,9 +89,9 @@ void Bullet::SetTarget(int x, int y) {
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
 double maxDistance, string sprite, int x, int y): Component(associated) {
     (void)maxDistance;    (void)speed;    (void)damage;
-    this->target = Vec2(x,y);
+    // this->target = Vec2(x,y);
     // cout << "BULLET ON" << endl;
-    this->distanceLeft = 1000000;
+    this->distanceLeft = 1300;
     this->mySprite = new Sprite(this->associated, sprite.c_str());
     this->associated.AddComponent(
         this->mySprite
@@ -99,7 +99,13 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     this->associated.AddComponent(this);
     // cout << "target : " << target << endl;
     // myAbort(101);
-    this->associated.box.SetXY(target);   // colocar na origem o bullet. Ver se vai em direcao ao CLICK
+    this->associated.box.SetXY(Vec2(x,y));
+    this->mySprite->angleCurrent = 
+        angle ;
+    // cout << "Target: " << this->target << endl;
+    // cout << "[Bulltet.cpp:99] MyCenter: " << this->associated.box.GetCenter() << endl;
+    // cout << "this->mySprite->angleCurrent =  >> " << this->mySprite->angleCurrent  << endl;
+
     // myAbort(12);
     this->speed = Vec2(1,0);    // base speed
     this->speed.rotate(angle);
@@ -109,27 +115,16 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
 }
 Bullet::~Bullet() {
     cout << "[Bullet] MORTO" << endl;
-    myAbort(111222);
 }
 void Bullet::Update(double dt) {
-    // cout << "BULLET UPUPUP\n";
-    (void)dt;
-    // cout << "BULLET UPDATING\n";
     // todo : add robusteza (i.e, impedir que a bala passe do ponto)
-/*     if(this->distanceLeft > 0) {
- */        /* this->UpdatePos(); */
-        
-        // this->distanceLeft -= this->speed.abs();
-    Bullet::UpdatePos(dt);
-        // this->associated.RequestDelete();
-/*     }
+    if(this->distanceLeft > 0) {
+        this->distanceLeft -= this->speed.abs();
+        this->UpdatePos(dt);
+    }
     else {
         this->associated.RequestDelete();
-        myAbort(11);
-
-        // this->distanceLeft -= (speed*;
     }
- */    // cout << "BULLET UPDATE << " << this << endl;
 }
 
 void Bullet::Render() {

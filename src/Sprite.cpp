@@ -38,38 +38,8 @@ void Sprite::Render(int x, int y) {
   dsrect.y = y; 
   dsrect.w = this->clipRect.w * this->scale.x;
   dsrect.h = this->clipRect.h * this->scale.y;
-  /* Para o zoom, você deve ajustar para a escala as dimensões do retângulo
-de destino (quarto argumento da SDL_RenderCopy). O tamanho do Sprite
-será ajustado automaticamente para ocupar o novo retângulo. */
-
-
-/* ● SDL_Renderer* renderer: O renderizador de Game.
-// Render é um wrapper para SDL_RenderCopy, que recebe quatro
-// argumentos. /**/
-
   SDL_ClearError();
-  // SDL_ABORT_IF_NZERO(
-  //   SDL_RenderCopy( 
-  //     Game::GetInstance().GetRenderer(), 
-  //     this->texture, 
-  //     &this->clipRect, 
-  //     &dsrect 
-  //   )
-  // );
-  /* Para a rotação, vamos substituir a SDL_RenderCopy pela
-  SDL_RenderCopyEx. Ela recebe sete argumentos, sendo os quatro primeiros
-os mesmos da RenderCopy.*/
-/* Os três outros são:
-● angle : double - Ângulo de rotação no sentido horário em graus.
-● center : SDL_Point* - Determina o eixo em torno da qual a rotação
-ocorre. Se passarmos nullptr, a rotação ocorre em torno do centro do
-retângulo de destino, que é o que queremos.
-● flip : SDL_RendererFlip - Inverte a imagem verticalmente
-(SDL_FLIP_VERTICAL), horizontalmente (SDL_FLIP_HORIZONTAL),
-ambos (bitwise or), ou não inverte (SDL_FLIP_NONE). Você pode
-implementar suporte à inversão de Sprites se quiser, mas por enquanto,
-use SDL_FLIP_NONE. */
-  SDL_ABORT_IF_NZERO(
+    SDL_ABORT_IF_NZERO(
     SDL_RenderCopyEx( 
       Game::GetInstance().GetRenderer(), 
       this->texture, 
@@ -80,15 +50,15 @@ use SDL_FLIP_NONE. */
       SDL_FLIP_NONE
     )
   );
-  this->angleCurrent += this->angleToRotate;
-  this->angleCurrent -= (360 < fabs(this->angleCurrent) ? 360 : 0);
+  // this->associated.box.x + Camera::speed.x/* *dt */;
+  // this->associated.box.y + Camera::speed.y/* *dt */;
+  // this->associated.box.UpdateCenter();
+
 }
 
 
 void Sprite::Render() {
-  int x = this->associated.box.x + Camera::speed.x;
-  int y = this->associated.box.y + Camera::speed.y;
-  this->Render(x, y);  
+  this->Render(this->associated.box.x, this->associated.box.y);  
 }
 
 void Sprite::Open(string file) {
@@ -132,8 +102,11 @@ bool Sprite::IsOpen() {
 }
 
 void Sprite::Update(double dt) {
-  (void)dt;
-  // printf("\tSprite UPDATE OK\n");
+  this->associated.box.AddXY(
+    Camera::speed.x*dt,
+    Camera::speed.y*dt
+  );
+  this->angleCurrent += this->angleToRotate * dt;
 }
 
 bool Sprite::Is(string type) {
@@ -152,9 +125,11 @@ void Sprite::SetScale(double scaleX, double scaleY) {
   /* Não se esqueça de atualizar a box do GameObject associated. Para
 facilitar no futuro, mova a box dele de forma a manter o centro no mesmo
 lugar de antes da mudança de escala. */
-  this->associated.box.w *= scaleX;
-  this->associated.box.h *= scaleY;
-  this->associated.box.SetCenter(this->associated.box.center);
+  // this->associated.box.w *= scaleX;
+  // this->associated.box.h *= scaleY;
+  // this->associated.box.SetWH( this->associated.box.w * scaleX
+  //                            ,this->associated.box.h * scaleY);
+  this->associated.box.SetCenter(this->associated.box.GetCenter());
 }
 
 void Sprite::SetScale(Vec2 scale) {

@@ -13,7 +13,6 @@ GameObject::GameObject() : isDead(false), box(),started(false) {
 GameObject::~GameObject() {
     //////printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
-    cout << "SOOOO Oi DIED ! " << this << endl;
     this->components.clear();
     fflush(stdout);
 }
@@ -64,9 +63,9 @@ Component* GameObject::GetComponent(string type) {
         if(comp->Is(type))
             return comp;
     }
-    LOG("Objeto não existente\n");
-    LOG("Método incompleto!!! Terminna logo  isso..\n");
-    fflush(stdout);
+    // LOG("Objeto não existente\n");
+    // LOG("Método incompleto!!! Terminna logo  isso..\n");
+    // fflush(stdout);
     return nullptr;
 }
 

@@ -23,7 +23,7 @@ private:
     double distanceLeft;
     int damage;
     Click click;
-    Vec2 target;
+    // Vec2 target;     // deve conter as coordenadas do alvo
     Sprite * mySprite;
 public:
     Bullet(GameObject&, double, double, int,

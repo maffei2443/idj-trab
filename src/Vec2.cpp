@@ -22,7 +22,7 @@ Vec2 Vec2::operator+(const Vec2& toAdd) const{
 Vec2 Vec2::operator-(const Vec2& toSub) const{
     double deltaX = this->x - toSub.x;
     double deltaY = this->y - toSub.y;
-    cout << "DELTAS IN VEC : " << deltaX << " | " << deltaY << endl;
+    // cout << "DELTAS IN VEC : " << deltaX << " | " << deltaY << endl;
     return {
         IsDoubleZero(deltaX) ? 0.0: deltaX,
         IsDoubleZero(deltaY) ? 0.0: deltaY

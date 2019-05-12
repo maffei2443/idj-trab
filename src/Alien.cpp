@@ -38,7 +38,7 @@ using std::string;
 // std::minstd_rand0 GetRandom(seed1);  // minstd_rand0 is a standard linear_congruential_engine
 
 static InputManager& inputManager = InputManager::GetInstance();
-const int VEL = 3;
+const int VEL = 2;
 const string Alien::type("Alien");
 
 Minion* Alien::GetMinion(int i) {
@@ -83,7 +83,7 @@ void Alien::UpdatePos(double dt) {
         else {
             this->associated.box.AddXY(this->speed * dt);
         }
-        cout << "SPEED : " << this->speed << endl;
+        // cout << "SPEED : " << this->speed << endl;
     }
 }
 
@@ -146,17 +146,15 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
     this->mySprite = new Sprite(this->associated, "assets/img/alien.png");
-    this->mySprite->angleToRotate = -.01;
+    this->mySprite->angleToRotate = -.02;
 
     this->associated.AddComponent(this);
     this->associated.box.SetXYWH(512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
-    cout << "ALIEN BOX :: " << this->associated.box << endl;
-    printf("SHOULD BE %d, %d, %d, %d\n", 512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
-    fflush(stdout);
-    // myAbort(12345);
+    // cout << "ALIEN BOX :: " << this->associated.box << endl;
+    // printf("SHOULD BE %d, %d, %d, %d\n", 512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
+    // fflush(stdout);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
-    cout << "LIEN GOT " << nMinions << " minions\n";
     // myAbort(1991919);
 }
 Alien::~Alien() {
@@ -241,20 +239,14 @@ void Alien::Start() {
         weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
 
         GameObject * minionGO = new GameObject();
-        Minion* added = /* new Minion(*minionGO, self_weak_GO, 90.0, Vec2(200, 0) ); */
-        // new Minion(*minionGO, self_weak_GO, arc, Vec2(200, 0) );
-        new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius + radiusExtraRandom(randomGenerator) , 0));
+        Minion* added =
+            new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius + radiusExtraRandom(randomGenerator) , 0));
         arc += offSet;
-        // cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
-        // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
         shared_ptr<GameObject>* srd = new shared_ptr<GameObject>(minionGO);
-        weak_ptr<GameObject> minionWeakPtr;
-        
+        weak_ptr<GameObject> minionWeakPtr;        
         minionWeakPtr = Game::GetInstance().GetState().AddObject(srd->get());
-        // cout << "MINION ADDED[weak_ptrVersion] ++++++++++++++++++ " << (Minion*)minionWeakPtr.lock().get() << endl;
         this->minionArray.emplace_back( minionWeakPtr );
     }
-    // myAbort(1121);
 }
 
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
@@ -265,28 +257,25 @@ Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputM
         return nullptr;
     }
     // cout << "\n\n\n\n" << endl;
-    cout << "Where should the bullte go? " << Vec2(x,y) << endl;
+    // cout << "Where should the bullte go? " << Vec2(x,y) << endl;
     Minion* nearestMinion = this->GetMinion(0);
     Minion* nearestCandidate;
-    double minDist = nearestMinion->GetBox().center.dist(click);
+    // double minDist = nearestMinion->GetBox().center.dist(click);
+    double minDist = nearestMinion->GetBox().GetCenter().dist(click);
     double minDistCanditate;
     for(int i = 1; i < this->nMinions; i++) {
         nearestCandidate = this->GetMinion(i);
-        Vec2 center = nearestCandidate->GetBox().center;
-        // cout << "Candidate ::: " << nearestCandidate << endl;
-        // cout << i << " - Candidate.center: " << center << endl;
+        // Vec2 center = nearestCandidate->GetBox().center;
+        Vec2 center = nearestCandidate->GetBox().GetCenter();
         minDistCanditate = center.dist(click);
         if (minDistCanditate < minDist) {
             nearestMinion = nearestCandidate;
             minDist = minDistCanditate;
         }
     }
-    // cout << "Nearest Center : =============> " << nearestMinion->GetBox().center << endl;
-    // sleep(1);
-    return (Minion*)nearestMinion;   // que coisa FEIA e aparentemente INEFICIENTE
+    return (Minion*)nearestMinion; 
 }
 
 Minion* Alien::GetNearestMinion(Vec2 pos) {
-    // cout << "Wrapperzao" << endl;
     return this->GetNearestMinion(pos.x, pos.y);
 }

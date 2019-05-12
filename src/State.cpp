@@ -73,7 +73,7 @@ void State::Update(double dt) {
 	// Acerta [UM] pinguim sobre o mouse
 	#pragma region
 	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
-		printf("LEFT CLICK\n");
+		// printf("LEFT CLICK\n");
 		int mouseX = this->inputManager->GetMouseX();
 		int mouseY = this->inputManager->GetMouseY();
 		// Iterar de tras para frente para dar dano no ultimo inserido.
@@ -116,8 +116,6 @@ void State::Update(double dt) {
 		it != this->objectArray.end();) {
 			if((**it).IsDead()) {
         		it = this->objectArray.erase(it);
-				cout << "IS MORTO" << endl;
-				// delete &*it;
       		}
 			else {
 				it++;

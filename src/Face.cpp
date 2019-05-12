@@ -50,8 +50,7 @@ void Face:: Update(double dt) {
     //         printf("Dano! %d\n", this->hitspoints);
     //     }
 	// }
-    this->associated.box.x += Camera::speed.x;
-    this->associated.box.y += Camera::speed.y;
+    this->associated.box.AddXY(Camera::speed);
 
 }
 void Face:: Render() {

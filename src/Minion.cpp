@@ -23,19 +23,19 @@ static std::uniform_real_distribution<double> minionScale(1.0,1.5);
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
     this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
-    this->mySprite->angleToRotate = .02;
+    this->mySprite->angleToRotate = 0.020;
     initPos.rotate(arcOffsetDeg);
     this->innerPos = initPos;
 
+    double scale = minionScale(randomGenerator);
     this->associated.box.SetXYWH(
-        this->alienCenter.box.center.x, 
-        this->alienCenter.box.center.y, 
-        mySprite->GetWidth(), 
-        mySprite->GetHeight()
+        this->alienCenter.box.GetCenter().x, 
+        this->alienCenter.box.GetCenter().y, 
+        mySprite->GetWidth()/* *scale */, 
+        mySprite->GetHeight()/* *scale */
     ) ;
     // this->associated.box.AddX( arcOffsetDeg ); 
     this->associated.AddComponent(this);
-    double scale = minionScale(randomGenerator);
     mySprite->SetScale(scale, scale);
 }
 
@@ -47,7 +47,7 @@ Minion::~Minion () {
 void Minion::Update(double dt) {
     innerPos.rotate(angularSpeed * dt);
     Vec2 newPos =  innerPos 
-                   + this->alienCenter.box.center 
+                   + this->alienCenter.box.GetCenter()
                 //    - Vec2(this->alienCenter.box.w/2, this->alienCenter.box.h/2) 
                    ;
     this->associated.box.SetCenter(newPos);
@@ -67,7 +67,7 @@ bool Minion::Is(string type){
 // t5
 void Minion::Shoot(Vec2 direction) {
     GameObject* GO_of_bullet = new GameObject;
-    direction = direction - Vec2(this->associated.box.center);
+    direction = direction - Vec2(this->associated.box.GetCenter());
 
     Vec2 vecNormalized = direction.unitary();
     Vec2 myPos = Vec2(this->associated.box);
@@ -78,7 +78,7 @@ void Minion::Shoot(Vec2 direction) {
     double maxDistance = 100000;
     new Bullet(*GO_of_bullet, angle, speed, damage, maxDistance,
         "assets/img/minionbullet1.png", 
-        this->associated.box.center.x, this->associated.box.center.y);
+        this->associated.box.GetCenter().x, this->associated.box.GetCenter().y);
     // cout << "ADDED BULLET\n";
     Game::GetInstance().GetState().AddObject(GO_of_bullet);
 

@@ -7,7 +7,7 @@ using std::cout;
 using std::endl;
 
 void Rect::UpdateCenter() {
-    this->center = Vec2( this->x+(this->w/2.0), this->y+(this->h/2) );
+    this->center = Vec2( this->x+(this->w/2), this->y+(this->h/2) );
 }
 
 
@@ -54,8 +54,7 @@ void Rect::SetH(double h) {
     this->UpdateCenter();
 }
 void Rect::SetWH(double w, double h) {
-    this->w = w;
-    this->h = h;
+    this->w = w; this->h = h;
     this->UpdateCenter();
 }
 void Rect::SetXY(double x, double y) {
@@ -78,8 +77,8 @@ bool Rect::Contains(const int&x , const int& y) {
     return this->Contains(point);
 }
 
-void Rect::AddXY(double _x, double _y) {
-    this->SetXY(this->x+_x, this->y+_y);
+void Rect::AddXY(double _x, double _y) {    
+  this->SetXY(this->x+_x, this->y+_y);
 }
 
 void Rect::AddXY(Vec2 rect) {
@@ -120,15 +119,19 @@ void Rect::Add(double add) {
     this->UpdateCenter();
 }
 
-void Rect::SetCenter(Vec2 center) {
-    this->SetXY( center.x-this->w/2, center.y-this->h/2 );
+Vec2 Rect::GetCenter() {
+    return Vec2(this->x+this->w/2, this->y+this->h/2);
+}
+
+void Rect::SetCenter(Vec2 newCenter) {
+    this->SetXY( newCenter.x-this->w/2, newCenter.y-this->h/2 );
 }
 
 void Rect::SetCenter(double x, double y) {
     this->SetXY( x-this->w/2, y-this->h/2 );
 }
 void Rect::SetCenter(Rect rect) {
-    this->SetXY( rect.center.x-this->w/2, rect.center.y-this->h/2 );
+    this->SetXY( rect.GetCenter().x-this->w/2, rect.GetCenter().y-this->h/2 );
 }
 
 
