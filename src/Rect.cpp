@@ -10,8 +10,6 @@ void Rect::UpdateCenter() {
     this->center = Vec2( this->x+(this->w/2), this->y+(this->h/2) );
 }
 
-
-
 Rect::Rect(double x, double y, double w, double h) : x(x), y(y), w(w), h(h){
     this->UpdateCenter();
 }

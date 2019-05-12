@@ -88,7 +88,7 @@ void Alien::UpdatePos(double dt) {
 }
 
 
-void Alien::UpdatePosAndSpeed() {
+void Alien::UpdatePosAndSpeed(double dt) {
     if (this->click.targetX || this->click.targetY) {        
         double midX = (this->associated.box.x + (double)this->mySprite->GetWidth()/2);
         double midY = (this->associated.box.y + (double)this->mySprite->GetHeight()/2);
@@ -112,11 +112,11 @@ void Alien::UpdatePosAndSpeed() {
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL);
+                this->speed.y = (deltaY > 0 ? VEL : -VEL)*dt;
                 this->speed.x = this->speed.y * slopeInverse * this->click.targetY ;  // 
             }
             else {
-                this->speed.x = (deltaX > 0 ? VEL : -VEL);
+                this->speed.x = (deltaX > 0 ? VEL : -VEL)*dt;
                 this->speed.y = this->speed.x * slope * click.targetX;
             }
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
@@ -124,7 +124,7 @@ void Alien::UpdatePosAndSpeed() {
                 this->gotoTarget();
             }
             else {
-                this->associated.box.SetXY(this->associated.box.x + this->speed.x, this->associated.box.y + this->speed.y);
+                this->associated.box.SetXY(this->associated.box.x + this->speed.x*dt, this->associated.box.y + this->speed.y*dt);
             }
         }
     }
@@ -205,7 +205,7 @@ um tiro, ou direito para movimento. */
     }
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
-    this->UpdatePosAndSpeed();    
+    this->UpdatePosAndSpeed(dt);    
     // this->UpdatePos(dt);    
 
     // Devemos pedir para remover esse GameObject se a vida dele ficar

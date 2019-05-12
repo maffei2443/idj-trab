@@ -24,7 +24,7 @@ private:
     int baseRadius = 150;
     int maxExtraRadius = 40;    // nao usado no momento
     void Shoot(Vec2);
-    void UpdatePosAndSpeed();
+    void UpdatePosAndSpeed(double dt);
     void UpdatePos(double dt);
     const static string type;
     void gotoTarget();
