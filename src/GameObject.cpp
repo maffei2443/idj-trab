@@ -8,7 +8,6 @@ using std::string;
 using std::cout;
 using std::endl;
 GameObject::GameObject() : isDead(false), box(),started(false) {
-    // cout << "GO ADDR : " << this << endl;
 }
 
 GameObject::~GameObject() {

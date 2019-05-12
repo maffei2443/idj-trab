@@ -82,6 +82,10 @@ void Rect::AddXY(double _x, double _y) {
     this->SetXY(this->x+_x, this->y+_y);
 }
 
+void Rect::AddXY(Vec2 rect) {
+    this->SetXY(this->x+rect.x, this->y+rect.y);
+}
+
 void Rect::AddX(double _x) {
     this->SetX(this->x+_x);
 }

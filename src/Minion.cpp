@@ -13,12 +13,19 @@ using std::endl;
 
 double angularSpeed = 0.02;
 
+#include <chrono>
+#include <random>
+
+
+static std::default_random_engine randomGenerator;
+static std::uniform_real_distribution<double> minionScale(1.0,1.5);
+
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
     this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
+    this->mySprite->angleToRotate = .02;
     initPos.rotate(arcOffsetDeg);
     this->innerPos = initPos;
-    cout << "OFF_SET DEGREE : " << arcOffsetDeg << endl;
 
     this->associated.box.SetXYWH(
         this->alienCenter.box.center.x, 
@@ -28,6 +35,8 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     ) ;
     // this->associated.box.AddX( arcOffsetDeg ); 
     this->associated.AddComponent(this);
+    double scale = minionScale(randomGenerator);
+    mySprite->SetScale(scale, scale);
 }
 
 Minion::~Minion () {

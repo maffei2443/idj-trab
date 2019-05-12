@@ -21,7 +21,11 @@ class Sprite : public Component {
     int width;
     int height;
     SDL_Rect clipRect;
+    // t5
+    Vec2 scale = Vec2(1,1);
   public:
+    double angleToRotate = 0.0;
+    double angleCurrent = 0.0;
     Sprite() {
       //////printf("CONTRUCTOR SPRITE ROUBADO\n");
     } //gambs; por conta do Sprite de State
@@ -30,7 +34,7 @@ class Sprite : public Component {
     virtual ~Sprite();
     void Open(string file);
     void SetClip(int x, int y, int w, int h);
-    void Render(int, int);
+    // void Render(int, int);
     // void Render(int x, int y);
     
     int GetWidth();
@@ -46,7 +50,12 @@ class Sprite : public Component {
     }
     // t5
     bool started = false;
-    void Start();    
+    void Start();
+    void SetScale(double scaleX=0, double scaleY=0);
+    void SetScale(Vec2 scale);
+    Vec2 GetScale(double, double);
+    void Render(int x, int y);
+    void ApplyScale();
 };
 
 #endif

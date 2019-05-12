@@ -31,6 +31,8 @@ public:
     void AddX(double _x=0);  // incrementa x  e atualiza o centro
     void AddY(double _y=0);  // incrementa y e atualiza o centro
     void AddXY(double _x=0, double _y=0);  // incrementa x e y e atualiza o centro
+    void AddXY(Vec2);  // incrementa x e y e atualiza o centro
+    
     void AddW(double _w=0);  // incrementa w  e atualiza o centro
     void AddH(double _h=0);  // incrementa h e atualiza o centro
     void AddWH(double _w=0, double _h=0);  // incrementa w e h e atualiza o centro

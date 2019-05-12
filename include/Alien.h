@@ -21,10 +21,11 @@ class Alien : public Component {
 enfileira. Além disso, ele mantêm um array de ponteiros para
 GameObjects (serão os Minions), os quais ele usará para atirar. */     
 private:
-    int baseRadius = 100;
-    int maxExtraRadius = 40;
+    int baseRadius = 150;
+    int maxExtraRadius = 40;    // nao usado no momento
     void Shoot(Vec2);
     void UpdatePosAndSpeed();
+    void UpdatePos(double dt);
     const static string type;
     void gotoTarget();
     const static int HEALTH_POINTS = 30;

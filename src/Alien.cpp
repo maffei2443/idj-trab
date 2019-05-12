@@ -14,11 +14,28 @@
 #include "Bullet.h"
 #include <cmath>
 
+// linear_congruential_engine constructor
+/* #include <chrono>
+#include <random>
+unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+*/// linear_congruential_engine constructor
+
+////
+#include <chrono>
+#include <random>
+
+
+static std::default_random_engine randomGenerator;
+// static std::uniform_real_distribution<double> radiusExtraRandom(60.0,100.0);
+static std::uniform_real_distribution<double> radiusExtraRandom(0.0);
+
+////
 using std::cout;
 using std::endl;
 using std::weak_ptr;
 using std::shared_ptr;
 using std::string;
+// std::minstd_rand0 GetRandom(seed1);  // minstd_rand0 is a standard linear_congruential_engine
 
 static InputManager& inputManager = InputManager::GetInstance();
 const int VEL = 3;
@@ -33,8 +50,6 @@ void Alien::Shoot(Vec2 pos) {
     // abort();
     if(this->nMinions) {
         Minion* mini = this->GetNearestMinion(pos);
-        cout << "&Mini RECOVERED : " << mini << endl;
-        cout << "Mini.associated.box : " << mini->GetBox() << endl;
         mini->Shoot(pos);   // TODO: fazer minion mais PRÓXIMO atirar
     }
     else {
@@ -43,13 +58,16 @@ void Alien::Shoot(Vec2 pos) {
 
 }
 
-void Alien::UpdatePosAndSpeed() {
+void Alien::UpdatePos(double dt) {
     if (this->click.targetX || this->click.targetY) {        
         double midX = (this->associated.box.x + (double)this->mySprite->GetWidth()/2);
         double midY = (this->associated.box.y + (double)this->mySprite->GetHeight()/2);
 
         double deltaX = -(midX-this->click.x);
         double deltaY = -(midY-this->click.y);
+
+        this->click.targetX = !IsDoubleZero(deltaX);
+        this->click.targetY = !IsDoubleZero(deltaY);
 
         double absDeltaX = fabs(deltaX);
         double absDeltaY = fabs(deltaY);
@@ -59,17 +77,47 @@ void Alien::UpdatePosAndSpeed() {
         
         Vec2 old_speed = this->speed;
 
-        if (IsFloatZero(deltaX) or IsFloatZero(deltaY)) {
+        if (IsFloatZero(deltaX) and IsFloatZero(deltaY)) {
+            this->gotoTarget();
+        }
+        else {
+            this->associated.box.AddXY(this->speed * dt);
+        }
+        cout << "SPEED : " << this->speed << endl;
+    }
+}
+
+
+void Alien::UpdatePosAndSpeed() {
+    if (this->click.targetX || this->click.targetY) {        
+        double midX = (this->associated.box.x + (double)this->mySprite->GetWidth()/2);
+        double midY = (this->associated.box.y + (double)this->mySprite->GetHeight()/2);
+
+        double deltaX = -(midX-this->click.x);
+        double deltaY = -(midY-this->click.y);
+
+        this->click.targetX = !IsDoubleZero(deltaX);
+        this->click.targetY = !IsDoubleZero(deltaY);
+
+        double absDeltaX = fabs(deltaX);
+        double absDeltaY = fabs(deltaY);
+
+        double slope = deltaY / deltaX;
+        double slopeInverse = deltaX / deltaY;
+        
+        Vec2 old_speed = this->speed;
+
+        if (IsFloatZero(deltaX) and IsFloatZero(deltaY)) {
             this->gotoTarget();
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
                 this->speed.y = (deltaY > 0 ? VEL : -VEL);
-                this->speed.x = this->speed.y * slopeInverse ;  // 
+                this->speed.x = this->speed.y * slopeInverse * this->click.targetY ;  // 
             }
             else {
                 this->speed.x = (deltaX > 0 ? VEL : -VEL);
-                this->speed.y = this->speed.x * slope;
+                this->speed.y = this->speed.x * slope * click.targetX;
             }
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
             if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
@@ -83,16 +131,14 @@ void Alien::UpdatePosAndSpeed() {
 
 }
 
+
 void Alien::gotoTarget() {
     cout << "[Alien.gotoTarget] GOTO: " << this->click.x << ", " << this->click.y << endl;
-    
     this->speed.x = this->speed.y = 0;
-    
     this->click.targetX = this->click.targetY = false;
     this->associated.box.SetCenter(
         this->click.x,
         this->click.y);
-    // myAbort (222);
 }
 
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
@@ -100,6 +146,8 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     /* Adiciona um componente do tipo Sprite ao associated e 
     inicializa as outras variáveis. [DUVIDA : QUAIS VARIAVEIS?] */
     this->mySprite = new Sprite(this->associated, "assets/img/alien.png");
+    this->mySprite->angleToRotate = -.01;
+
     this->associated.AddComponent(this);
     this->associated.box.SetXYWH(512, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
     cout << "ALIEN BOX :: " << this->associated.box << endl;
@@ -110,7 +158,6 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     this->nMinions = nMinions;
     cout << "LIEN GOT " << nMinions << " minions\n";
     // myAbort(1991919);
-    this->mySprite = ((Sprite*)this->associated.GetComponent("Sprite"));
 }
 Alien::~Alien() {
     // Esvaziar o array com os minions.
@@ -136,6 +183,7 @@ um tiro, ou direito para movimento. */
                 this->click.targetY = true;
                 this->click.x = action->pos.x;
                 this->click.y = action->pos.y;
+                // this->UpdatePosAndSpeed();
                 // printf("META DO ALIEN : %d, %d\n", this->click.x, this->click.y);
             }
         }
@@ -160,6 +208,7 @@ um tiro, ou direito para movimento. */
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
     this->UpdatePosAndSpeed();    
+    // this->UpdatePos(dt);    
 
     // Devemos pedir para remover esse GameObject se a vida dele ficar
     // menor ou igual a 0.
@@ -176,8 +225,6 @@ void Alien::Render() {
     // Primeiro, faça A RENDERIZAÇÃO deles levar em
     // consideração a posição da câmera. (FIZ O UPDATE)
     // printf("Alien RENDER\n");
-
-    // printf("x,y: %lf, %lf | X, Y: %lf, %lf\n", this->associated.box.x, this->associated.box.y, this->targetPoint.x, this->targetPoint.y);
 
 }
 bool Alien::Is(string type) {
@@ -196,7 +243,7 @@ void Alien::Start() {
         GameObject * minionGO = new GameObject();
         Minion* added = /* new Minion(*minionGO, self_weak_GO, 90.0, Vec2(200, 0) ); */
         // new Minion(*minionGO, self_weak_GO, arc, Vec2(200, 0) );
-        new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius , 0));
+        new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius + radiusExtraRandom(randomGenerator) , 0));
         arc += offSet;
         // cout << "MINION ADDED ++++++++++++++++++ " << added << endl;
         // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
@@ -209,16 +256,7 @@ void Alien::Start() {
     }
     // myAbort(1121);
 }
-/*         weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
 
-        GameObject * minionGO = new GameObject();
-        new Minion(*minionGO, self_weak_GO, i*10+100*(i&1? -1:1)+90.0, Vec2(i*10+100*(i&1? -1:1), i*15+100* (i&1? 1:-1)) );
-        // TODO: CHAMAR SETSCALE P/ REDIMENTSIONAR IMAGEM DO MINION
-
-        weak_ptr<GameObject> minionWeakPtr;
-        minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
-        this->minionArray.push_back( minionWeakPtr );
-    } */
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
 // Retorna nullptr se nao houver minions
 Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputManager.GetMouseY()) {
@@ -226,8 +264,8 @@ Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputM
     if (!this->nMinions){
         return nullptr;
     }
-    cout << "\n\n\n\n" << endl;
-    cout << "TARGETO: " << Vec2(x,y) << endl;
+    // cout << "\n\n\n\n" << endl;
+    cout << "Where should the bullte go? " << Vec2(x,y) << endl;
     Minion* nearestMinion = this->GetMinion(0);
     Minion* nearestCandidate;
     double minDist = nearestMinion->GetBox().center.dist(click);
@@ -236,19 +274,19 @@ Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputM
         nearestCandidate = this->GetMinion(i);
         Vec2 center = nearestCandidate->GetBox().center;
         // cout << "Candidate ::: " << nearestCandidate << endl;
-        cout << i << " - Candidate.center: " << center << endl;
+        // cout << i << " - Candidate.center: " << center << endl;
         minDistCanditate = center.dist(click);
         if (minDistCanditate < minDist) {
             nearestMinion = nearestCandidate;
             minDist = minDistCanditate;
         }
     }
-    cout << "Nearest Center : =============> " << nearestMinion->GetBox().center << endl;
+    // cout << "Nearest Center : =============> " << nearestMinion->GetBox().center << endl;
     // sleep(1);
     return (Minion*)nearestMinion;   // que coisa FEIA e aparentemente INEFICIENTE
 }
 
 Minion* Alien::GetNearestMinion(Vec2 pos) {
-    cout << "Wrapperzao" << endl;
+    // cout << "Wrapperzao" << endl;
     return this->GetNearestMinion(pos.x, pos.y);
 }

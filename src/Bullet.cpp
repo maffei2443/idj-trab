@@ -70,6 +70,7 @@ void Bullet::UpdatePosAndSpeed() {
 void Bullet::UpdatePos(double dt) {
     // cout << "UPDATE BUUUULLET POS\n";
     this->associated.box += (this->speed * dt);
+    this->associated.box.UpdateCenter();
 }
 
 void Bullet::gotoTarget(Sprite* sprite) {
