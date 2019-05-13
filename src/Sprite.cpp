@@ -57,10 +57,10 @@ void Sprite::Render(int x, int y) {
 }
 
 void Sprite::Update(double dt) {
-  this->associated.box.AddXY(
-    Camera::speed.x*dt,
-    Camera::speed.y*dt
-  );
+  // this->associated.box.AddXY(
+  //   Camera::speed.x*dt,
+  //   Camera::speed.y*dt
+  // );
   
   // this->associated.box.x + Camera::speed.x/* *dt */;
   // this->associated.box.y + Camera::speed.y/* *dt */;
