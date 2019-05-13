@@ -215,6 +215,8 @@ um tiro, ou direito para movimento. */
         cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
+    this->associated.box.AddXY(Camera::speed);
+
     // cout << "END ALIEN.UPDATE\n";
     #pragma endregion
 }
