@@ -26,6 +26,13 @@ Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
+Sprite::Sprite(GameObject& associated, string file, int frameCount, double frameTime) : 
+  Component(associated), frameCount(frameCount), currentFrame(currentFrame) {
+  this->texture = nullptr;
+  this->Open(file);
+  this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
+}
+
 Sprite::~Sprite() {
 }
 
@@ -67,6 +74,15 @@ void Sprite::Update(double dt) {
   // this->associated.box.UpdateCenter();
   
   this->angleCurrent += this->angleToRotate * dt;
+  // t6
+  //   Update deve acumular os dts em timeElapsed. Se timeElapsed for maior
+  // que o tempo de um frame, passamos para o frame seguinte, setando o clip.
+  this->timeElapsed += dt;
+  if (this->timeElapsed > this->frameTime) {
+    // TODO: passar para o proximo frame
+
+    // Se proximo frame eh o ultimo, volta ao primeiro
+  }
 }
 
 

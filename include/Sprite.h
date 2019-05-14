@@ -23,6 +23,11 @@ class Sprite : public Component {
     SDL_Rect clipRect;
     // t5
     Vec2 scale = Vec2(1,1);
+    // t6
+    int frameCount;
+    int currentFrame;
+    double timeElapsed = 0;
+    double frameTime = 0;
   public:
     double angleToRotate = 0.0;
     double angleCurrent = 0.0;
@@ -31,6 +36,9 @@ class Sprite : public Component {
     } //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, string file);
+    // t6
+    Sprite(GameObject&, string file, int frameCount=1, double frameTime);
+    
     virtual ~Sprite();
     void Open(string file);
     void SetClip(int x, int y, int w, int h);
@@ -56,6 +64,12 @@ class Sprite : public Component {
     Vec2 GetScale(double, double);
     void Render(int x, int y);
     void ApplyScale();
+
+    // t6
+    void SetFrame(int);
+    void SetFrameCount(int);
+    void SetFrameTime(double);
+    
 };
 
 #endif
