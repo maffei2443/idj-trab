@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "Macros.h"
 #include "Camera.h"
+#include "CameraFollower.h"
 #include "InputManager.h"
 #include "GameObject.h"
 #include "Sprite.h"
@@ -59,6 +60,7 @@ void Alien::Shoot(Vec2 pos) {
 }
 
 void Alien::UpdatePos(double dt) {
+    myAbort(2345);
     if (this->click.targetX || this->click.targetY) {        
         double midX = (this->associated.box.x + (double)this->mySprite->GetWidth()/2);
         double midY = (this->associated.box.y + (double)this->mySprite->GetHeight()/2);
@@ -78,6 +80,7 @@ void Alien::UpdatePos(double dt) {
         Vec2 old_speed = this->speed;
 
         if (IsFloatZero(deltaX) and IsFloatZero(deltaY)) {
+            cout << "WHY GO-TO ???" << endl;
             this->gotoTarget();
         }
         else {
@@ -120,8 +123,11 @@ void Alien::UpdatePosAndSpeed(double dt) {
                 this->speed.y = this->speed.x * slope * click.targetX;
             }
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
-            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs() ) )  {
-                this->gotoTarget();
+            cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
+            if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs()) )  {
+                cout << "GOTO ESTRANHO?? Maybe..." << endl;
+                if (!IsDoubleZero(old_speed.abs()) and !IsDoubleZero(this->speed.abs()) )
+                    this->gotoTarget();
             }
             else {
                 this->associated.box.SetXY(this->associated.box.x + this->speed.x*dt, this->associated.box.y + this->speed.y*dt);
@@ -155,6 +161,7 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     // fflush(stdout);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
+    new CameraFollower(this->associated);
     // myAbort(1991919);
 }
 Alien::~Alien() {
@@ -215,7 +222,7 @@ um tiro, ou direito para movimento. */
         cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
-    this->associated.box.AddXY(Camera::speed);
+    // this->associated.box.AddXY(Camera::speed * dt);
 
     // cout << "END ALIEN.UPDATE\n";
     #pragma endregion

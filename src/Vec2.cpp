@@ -139,6 +139,6 @@ Vec2 Vec2::GetRotated(const double& degree) {
     return toRotate;
 }
 std::ostream & operator << (std::ostream &out, const Vec2 &vec) {
-    out << "(x,y) == (" << vec.x << ", " << vec.y << ")\n";
+    out << "(x,y) == (" << vec.x << ", " << vec.y << ")";
     return out;
 }
