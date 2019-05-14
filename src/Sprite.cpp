@@ -78,9 +78,14 @@ void Sprite::Update(double dt) {
     this->currentFrame++;
     this->currentFrame %= this->frameCount;
     if(this->associated.GetComponent("Bullet"))
-      cout << "Bullet Frame : " << this->currentFrame << endl;
+      /* cout << "Bullet Frame : " << this->currentFrame << endl; */;
     // Se proximo frame eh o ultimo, volta ao primeiro
   }
+  SetClip( this->currentFrame * this->frameWidth,
+          0,
+          this->frameWidth/*   */,
+          this->height/*    */);
+
 }
 
 
@@ -97,20 +102,15 @@ void Sprite::Open(string file) {
   SDL_ABORT_IF_ZERO(this->texture);
   SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
   this->frameWidth = this->width / this->frameCount;
-  this->frameHeight = this->height / this->frameCount;
+  this->frameHeight = this->height;
   // cout << "[Sprite.cpp] this->width " << this->width << endl;
   cout << "[Sprite.cpp] this->frameWidth " << this->frameWidth << endl;
   // cout << "[Sprite.cpp] this->height " << this->height << endl;
   cout << "[Sprite.cpp] this->frameHeight " << this->frameHeight << endl;
-  // this->SetClip( 
-  //   this->currentFrame * this->frameWidth,
-  //   this->currentFrame * this->,frameHeight,
-  //   this->frameWidth,
-  //   this->frameHeight
-  // );
+
   // POSSIVEL BUG : se quiser-se iniciar no último frame,
   // vai dar problema...
-  SetClip( currentFrame * this->frameWidth,
+  SetClip( 0,
            0,
            this->frameWidth/*   */,
            this->height/*    */);
@@ -120,8 +120,8 @@ void Sprite::Open(string file) {
 void Sprite::SetClip(int x, int y, int w, int h) {
   this->clipRect.x = x;
   this->clipRect.y = y;
-  this->clipRect.w = w * this->scale.x;
-  this->clipRect.h = h * this->scale.y;
+  this->clipRect.w = w/*  * this->scale.x */;
+  this->clipRect.h = h/*  * this->scale.y */;
 }
 
 int Sprite::GetWidth() {

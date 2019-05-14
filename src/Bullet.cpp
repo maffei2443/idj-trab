@@ -94,13 +94,11 @@ void Bullet::SetTarget(int x, int y) {
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
 double maxDistance, string sprite, int x, int y): Component(associated) {
     (void)maxDistance;    (void)speed;    (void)damage;
-    // this->target = Vec2(x,y);
-    // cout << "BULLET ON" << endl;
     this->distanceLeft = 1300;
     this->mySprite = new Sprite(
         this->associated, sprite.c_str(),
         FRAMES,
-        10);
+        100);
     this->associated.AddComponent(
         this->mySprite
     );

@@ -26,7 +26,7 @@ using std::string;
 using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
-  new Sprite( *me, "assets/img/ocean.jpg" );
+  new Sprite( *me, "assets/img/ocean.jpg", 1, 10000000 );
   
 	// me->AddComponent(new CameraFollower(*me));
 	// new CameraFollower(*me);
