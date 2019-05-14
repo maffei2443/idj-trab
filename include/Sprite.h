@@ -20,12 +20,15 @@ class Sprite : public Component {
     SDL_Texture* texture;
     int width;
     int height;
+    // t6
+    int frameWidth;
+    int frameHeight;
     SDL_Rect clipRect;
     // t5
     Vec2 scale = Vec2(1,1);
     // t6
-    int frameCount;
-    int currentFrame;
+    int frameCount = 1;
+    int currentFrame = 0;
     double timeElapsed = 0;
     double frameTime = 0;
   public:
@@ -37,7 +40,7 @@ class Sprite : public Component {
     Sprite(GameObject&);
     Sprite(GameObject&, string file);
     // t6
-    Sprite(GameObject&, string file, int frameCount=1, double frameTime);
+    Sprite(GameObject&, string file, int frameCount, double frameTime);
     
     virtual ~Sprite();
     void Open(string file);

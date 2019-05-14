@@ -21,13 +21,19 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 }
 
 Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
+  cout << "FrameCount: " << this->frameCount << endl;
+  cout << "frameTime: " << this->frameTime << endl;
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
 Sprite::Sprite(GameObject& associated, string file, int frameCount, double frameTime) : 
-  Component(associated), frameCount(frameCount), currentFrame(currentFrame) {
+  Component(associated), frameCount(frameCount), frameTime(currentFrame) {
+  cout << "Sprite nao-padrao! " << endl;
+  cout << "[NT]FrameCount: " << this->frameCount << endl;
+  cout << "[NT]frameTime: " << this->frameTime << endl;
+
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
@@ -39,7 +45,7 @@ Sprite::~Sprite() {
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro
 // argumentos.
 
-void Sprite::Render(int x, int y) { 
+void Sprite::Render(int x, int y) {
   SDL_Rect dsrect;
   dsrect.x = x;
   dsrect.y = y; 
@@ -57,30 +63,22 @@ void Sprite::Render(int x, int y) {
       SDL_FLIP_NONE
     )
   );
-  // this->associated.box.x + Camera::speed.x/* *dt */;
-  // this->associated.box.y + Camera::speed.y/* *dt */;
-  // this->associated.box.UpdateCenter();
-
 }
 
 void Sprite::Update(double dt) {
-  // this->associated.box.AddXY(
-  //   Camera::speed.x*dt,
-  //   Camera::speed.y*dt
-  // );
-  
-  // this->associated.box.x + Camera::speed.x/* *dt */;
-  // this->associated.box.y + Camera::speed.y/* *dt */;
-  // this->associated.box.UpdateCenter();
   
   this->angleCurrent += this->angleToRotate * dt;
   // t6
   //   Update deve acumular os dts em timeElapsed. Se timeElapsed for maior
   // que o tempo de um frame, passamos para o frame seguinte, setando o clip.
   this->timeElapsed += dt;
+  
   if (this->timeElapsed > this->frameTime) {
     // TODO: passar para o proximo frame
-
+    this->currentFrame++;
+    this->currentFrame %= this->frameCount;
+    if(this->associated.GetComponent("Bullet"))
+      cout << "Bullet Frame : " << this->currentFrame << endl;
     // Se proximo frame eh o ultimo, volta ao primeiro
   }
 }
@@ -95,19 +93,28 @@ void Sprite::Open(string file) {
   //   SDL_DestroyTexture(this->texture);
   // }
   SDL_ClearError();
-  // this->texture = IMG_LoadTexture(instance.GetRenderer(), path);
   this->texture = Resources::GetImage( file );
-  // Trate o caso de IMG_LoadTexture retornar nullptr.
   SDL_ABORT_IF_ZERO(this->texture);
-  // Com a textura carregada, precisamos descobrir suas dimensões.
-  // int SDL_QueryTexture(SDL_Texture* texture, Uint32* format, int* access, int* w, int* h)
-  //  O segundo e o terceiro parâmetros podem ser nullptr seguramente. Estamos interessados em w e h.
   SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
+  this->frameWidth = this->width / this->frameCount;
+  this->frameHeight = this->height / this->frameCount;
+  // cout << "[Sprite.cpp] this->width " << this->width << endl;
+  cout << "[Sprite.cpp] this->frameWidth " << this->frameWidth << endl;
+  // cout << "[Sprite.cpp] this->height " << this->height << endl;
+  cout << "[Sprite.cpp] this->frameHeight " << this->frameHeight << endl;
+  // this->SetClip( 
+  //   this->currentFrame * this->frameWidth,
+  //   this->currentFrame * this->,frameHeight,
+  //   this->frameWidth,
+  //   this->frameHeight
+  // );
+  // POSSIVEL BUG : se quiser-se iniciar no último frame,
+  // vai dar problema...
+  SetClip( currentFrame * this->frameWidth,
+           0,
+           this->frameWidth/*   */,
+           this->height/*    */);
   
-  //  sete o clip com as dimensões da imagem
-  //  SetClip(x : int, y : int, w : int, h : int) : void
-  SetClip( 0, 0, this->width, this->height );
-
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -144,16 +151,23 @@ void Sprite::SetScale(double scaleX, double scaleY) {
   if(IsDoubleZero(scaleX))  scaleX = 1;
   if(IsDoubleZero(scaleY))  scaleY = 1;
   this->scale = Vec2(scaleX, scaleY);
-  /* Não se esqueça de atualizar a box do GameObject associated. Para
-facilitar no futuro, mova a box dele de forma a manter o centro no mesmo
-lugar de antes da mudança de escala. */
-  // this->associated.box.w *= scaleX;
-  // this->associated.box.h *= scaleY;
-  // this->associated.box.SetWH( this->associated.box.w * scaleX
-  //                            ,this->associated.box.h * scaleY);
   this->associated.box.SetCenter(this->associated.box.GetCenter());
 }
 
 void Sprite::SetScale(Vec2 scale) {
   this->SetScale(scale.x, scale.y);
+}
+
+// t6
+// t6
+void Sprite::SetFrame(int frameTime) {
+
+}
+
+void Sprite::SetFrameCount(int frameCount) {
+
+}
+
+void Sprite::SetFrameTime(double frameTime) {
+
 }

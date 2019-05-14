@@ -19,6 +19,11 @@ double distanceLeft;
 int damage;
 const int VEL = 3;
 static InputManager& inputManager = InputManager::GetInstance();
+// t6
+const static int FRAMES = 3;
+const static double FRAME_TIME = 10;
+
+
 
 void Bullet::UpdatePosAndSpeed() {
     cout << "UPDATE BUUUULLET SPEEEED\n";
@@ -92,7 +97,10 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     // this->target = Vec2(x,y);
     // cout << "BULLET ON" << endl;
     this->distanceLeft = 1300;
-    this->mySprite = new Sprite(this->associated, sprite.c_str());
+    this->mySprite = new Sprite(
+        this->associated, sprite.c_str(),
+        FRAMES,
+        10);
     this->associated.AddComponent(
         this->mySprite
     );

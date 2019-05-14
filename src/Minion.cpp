@@ -15,14 +15,19 @@ double angularSpeed = 0.02;
 
 #include <chrono>
 #include <random>
-
+const static int FRAMES = 1;
+const static double FRAME_TIME = 1000;
 
 static std::default_random_engine randomGenerator;
 static std::uniform_real_distribution<double> minionScale(1.0,1.5);
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
-    this->mySprite = new Sprite(this->associated, "assets/img/minion.png");
+    this->mySprite = new Sprite(
+        this->associated,
+        "assets/img/minion.png",
+        FRAMES,
+        FRAME_TIME);
     this->mySprite->angleToRotate = 0.020;
     initPos.rotate(arcOffsetDeg);
     this->innerPos = initPos;
@@ -77,7 +82,7 @@ void Minion::Shoot(Vec2 direction) {
     double speed = 0.2;
     double maxDistance = 100000;
     new Bullet(*GO_of_bullet, angle, speed, damage, maxDistance,
-        "assets/img/minionbullet1.png", 
+        "assets/img/minionbullet2.png", 
         this->associated.box.GetCenter().x, this->associated.box.GetCenter().y);
     // cout << "ADDED BULLET\n";
     Game::GetInstance().GetState().AddObject(GO_of_bullet);
@@ -91,3 +96,5 @@ void Minion::Start() {
 Rect Minion::GetBox() {
     return this->associated.box;
 }
+
+

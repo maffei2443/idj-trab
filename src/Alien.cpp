@@ -123,9 +123,9 @@ void Alien::UpdatePosAndSpeed(double dt) {
                 this->speed.y = this->speed.x * slope * click.targetX;
             }
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
-            cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
+            // cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
             if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs()) )  {
-                cout << "GOTO ESTRANHO?? Maybe..." << endl;
+                // cout << "GOTO ESTRANHO?? Maybe..." << endl;
                 if (!IsDoubleZero(old_speed.abs()) and !IsDoubleZero(this->speed.abs()) )
                     this->gotoTarget();
             }
