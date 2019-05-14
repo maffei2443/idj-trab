@@ -29,7 +29,7 @@ Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
 }
 
 Sprite::Sprite(GameObject& associated, string file, int frameCount, double frameTime) : 
-  Component(associated), frameCount(frameCount), frameTime(currentFrame) {
+  Component(associated), frameCount(frameCount), frameTime(frameTime) {
   cout << "Sprite nao-padrao! " << endl;
   cout << "[NT]FrameCount: " << this->frameCount << endl;
   cout << "[NT]frameTime: " << this->frameTime << endl;
@@ -74,18 +74,17 @@ void Sprite::Update(double dt) {
   this->timeElapsed += dt;
   
   if (this->timeElapsed > this->frameTime) {
-    // TODO: passar para o proximo frame
     this->currentFrame++;
     this->currentFrame %= this->frameCount;
-    if(this->associated.GetComponent("Bullet"))
-      /* cout << "Bullet Frame : " << this->currentFrame << endl; */;
-    // Se proximo frame eh o ultimo, volta ao primeiro
+    this->timeElapsed = 0;
   }
+  // TODO: RESOLVER BUG
+  cout << "CURR FRAME :: " << this->currentFrame << endl;
   SetClip( this->currentFrame * this->frameWidth,
           0,
           this->frameWidth/*   */,
           this->height/*    */);
-
+  // myAbort(129);
 }
 
 
@@ -94,20 +93,16 @@ void Sprite::Render() {
 }
 
 void Sprite::Open(string file) {
-  // if (this->texture) {  
-  //   SDL_DestroyTexture(this->texture);
-  // }
+
   SDL_ClearError();
   this->texture = Resources::GetImage( file );
   SDL_ABORT_IF_ZERO(this->texture);
   SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
   this->frameWidth = this->width / this->frameCount;
   this->frameHeight = this->height;
-  // cout << "[Sprite.cpp] this->width " << this->width << endl;
   cout << "[Sprite.cpp] this->frameWidth " << this->frameWidth << endl;
-  // cout << "[Sprite.cpp] this->height " << this->height << endl;
   cout << "[Sprite.cpp] this->frameHeight " << this->frameHeight << endl;
-
+  // myAbort(129);
   // POSSIVEL BUG : se quiser-se iniciar no último frame,
   // vai dar problema...
   SetClip( 0,
