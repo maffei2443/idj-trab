@@ -1,5 +1,6 @@
 #include "PenguinCannon.h"
-
+#include <memory>
+using std::weak_ptr;
 const string PenguinCannon::type("PenguinCannon");
 
 
@@ -7,6 +8,9 @@ PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> pengui
   Component(associated), pbody(penguinBody){
     this->angle = 0.0;
 }
+
+PenguinCannon::~PenguinCannon(){}
+
 void PenguinCannon::Start() {
   this->started = true;
 }
@@ -20,3 +24,4 @@ bool PenguinCannon::Is(string type) {
   return type == PenguinCannon::type;
 }
 // PenguinCannon::(){}
+
