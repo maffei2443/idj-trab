@@ -79,7 +79,7 @@ void Sprite::Update(double dt) {
     this->timeElapsed = 0;
   }
   // TODO: RESOLVER BUG
-  cout << "CURR FRAME :: " << this->currentFrame << endl;
+  // cout << "CURR FRAME :: " << this->currentFrame << endl;
   SetClip( this->currentFrame * this->frameWidth,
           0,
           this->frameWidth/*   */,
@@ -120,12 +120,11 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 int Sprite::GetWidth() {
-  return this->width*this->scale.x;
+  return this->frameWidth * this->scale.x;
 }
 
 int Sprite::GetHeight() {
-  return this->height*this->scale.y;
-  
+  return this->frameHeight * this->scale.y;
 }
 
 bool Sprite::IsOpen() {
@@ -156,13 +155,22 @@ void Sprite::SetScale(Vec2 scale) {
 // t6
 // t6
 void Sprite::SetFrame(int frameTime) {
-
+  this->frameTime = (frameTime + this->frameCount) % this->frameCount;   
+  // garantir que que existe o frame
+  SetClip( this->currentFrame * this->frameWidth,
+          0,
+          this->frameWidth/*   */,
+          this->height/*    */);
 }
 
 void Sprite::SetFrameCount(int frameCount) {
-
+  this->frameCount = frameCount;
+  /* Para SetFrameCount, recomendamos resetar o frame inicial para 0
+e recalcular a box do GameObject associated, visto que a largura será alterada
+(não se esqueça de considerar a escala). */ /* [?] */
+  this->SetFrame(0);
 }
 
 void Sprite::SetFrameTime(double frameTime) {
-
+  this->frameTime = frameTime;
 }
