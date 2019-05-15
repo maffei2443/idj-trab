@@ -12,6 +12,8 @@ using std::weak_ptr;
 using std::shared_ptr;
 using std::string;
 
+double acceleration = 0.02;
+
 const string PenguinBody::type("PenguinBody");
 PenguinBody* PenguinBody::player(nullptr);
 
@@ -39,6 +41,8 @@ bool PenguinBody::Is(string type) {
 }
 void PenguinBody::Update(double dt) {
   (void)dt;
+  myAbort(12345);
+
 }
 // PenguinBody::(){}
 // PenguinBody::(){}

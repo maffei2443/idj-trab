@@ -16,7 +16,7 @@ using std::string;
 class Minion : public Component {
 private:
   double arc;
-  GameObject& alienCenter;
+  weak_ptr<GameObject> alienCenter;
   Vec2 innerPos;  // de raio arbitrario, em relacao aa origem
   // TESTE FUNCIONA
   // std::weak_ptr<GameObject> alienCenter;

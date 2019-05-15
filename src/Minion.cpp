@@ -22,7 +22,7 @@ static std::default_random_engine randomGenerator;
 static std::uniform_real_distribution<double> minionScale(1.0,1.5);
 
 Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
-    double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(*alienCenter.lock().get()) {
+    double arcOffsetDeg, Vec2 initPos) : arc(arcOffsetDeg),Component(associated), alienCenter(alienCenter) {
     this->mySprite = new Sprite(
         this->associated,
         "assets/img/minion.png",
@@ -33,15 +33,18 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     this->innerPos = initPos;
 
     double scale = minionScale(randomGenerator);
-    this->associated.box.SetXYWH(
-        this->alienCenter.box.GetCenter().x, 
-        this->alienCenter.box.GetCenter().y, 
-        mySprite->GetWidth()/* *scale */, 
-        mySprite->GetHeight()/* *scale */
-    ) ;
-    // this->associated.box.AddX( arcOffsetDeg ); 
-    this->associated.AddComponent(this);
-    mySprite->SetScale(scale, scale);
+    auto alienCenterAccessor = this->alienCenter.lock().get();
+    if(alienCenterAccessor) {
+        this->associated.box.SetXYWH(
+            alienCenterAccessor->box.GetCenter().x, 
+            alienCenterAccessor->box.GetCenter().y, 
+            mySprite->GetWidth()/* *scale */, 
+            mySprite->GetHeight()/* *scale */
+        ) ;
+        // this->associated.box.AddX( arcOffsetDeg ); 
+        this->associated.AddComponent(this);
+        mySprite->SetScale(scale, scale);
+    }
 }
 
 Minion::~Minion () {
@@ -51,11 +54,12 @@ Minion::~Minion () {
 // herda de Component
 void Minion::Update(double dt) {
     innerPos.rotate(angularSpeed * dt);
-    Vec2 newPos =  innerPos 
-                   + this->alienCenter.box.GetCenter()
-                //    - Vec2(this->alienCenter.box.w/2, this->alienCenter.box.h/2) 
-                   ;
-    this->associated.box.SetCenter(newPos);
+    
+    auto alienCenterAccessor = this->alienCenter.lock().get();
+    if(alienCenterAccessor) {
+        Vec2 newPos =  innerPos + alienCenterAccessor->box.GetCenter();
+        this->associated.box.SetCenter(newPos);
+    }
     // cout << "??? : " << this->associated.box << endl;
     // OK funcionando
 }
