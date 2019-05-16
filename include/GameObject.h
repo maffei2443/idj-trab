@@ -38,7 +38,7 @@ public:
     // 
     /* Agora adicione + angleDeg : double ao GameObject
      e inicialize-o com 0 no construtor. */
-    double andleDeg = 0;
+    double angleDeg = 0;
 };
 
 #endif
