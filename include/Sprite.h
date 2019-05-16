@@ -71,6 +71,7 @@ class Sprite : public Component {
     void SetFrameCount(int);
     void SetFrameTime(double);
     void Rotate(double angle = 0.0);
+    void RotateDt(double externalDt, double angle = 0.0);
     
 };
 

@@ -189,3 +189,7 @@ void Sprite::SetFrameTime(double frameTime) {
 void Sprite::Rotate(double angle) {
   this->angleCurrent += angle * this->currentDt;
 }
+
+void Sprite::RotateDt(double angle, double externalDt) {
+  this->angleCurrent += angle * externalDt;
+}

@@ -16,7 +16,7 @@ using std::string;
 using std::max;
 using std::min;
 
-double ACCELERATION = 0.05;
+const double ACCELERATION = 0.05;
 const double MAX_SPEED_X = 1.60;
 const double MAX_SPEED_Y = 1.60;
 const double MIN_SPEED_X = -1.0;
@@ -75,14 +75,18 @@ void PenguinBody::Update(double dt) {
     // mySprite->
     if(a_down and not d_down) {
       // rotacionar para a esquerda
+      mySprite->RotateDt(dt, 0.12);
     }
     else if(not a_down and d_down) {
       // rotacionar para a esquerda
+      mySprite->RotateDt(dt,-0.12);
     }
   }
-
-
-  
+  this->associated.box = this->associated.box + this->speed * dt;
+  if (this->hp <= 0) {
+    this->associated.RequestDelete();
+    this->pcannon.lock().get()->RequestDelete();
+  }
 }
 // PenguinBody::(){}
 // PenguinBody::(){}
