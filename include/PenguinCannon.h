@@ -6,6 +6,7 @@
 #include "Action.h"
 #include "Sprite.h"
 #include "PenguinBody.h"
+#include "Timer.h"
 #define BIG_DIST 1e12
 using std::queue;
 using std::vector;
@@ -23,6 +24,7 @@ private:
     Vec2 speed = Vec2(0,0);
     double angle = 0;
     weak_ptr<GameObject> pbody;
+    Timer cooldown;
 
 public:
     

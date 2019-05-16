@@ -1,20 +1,18 @@
 #ifndef SPRITE_H
 #define SPRITE_H
+#define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
 
 #include <string>
 #include <cstdio>
-#define INCLUDE_SDL
-#define INCLUDE_SDL_IMAGE
 
 #include "SDL_include.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Timer.h"
 using std::string;
-// I am a component!
 
 class Sprite : public Component {
-  // A classe Sprite encapsula o carregamento e uso de SDL_Textures,
-  // da SDL que contém uma imagem carregada do disco pronta para 
   private:
     const static string type;
     SDL_Texture* texture;
@@ -31,23 +29,21 @@ class Sprite : public Component {
     int currentFrame = 0;
     double timeElapsed = 0;
     double frameTime = 0;
+    double secondsToSelfDestruct = 0.0;
+    Timer selfDestructCount;
   public:
     double angleToRotate = 0.0;
     double angleCurrent = 0.0;
-    Sprite() {
-      //////printf("CONTRUCTOR SPRITE ROUBADO\n");
-    } //gambs; por conta do Sprite de State
+    Sprite() {} //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, string file);
     // t6
-    Sprite(GameObject&, string file, int frameCount, double frameTime);
+    Sprite(GameObject&, string file, int frameCount,
+          double frameTime, double secondsToSelfDestruct = 0.0);
     
     virtual ~Sprite();
     void Open(string file);
-    void SetClip(int x, int y, int w, int h);
-    // void Render(int, int);
-    // void Render(int x, int y);
-    
+    void SetClip(int x, int y, int w, int h);    
     int GetWidth();
     int GetHeight();
     bool IsOpen();

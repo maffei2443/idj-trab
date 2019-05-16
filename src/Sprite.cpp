@@ -28,12 +28,13 @@ Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
-Sprite::Sprite(GameObject& associated, string file, int frameCount, double frameTime) : 
-  Component(associated), frameCount(frameCount), frameTime(frameTime) {
+Sprite::Sprite(GameObject& associated, string file, int frameCount, double frameTime,
+  double secondsToSelfDestruct) : Component(associated), frameCount(frameCount) {
+  this->frameTime = frameTime;
+  this->secondsToSelfDestruct = secondsToSelfDestruct;
   cout << "Sprite nao-padrao! " << endl;
   cout << "[NT]FrameCount: " << this->frameCount << endl;
   cout << "[NT]frameTime: " << this->frameTime << endl;
-
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
@@ -67,6 +68,16 @@ void Sprite::Render(int x, int y) {
 
 void Sprite::Update(double dt) {
   
+  // No Update, cheque se secondsToSelfDestruct
+  // é maior que 0, se sim, ela tem prazo de validade. Então incremente o timer e
+  // se ele passar do prazo, solicite deleção.
+  // POSSIVEL BUG
+  if (this->secondsToSelfDestruct > 0) {
+    this->selfDestructCount.Update(dt);
+    if(this->selfDestructCount.Get() > secondsToSelfDestruct) {
+      this->associated.RequestDelete();
+    }
+  }
   this->angleCurrent += this->angleToRotate * dt;
   // t6
   //   Update deve acumular os dts em timeElapsed. Se timeElapsed for maior
