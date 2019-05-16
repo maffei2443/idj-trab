@@ -31,6 +31,8 @@ class Sprite : public Component {
     double frameTime = 0;
     double secondsToSelfDestruct = 0.0;
     Timer selfDestructCount;
+    // gambs [?]
+    double currentDt = 0.0;  // motivo : paara rotacao ser condizendo com o hardware que estah rodando
   public:
     double angleToRotate = 0.0;
     double angleCurrent = 0.0;
@@ -68,6 +70,7 @@ class Sprite : public Component {
     void SetFrame(int);
     void SetFrameCount(int);
     void SetFrameTime(double);
+    void Rotate(double angle = 0.0);
     
 };
 

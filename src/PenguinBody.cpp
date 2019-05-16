@@ -6,16 +6,25 @@
 #include <string>
 #include "Sprite.h"
 #include "Game.h"
-
+#include "InputManager.h"
+#include <algorithm>
 using std::vector;
 using std::weak_ptr;
 using std::shared_ptr;
 using std::string;
 
-double acceleration = 0.02;
+using std::max;
+using std::min;
+
+double ACCELERATION = 0.05;
+const double MAX_SPEED_X = 1.60;
+const double MAX_SPEED_Y = 1.60;
+const double MIN_SPEED_X = -1.0;
+const double MIN_SPEED_Y = -1.0;
 
 const string PenguinBody::type("PenguinBody");
 PenguinBody* PenguinBody::player(nullptr);
+static InputManager& inputManager = InputManager::GetInstance();
 
 PenguinBody::PenguinBody(GameObject& associated, weak_ptr<GameObject> weakGO) : 
   Component(*weakGO.lock().get()){
@@ -42,7 +51,38 @@ bool PenguinBody::Is(string type) {
 void PenguinBody::Update(double dt) {
   (void)dt;
   myAbort(12345);
+  bool w_down = inputManager.IsKeyDown('w');
+  bool a_down = inputManager.IsKeyDown('a');
+  bool s_down = inputManager.IsKeyDown('s');
+  bool d_down = inputManager.IsKeyDown('d');
+  if(w_down and not s_down) { // aceleracao positiva
+    Vec2 possibleNewSpeed = this->speed + ACCELERATION * dt;
+    this->speed = Vec2(
+      min(possibleNewSpeed.x, MAX_SPEED_X),
+      min(possibleNewSpeed.y, MAX_SPEED_Y)
+    );
+  }
+  else if(not w_down and s_down) {  // aceleracao negativa
+    Vec2 possibleNewSpeed = this->speed - ACCELERATION * dt;
+    this->speed = Vec2(
+      max(possibleNewSpeed.x, MIN_SPEED_X),
+      max(possibleNewSpeed.y, MIN_SPEED_Y)
+    );
+  }
 
+  if (a_down or d_down) {
+    Sprite * mySprite = ((Sprite*)this->associated.GetComponent("Sprite"));
+    // mySprite->
+    if(a_down and not d_down) {
+      // rotacionar para a esquerda
+    }
+    else if(not a_down and d_down) {
+      // rotacionar para a esquerda
+    }
+  }
+
+
+  
 }
 // PenguinBody::(){}
 // PenguinBody::(){}

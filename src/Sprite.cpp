@@ -67,7 +67,7 @@ void Sprite::Render(int x, int y) {
 }
 
 void Sprite::Update(double dt) {
-  
+  this->currentDt = dt;
   // No Update, cheque se secondsToSelfDestruct
   // é maior que 0, se sim, ela tem prazo de validade. Então incremente o timer e
   // se ele passar do prazo, solicite deleção.
@@ -78,7 +78,7 @@ void Sprite::Update(double dt) {
       this->associated.RequestDelete();
     }
   }
-  this->angleCurrent += this->angleToRotate * dt;
+  this->Rotate(this->angleToRotate);
   // t6
   //   Update deve acumular os dts em timeElapsed. Se timeElapsed for maior
   // que o tempo de um frame, passamos para o frame seguinte, setando o clip.
@@ -184,4 +184,8 @@ e recalcular a box do GameObject associated, visto que a largura será alterada
 
 void Sprite::SetFrameTime(double frameTime) {
   this->frameTime = frameTime;
+}
+
+void Sprite::Rotate(double angle) {
+  this->angleCurrent += angle * this->currentDt;
 }

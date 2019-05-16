@@ -9,22 +9,12 @@
 void InputManager::Update() {
 
 	SDL_Event event;
-  // Primeiro, obter as coordenadas atuais do mouse (SDL_GetMouseState
-	
-	// Segundo resetar a flag de quit. [? NAO FAZ SENTIDO; PODE MUDAR 
-  // ENTRE ESSA LINHA E A PRÓXIMA]
-  // this->quitRequested = false;
-  /* para todo evento, seja botão ou tecla, deve
-  ocorrer o registro do valor do contador de updates do frame atual para aquela
-  tecla. [?] */
   int keyVal;
   int pressedButton;
-  // POR QUE WHILE E NAO IF?
   bool flag = true;  // Controla incremento após o while
   while (SDL_PollEvent(&event)) {    
     flag = false;
     this->updateCounter++;
-    // printf("inside while counter  ++\n");
     keyVal = event.key.keysym.sym;
     pressedButton = event.button.button;
     switch (event.type) {
