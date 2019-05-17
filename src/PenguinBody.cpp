@@ -26,11 +26,11 @@ const string PenguinBody::type("PenguinBody");
 PenguinBody* PenguinBody::player(nullptr);
 static InputManager& inputManager = InputManager::GetInstance();
 
-PenguinBody::PenguinBody(GameObject& associated, weak_ptr<GameObject> weakGO) : 
-  Component(*weakGO.lock().get()){
+PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
     PenguinBody::player = this;
-    new Sprite(this->associated, "assets/img/penguin.png");
+    this->mySprite = new Sprite(this->associated, "assets/img/penguin.png");
     this->associatedSharedPtr = shared_ptr<GameObject>(&this->associated);
+    this->associated.box.SetXYWH(704, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
   }
 PenguinBody::~PenguinBody(){
   PenguinBody::player = nullptr;
@@ -40,6 +40,7 @@ void PenguinBody::Start() {
   GameObject* cannonGO = new GameObject();
   this->pcannon = Game::GetInstance().GetState().AddObject(cannonGO);
   new PenguinCannon(*cannonGO, weak_ptr<GameObject>(this->associatedSharedPtr) );
+  cout << "PENGUIN BODY TRUE STARTEDz\n";
 }
 void PenguinBody::Render() {
   // vazio para PenguinCannon e PenguinBody

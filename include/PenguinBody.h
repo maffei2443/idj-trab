@@ -29,9 +29,10 @@ private:
     double angle = 0;
     int hp = HEALTH_POINTS;
     shared_ptr<GameObject> associatedSharedPtr;
+    Sprite* mySprite;
 public:
     
-    PenguinBody(GameObject&, weak_ptr<GameObject>);
+    PenguinBody(GameObject&);
     ~PenguinBody();
     // herda de Component
     void Start();

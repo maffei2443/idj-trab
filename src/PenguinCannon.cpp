@@ -18,7 +18,7 @@ static InputManager& inputManager = InputManager::GetInstance();
 PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> penguinBody) :
   Component(associated), pbody(penguinBody){
     this->angle = 0.0;
-    this->mySprite = new Sprite(this->associated, "assets/img/alien.png");
+    this->mySprite = new Sprite(this->associated, "assets/img/cubngun.png");
     this->associated.AddComponent(this);
 }
 

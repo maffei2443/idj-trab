@@ -22,6 +22,8 @@
 #include "Alien.h"
 #include "Util.h"
 #include <string>
+#include "PenguinBody.h"
+
 using std::string;
 using std::endl;
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
@@ -39,17 +41,19 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
 	new TileMap(*me, tileSet);
 	this->objectArray.emplace_back( me );
-	// printf("Added >>>>>>>>>> %p\n", bg);
-	printf("emplaced background\n");
-	// No construtor de State, crie um Alien
-	// (criar GO e adicionar componente Alien)
+	
 	GameObject * AlienGO = new GameObject;
-	new Alien(*AlienGO, 10);  // TODO: IMPLEMENTAR MINIONS
+	new Alien(*AlienGO, 10);
 	this->objectArray.emplace_back( AlienGO );
-	// printf("Added >>>>>>>>>> %p\n", AlienGO);
-
 	printf("emplaced alien\n");
-  	// printf("HOW MANY GO : %lu\n", this->objectArray.size());
+
+
+	GameObject * PenguinBodyGO = new GameObject;
+	new PenguinBody(*PenguinBodyGO);
+	this->objectArray.emplace_back( PenguinBodyGO );
+	printf("emplaced alien\n");
+
+
 	this->quitRequested = false;
   // this->music.Play(-1);
 }
@@ -179,11 +183,13 @@ void State::Start() {
 	for(auto& i : this->objectArray) {
 		auto p = i.get();
 		if(!p) {
-			myAbort(666);
+      cout << "Some GameObject suddenly died... " << endl;
+      continue;
+			// myAbort(666);
 		}
-		// cout << "STAT STAT STAT\n";
+		cout << "STAT STAT STAT" << p << "\n";
 		p->Start();
-		// cout << "END END END\n";
+		cout << "END END END\n";
 	}
 }
 
