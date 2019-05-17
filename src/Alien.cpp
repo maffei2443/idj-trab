@@ -125,7 +125,6 @@ void Alien::UpdatePosAndSpeed(double dt) {
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
             // cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
             if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs()) )  {
-                // cout << "GOTO ESTRANHO?? Maybe..." << endl;
                 if (!IsDoubleZero(old_speed.abs()) and !IsDoubleZero(this->speed.abs()) )
                     this->gotoTarget();
             }
@@ -169,8 +168,8 @@ Alien::~Alien() {
 }
 
 void Alien::Update(double dt) {
-    this->associated.box.SetXY({0,0});
-    return;
+    // this->associated.box.SetXY({0,0});
+    // return;
     (void)dt;
     if (this->taskQueue.size() > (size_t)0) {
         Action *action = this->taskQueue.front();
@@ -207,7 +206,8 @@ void Alien::Update(double dt) {
     }
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
-    this->UpdatePosAndSpeed(dt);    
+    this->UpdatePosAndSpeed(dt);   
+    // this->associated.box -= Camera::speed; 
     // this->UpdatePos(dt);    
 
     // Devemos pedir para remover esse GameObject se a vida dele ficar

@@ -42,10 +42,10 @@ void Camera::Update(double dt) {
     if (Camera::focus) {
         // CENTRALIZAR OBJETO FOCADO
         Game& game = Game::GetInstance();
-        Camera::pos = Camera::focus->box.GetCenter() - Vec2(game.GetWidth()/2.0, game.GetHeight()/2.0);
+        // Camera::pos = Camera::focus->box.GetCenter() - Vec2(game.GetWidth()/2.0, game.GetHeight()/2.0);
         Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
         Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
-        printf("CAMERA::UPDATE cCOM FOCO\n");
+        // printf("CAMERA::UPDATE cCOM FOCO\n");
     }
     else {
         /* Se não houver um foco, devemos responder ao input:
