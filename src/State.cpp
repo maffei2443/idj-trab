@@ -52,8 +52,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 
 	GameObject * PenguinBodyGO = new GameObject;
 	new PenguinBody(*PenguinBodyGO);
-	// this->objectArray.emplace_back( PenguinBodyGO );
-	
+	Camera::Follow(PenguinBodyGO);	
 	this->AddObject(PenguinBodyGO);
 	printf("add PenguinBody [?]\n");
 
