@@ -44,6 +44,9 @@ public:
     }
     // t5
     static PenguinBody* player;
+    Vec2 GetSpeed() {
+        return this->speed;
+    }
 };
 
 #endif

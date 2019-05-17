@@ -66,10 +66,10 @@ void PenguinBody::Update(double dt) {
   bool s_down = inputManager.IsKeyDown('s');
   bool d_down = inputManager.IsKeyDown('d');
   if(w_down and not s_down) { // aceleracao positiva
-    this->linearSpeed -= ACCELERATION * dt;
+    this->linearSpeed += ACCELERATION * dt;
   }
   else if(not w_down and s_down) {  // aceleracao negativa
-    this->linearSpeed += ACCELERATION * dt;
+    this->linearSpeed -= ACCELERATION * dt;
   }
 
   if (a_down or d_down) {
@@ -94,5 +94,3 @@ void PenguinBody::Update(double dt) {
   }
 }
 
-// PenguinBody::(){}
-// PenguinBody::(){}

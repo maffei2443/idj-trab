@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "Vec2.h"
-
+#include "Game.h"
 GameObject* Camera::focus;
 // posicao do observador [camera] hipotehtico (centralizado, a pincihpio)
 Vec2 Camera::pos(0,0);
@@ -13,15 +13,15 @@ const double Camera::SPEED = 0.7;
 
 double Camera::GetHorizontalSpeed() {
     return (
-        inputManager->IsKeyDown(SDLK_RIGHT) + inputManager->IsKeyDown('d')  // right speed
-        - inputManager->IsKeyDown(SDLK_LEFT) - inputManager->IsKeyDown('a')  // left speed
+        inputManager->IsKeyDown(SDLK_RIGHT)  // right speed
+        - inputManager->IsKeyDown(SDLK_LEFT)  // left speed
     );
 }
 
 double Camera::GetVerticalSpeed() {
     return (
-        inputManager->IsKeyDown(SDLK_UP) + inputManager->IsKeyDown('w')  // right speed
-        - inputManager->IsKeyDown(SDLK_DOWN) - inputManager->IsKeyDown('s')  // left speed
+        inputManager->IsKeyDown(SDLK_UP)  // right speed
+        - inputManager->IsKeyDown(SDLK_DOWN)  // left speed
     );
 }
 
@@ -41,9 +41,15 @@ void Camera::Update(double dt) {
     depende apenas do tamanho da tela. */
     if (Camera::focus) {
         // Centralizar objeto focado
-        Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
-        Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
-        printf("CAMERA::UPDATE\n");
+        Game& game = Game::GetInstance();
+        Camera::pos = 
+            Vec2(game.GetWidth()/2, game.GetHeight()/2)
+                -
+            Camera::focus->box
+        ;
+        // Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
+        // Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
+        // printf("CAMERA::UPDATE COM FOCO\n");
     }
     else {
         /* Se não houver um foco, devemos responder ao input:

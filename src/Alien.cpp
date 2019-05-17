@@ -13,6 +13,7 @@
 #include "Minion.h"
 #include "Game.h"
 #include "Bullet.h"
+#include "PenguinBody.h"
 #include <cmath>
 
 // linear_congruential_engine constructor
@@ -134,7 +135,10 @@ void Alien::UpdatePosAndSpeed(double dt) {
             }
         }
     }
+    else {
+      this->associated.box -= PenguinBody::player->GetSpeed();
 
+    }
 }
 
 
@@ -144,7 +148,8 @@ void Alien::gotoTarget() {
     this->click.targetX = this->click.targetY = false;
     this->associated.box.SetCenter(
         this->click.x,
-        this->click.y);
+        this->click.y
+    );
 }
 
 Alien::Alien(GameObject& associated, int nMinions):Component(associated),
@@ -212,7 +217,7 @@ um tiro, ou direito para movimento. */
     }
 
     // Mantem o alien andando ATEH QUE encontre o ponto clicado.
-    this->UpdatePosAndSpeed(dt);    
+    this->UpdatePosAndSpeed(dt);   
     // this->UpdatePos(dt);    
 
     // Devemos pedir para remover esse GameObject se a vida dele ficar
@@ -222,7 +227,7 @@ um tiro, ou direito para movimento. */
         cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
-    // this->associated.box.AddXY(Camera::speed * dt);
+    // this->associated.box.AddXY(Camera::speed * (-dt));
 
     // cout << "END ALIEN.UPDATE\n";
     #pragma endregion

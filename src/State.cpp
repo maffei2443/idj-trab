@@ -33,7 +33,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
   new Sprite( *me, "assets/img/ocean.jpg", 1, 10000000 );
   
 	// me->AddComponent(new CameraFollower(*me));
-	// new CameraFollower(*me);
+	new CameraFollower(*me);
 	// Causa efeito de repetiçã oda imagem...
 	/* T5
 	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
