@@ -42,7 +42,7 @@ void PenguinBody::Start() {
   new PenguinCannon(*cannonGO, weak_ptr<GameObject>(this->associatedSharedPtr) );
 }
 void PenguinBody::Render() {
-
+  // vazio para PenguinCannon e PenguinBody
 }
 
 bool PenguinBody::Is(string type) {

@@ -25,7 +25,7 @@ private:
     double angle = 0;
     weak_ptr<GameObject> pbody;
     Timer cooldown;
-
+    Sprite* mySprite;
 public:
     
     PenguinCannon(GameObject&, weak_ptr<GameObject> penguinBody);

@@ -32,9 +32,9 @@ Sprite::Sprite(GameObject& associated, string file, int frameCount, double frame
   double secondsToSelfDestruct) : Component(associated), frameCount(frameCount) {
   this->frameTime = frameTime;
   this->secondsToSelfDestruct = secondsToSelfDestruct;
-  cout << "Sprite nao-padrao! " << endl;
-  cout << "[NT]FrameCount: " << this->frameCount << endl;
-  cout << "[NT]frameTime: " << this->frameTime << endl;
+  // cout << "Sprite nao-padrao! " << endl;
+  // cout << "[NT]FrameCount: " << this->frameCount << endl;
+  // cout << "[NT]frameTime: " << this->frameTime << endl;
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
@@ -111,8 +111,8 @@ void Sprite::Open(string file) {
   SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
   this->frameWidth = this->width / this->frameCount;
   this->frameHeight = this->height;
-  cout << "[Sprite.cpp] this->frameWidth " << this->frameWidth << endl;
-  cout << "[Sprite.cpp] this->frameHeight " << this->frameHeight << endl;
+  // cout << "[Sprite.cpp] this->frameWidth " << this->frameWidth << endl;
+  // cout << "[Sprite.cpp] this->frameHeight " << this->frameHeight << endl;
   // myAbort(129);
   // POSSIVEL BUG : se quiser-se iniciar no último frame,
   // vai dar problema...
