@@ -50,6 +50,12 @@ class Game {
     string GetType() {
       return this->type;
     }
+    int GetWidth() {
+      return this->width;
+    }
+    int GetHeight() {
+      return this->height;
+    }
 };
 
 #endif

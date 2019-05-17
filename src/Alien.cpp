@@ -161,22 +161,17 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     // fflush(stdout);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
-    new CameraFollower(this->associated);
-    // myAbort(1991919);
+    // new CameraFollower(this->associated); // Alien fica parado no mapa
 }
 Alien::~Alien() {
     cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
     this->minionArray.clear();
 }
 
-
-
 void Alien::Update(double dt) {
+    this->associated.box.SetXY({0,0});
+    return;
     (void)dt;
-    /* Primeiro, CHECAMOS
-SE HOUVE INPUT QUE GERE UMA AÇÃO: clique do botão esquerdo do mouse para
-um tiro, ou direito para movimento. */
-    // printf("ALIEN UPDATE\n");
     if (this->taskQueue.size() > (size_t)0) {
         Action *action = this->taskQueue.front();
         switch(action->type) {
@@ -222,16 +217,13 @@ um tiro, ou direito para movimento. */
         cout << "hitspoints :: " << this->hitspoints << endl;
         this->associated.RequestDelete();
     }
-    // this->associated.box.AddXY(Camera::speed * dt);
 
-    // cout << "END ALIEN.UPDATE\n";
     #pragma endregion
 }
 void Alien::Render() {
     // Itentionally left empty.
     // Primeiro, faça A RENDERIZAÇÃO deles levar em
     // consideração a posição da câmera. (FIZ O UPDATE)
-    // printf("Alien RENDER\n");
 
 }
 bool Alien::Is(string type) {

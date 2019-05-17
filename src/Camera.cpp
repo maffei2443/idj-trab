@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "Vec2.h"
-
+#include "Game.h"
 GameObject* Camera::focus;
 // posicao do observador [camera] hipotehtico (centralizado, a pincihpio)
 Vec2 Camera::pos(0,0);
@@ -40,10 +40,12 @@ void Camera::Update(double dt) {
     centralizado na tela. Nesse caso, o movimento independe de dt,
     depende apenas do tamanho da tela. */
     if (Camera::focus) {
-        // Centralizar objeto focado
+        // CENTRALIZAR OBJETO FOCADO
+        Game& game = Game::GetInstance();
+        Camera::pos = Camera::focus->box.GetCenter() - Vec2(game.GetWidth()/2.0, game.GetHeight()/2.0);
         Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
         Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
-        printf("CAMERA::UPDATE\n");
+        printf("CAMERA::UPDATE cCOM FOCO\n");
     }
     else {
         /* Se não houver um foco, devemos responder ao input:
