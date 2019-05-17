@@ -6,10 +6,13 @@
 #include "Game.h"
 #include "Resources.h"
 #include "Camera.h"
-const string Sprite::type("Sprite");
-#include <string>
-using std::string;
 #include "Util.h" // IsDoubleZero
+#include <string>
+#include <iostream>
+using std::string;
+using std::cout;
+using std::endl;
+const string Sprite::type("Sprite");
 void Sprite::ApplyScale() {
   this->associated.box.w *= this->scale.x;
   this->associated.box.h *= this->scale.y;
@@ -21,8 +24,8 @@ Sprite::Sprite(GameObject& associated) : Component(associated) {
 }
 
 Sprite::Sprite(GameObject& associated, string file) : Component(associated) {
-  cout << "FrameCount: " << this->frameCount << endl;
-  cout << "frameTime: " << this->frameTime << endl;
+  // cout << "FrameCount: " << this->frameCount << endl;
+  // cout << "frameTime: " << this->frameTime << endl;
   this->texture = nullptr;
   this->Open(file);
   this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
@@ -41,6 +44,7 @@ Sprite::Sprite(GameObject& associated, string file, int frameCount, double frame
 }
 
 Sprite::~Sprite() {
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
 }
 
 // Render é um wrapper para SDL_RenderCopy, que recebe quatro

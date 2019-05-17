@@ -5,6 +5,9 @@
 #include "Macros.h"
 #include <string>
 using std::string;
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 Sound::Sound(GameObject& associated) : 

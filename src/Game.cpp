@@ -15,7 +15,7 @@
 #include <string>
 using std::string;
 Game* Game::instance = nullptr;
-
+const string Game::type("Game");
 Game::Game(string title, int width, int height,
               int freq = MIX_DEFAULT_FREQUENCY,
               unsigned short format = MIX_DEFAULT_FORMAT,
@@ -54,6 +54,8 @@ Game::Game(string title, int width, int height,
 }
 
 Game::~Game() {
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
+
   delete this->state;
   // Destroy renderer and window.
   SDL_DestroyRenderer(this->renderer);

@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <iostream>
 #include "Macros.h"
+
+const string InputManager::type("InputManager");
 void InputManager::Update() {
 
 	SDL_Event event;
@@ -150,6 +152,6 @@ mouse) */
 }
 
 InputManager::~InputManager () {
-
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
 }
 

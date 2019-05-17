@@ -37,6 +37,7 @@ class Game {
     int frameStart;
     double dt;
     void CalculateDeltaTime();
+    static const string type;
   public:
     // GetDEltaTime() add p/ T4
     int GetDeltaTime();
@@ -46,7 +47,9 @@ class Game {
     SDL_Renderer* GetRenderer();
     State& GetState();
     static Game& GetInstance();
-
+    string GetType() {
+      return this->type;
+    }
 };
 
 #endif

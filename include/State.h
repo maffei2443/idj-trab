@@ -6,14 +6,17 @@
 #include <vector>
 #include <memory>  // unique_ptr
 #include <string>
+#include "InputManager.h"
 using std::weak_ptr;
 using std::shared_ptr;
 using std::vector;
 
-#include "InputManager.h"
+
 // Class responsible for the game logic.
 class State {
   private:
+    const static string type;
+
     Music music;
     GameObject* bg;
     bool quitRequested;
@@ -37,6 +40,9 @@ class State {
     void Start();
     weak_ptr<GameObject> AddObject(GameObject*);
     weak_ptr<GameObject> GetObjectPtr(GameObject*);
+    const inline string GetType() const {
+      return this->type;
+    }
 };
 
 #endif

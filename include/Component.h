@@ -13,8 +13,8 @@ class Component{
 protected:
     bool started = false;
     GameObject& associated; // where I am
+    static const string type;
 public:
-    const static string type;
     Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
 

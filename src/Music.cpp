@@ -7,20 +7,23 @@
 #define INCLUDE_SDL_MIXER
 #include <string>
 using std::string;
+using std::cout;
+using std::endl;
+const string Music::type("Music");
 Music::Music() {
-    this->music = nullptr;
+  this->music = nullptr;
 }
 
 Music::Music(string file) {
-    this->Open(file);
+  this->Open(file);
 }
 
 void Music::Play(int times=-1) {
-    // Se loops for -1, a música repete infinitamente. Se loops for 0, a música não é
-    // tocada. Vale notar que a Mixer só suporta uma música sendo tocada por vez:
-    // Se outra música já estiver tocando, ela para.
-    const int TIMES_TO_PLAY = times;
-    Mix_PlayMusic(this->music, TIMES_TO_PLAY);
+  // Se loops for -1, a música repete infinitamente. Se loops for 0, a música não é
+  // tocada. Vale notar que a Mixer só suporta uma música sendo tocada por vez:
+  // Se outra música já estiver tocando, ela para.
+  const int TIMES_TO_PLAY = times;
+  Mix_PlayMusic(this->music, TIMES_TO_PLAY);
 }
 
 void Music::Stop(int msToStop = 1500) {
@@ -28,19 +31,19 @@ void Music::Stop(int msToStop = 1500) {
 }
 
 void Music::Open(string file) {
-    SDL_ClearError();
-    this->music = Mix_LoadMUS( file.c_str() );
-    if(!this->music) {
-        throw std::runtime_error("Error loading Music");
-    }
-    
+  SDL_ClearError();
+  this->music = Mix_LoadMUS( file.c_str() );
+  if(!this->music) {
+      throw std::runtime_error("Error loading Music");
+  }    
 }
 
 bool Music::IsOpen() {
-    return !!this->music;
+  return !!this->music;
 }
 
 Music::~Music() {
-    this->Stop(0);
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;  
+  this->Stop(0);
 }
 

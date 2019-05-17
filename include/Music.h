@@ -7,6 +7,7 @@ using std::string;
 
 class Music {
   private:
+    const static string type;
     Mix_Music* music;
   public:
     Music();
@@ -16,6 +17,9 @@ class Music {
     void Stop(int msToStop);
     void Open(string file);
     bool IsOpen();
+    const inline string GetType() const {
+      return this->type;
+    }
 };
 
 #endif

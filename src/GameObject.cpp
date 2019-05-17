@@ -7,10 +7,12 @@
 using std::string;
 using std::cout;
 using std::endl;
+const string GameObject::type("GameObject");
 GameObject::GameObject() : isDead(false), box(),started(false) {
 }
 
 GameObject::~GameObject() {
+    cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
     //////printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
     this->components.clear();

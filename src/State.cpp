@@ -26,6 +26,8 @@
 
 using std::string;
 using std::endl;
+const string State::type("State");
+
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * me = new GameObject;
   new Sprite( *me, "assets/img/ocean.jpg", 1, 10000000 );
@@ -50,8 +52,10 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 
 	GameObject * PenguinBodyGO = new GameObject;
 	new PenguinBody(*PenguinBodyGO);
-	this->objectArray.emplace_back( PenguinBodyGO );
-	printf("emplaced alien\n");
+	// this->objectArray.emplace_back( PenguinBodyGO );
+	
+	this->AddObject(PenguinBodyGO);
+	printf("add PenguinBody [?]\n");
 
 
 	this->quitRequested = false;
@@ -59,6 +63,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 }
 
 State::~State() {
+	cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
 	objectArray.clear();
 }
 
@@ -183,13 +188,13 @@ void State::Start() {
 	for(auto& i : this->objectArray) {
 		auto p = i.get();
 		if(!p) {
-      cout << "Some GameObject suddenly died... " << endl;
-      continue;
+			cout << "Some GameObject suddenly died... " << endl;
+			continue;
 			// myAbort(666);
 		}
-		cout << "STAT STAT STAT" << p << "\n";
+		// cout << "STAT STAT STAT" << p << "\n";
 		p->Start();
-		cout << "END END END\n";
+		// cout << "END END END\n";
 	}
 }
 

@@ -7,7 +7,12 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "InputManager.h"
+#include "CameraFollower.h"
 #include <algorithm>
+#include <iostream>
+using std::cout;
+using std::endl;
+
 using std::vector;
 using std::weak_ptr;
 using std::shared_ptr;
@@ -31,9 +36,12 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
     this->mySprite = new Sprite(this->associated, "assets/img/penguin.png");
     this->associatedSharedPtr = shared_ptr<GameObject>(&this->associated);
     this->associated.box.SetXYWH(704, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
+    new CameraFollower(this->associated);
   }
 PenguinBody::~PenguinBody(){
   PenguinBody::player = nullptr;
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
+
 }
 void PenguinBody::Start() {
   this->started = true;
@@ -47,7 +55,7 @@ void PenguinBody::Render() {
 }
 
 bool PenguinBody::Is(string type) {
-  return type == PenguinBody::type;
+  return type == this->type;
 }
 void PenguinBody::Update(double dt) {
   (void)dt;

@@ -8,6 +8,9 @@
 #include "Camera.h"
 #include "Vec2.h"
 #include "Bullet.h"
+#include <iostream>
+using std::cout;
+using std::endl;
 
 #define atan2Vec(VEC) atan2( (VEC).y, (VEC).x )
 using std::weak_ptr;
@@ -22,7 +25,9 @@ PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> pengui
     this->associated.AddComponent(this);
 }
 
-PenguinCannon::~PenguinCannon(){}
+PenguinCannon::~PenguinCannon(){
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
+}
 
 void PenguinCannon::Start() {
   this->started = true;
@@ -56,7 +61,7 @@ void PenguinCannon::Render() {
   // vazio para PenguinCannon e PenguinBody
 }
 bool PenguinCannon::Is(string type) {
-  return type == PenguinCannon::type;
+  return type == this->type;
 }
 void PenguinCannon::Shoot(){
   myAbort(1);

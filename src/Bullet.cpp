@@ -120,7 +120,7 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
 
 }
 Bullet::~Bullet() {
-    cout << "[Bullet] MORTO" << endl;
+    cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
 }
 void Bullet::Update(double dt) {
     // todo : add robusteza (i.e, impedir que a bala passe do ponto)

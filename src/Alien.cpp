@@ -139,7 +139,7 @@ void Alien::UpdatePosAndSpeed(double dt) {
 
 
 void Alien::gotoTarget() {
-    cout << "[Alien.gotoTarget] GOTO: " << this->click.x << ", " << this->click.y << endl;
+    // cout << "[Alien.gotoTarget] GOTO: " << this->click.x << ", " << this->click.y << endl;
     this->speed.x = this->speed.y = 0;
     this->click.targetX = this->click.targetY = false;
     this->associated.box.SetCenter(
@@ -165,7 +165,7 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     // myAbort(1991919);
 }
 Alien::~Alien() {
-    // Esvaziar o array com os minions.
+    cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
     this->minionArray.clear();
 }
 
@@ -207,7 +207,7 @@ um tiro, ou direito para movimento. */
         // direito para movimento
         int mouseX = inputManager.GetMouseX();
         int mouseY = inputManager.GetMouseY();
-        printf("MOVE TO %d %d\n", mouseX, mouseY);
+        // printf("MOVE TO %d %d\n", mouseX, mouseY);
         this->taskQueue.push( new Action(Action::ActionType::MOVE, mouseX, mouseY) );
     }
 
@@ -240,22 +240,21 @@ bool Alien::Is(string type) {
 
 // t5
 void Alien::Start() {
-    this->started = true;
-    cout << "MINIONS : " << this->nMinions << endl; 
-    double offSet = 360.0 / this->nMinions;
-    double arc = 0.0;
-    for(int i = 0; i < this->nMinions; i++) {
-        weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
-
-        GameObject * minionGO = new GameObject();
-        Minion* added =
-            new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius + radiusExtraRandom(randomGenerator) , 0));
-        arc += offSet;
-        shared_ptr<GameObject>* srd = new shared_ptr<GameObject>(minionGO);
-        weak_ptr<GameObject> minionWeakPtr;        
-        minionWeakPtr = Game::GetInstance().GetState().AddObject(srd->get());
-        this->minionArray.emplace_back( minionWeakPtr );
-    }
+  this->started = true;
+  cout << "MINIONS : " << this->nMinions << endl; 
+  double offSet = 360.0 / this->nMinions;
+  double arc = 0.0;
+  weak_ptr<GameObject> self_weak_GO = Game::GetInstance().GetState().GetObjectPtr(&this->associated);
+  for(int i = 0; i < this->nMinions; i++) {
+    GameObject * minionGO = new GameObject();
+    Minion* added =
+        new Minion(*minionGO, self_weak_GO, arc, Vec2(this->baseRadius + radiusExtraRandom(randomGenerator) , 0));
+    arc += offSet;
+    // shared_ptr<GameObject>* srd = new shared_ptr<GameObject>(minionGO);
+    weak_ptr<GameObject> minionWeakPtr;        
+    minionWeakPtr = Game::GetInstance().GetState().AddObject(minionGO);
+    this->minionArray.emplace_back( minionWeakPtr );
+  }
 }
 
 // Retorna ponteiro p/ minion que contém as coordenadas mais próximas dos pontos x,y.
