@@ -27,4 +27,9 @@ extern int AuxCodeErr;
 void myAbort(int);
 #define LOG(x) printf("[Log] "),printf(x);
 
+#ifndef STR
+#define STR(x) #x
+#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
+#endif
+
 #endif

@@ -8,4 +8,10 @@ bool IsFloatDiffZero(double, double);
 bool IsFloatZero(double);
 bool IsDoubleDiffZero(double, double);
 bool IsDoubleZero(double);
+
+#ifndef STR
+#define STR(x) #x
+#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
+#endif
+
 #endif

@@ -15,6 +15,7 @@
 #include "Bullet.h"
 #include "PenguinBody.h"
 #include <cmath>
+#include "Collider.h"
 
 // linear_congruential_engine constructor
 /* #include <chrono>
@@ -138,7 +139,7 @@ void Alien::UpdatePosAndSpeed(double dt) {
         }
     }
     else {
-      this->associated.box -= Camera::focus->GetSpeed();
+      this->associated.box -= Camera::focus->GetSpeed()*dt;
     }
 }
 
@@ -168,7 +169,8 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     // fflush(stdout);
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
-    new CameraFollower(this->associated);
+    // new CameraFollower(this->associated);
+    new Collider(this->associated);
     // myAbort(1991919);
 }
 Alien::~Alien() {

@@ -9,8 +9,6 @@
 #include <iostream>
 using std::cout;
 using std::endl;
-#define STR(x) #x
-#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
 /*  */
 GameObject* Camera::focus;
 // posicao do observador [camera] hipotehtico (centralizado, a pincihpio)

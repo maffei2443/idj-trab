@@ -7,6 +7,11 @@
 #include <memory>  // unique_ptr
 #include <string>
 
+#ifndef STR
+#define STR(x) #x
+#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
+#endif
+
 // Class responsible for the game logic.
 class Camera {
   private:

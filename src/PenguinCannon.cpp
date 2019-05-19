@@ -9,6 +9,8 @@
 #include "Vec2.h"
 #include "Bullet.h"
 #include <iostream>
+#include "Collider.h"
+
 using std::cout;
 using std::endl;
 
@@ -23,6 +25,7 @@ PenguinCannon::PenguinCannon(GameObject& associated, weak_ptr<GameObject> pengui
     this->angle = 0.0;
     this->mySprite = new Sprite(this->associated, "assets/img/cubngun.png");
     this->associated.AddComponent(this);
+    new Collider(this->associated);
 }
 
 PenguinCannon::~PenguinCannon(){

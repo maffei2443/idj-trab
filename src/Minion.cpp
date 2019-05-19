@@ -10,11 +10,13 @@ using std::endl;
 #include "Sprite.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "Camera.h"
 
 double angularSpeed = 0.02;
 
 #include <chrono>
 #include <random>
+#include "Collider.h"
 const static int FRAMES = 1;
 const static double FRAME_TIME = 1000;
 
@@ -45,6 +47,7 @@ Minion::Minion (GameObject& associated, weak_ptr<GameObject> alienCenter,
     this->associated.AddComponent(this);
     mySprite->SetScale(scale, scale);
   }
+  new Collider(this->associated);
 }
 
 Minion::~Minion () {
@@ -61,6 +64,8 @@ void Minion::Update(double dt) {
         Vec2 newPos =  innerPos + alienCenterAccessor->box.GetCenter();
         this->associated.box.SetCenter(newPos);
     }
+    if(Camera::focus != &this->associated)
+      this->associated.box -= Camera::speed;
     // cout << "??? : " << this->associated.box << endl;
     // OK funcionando
 }

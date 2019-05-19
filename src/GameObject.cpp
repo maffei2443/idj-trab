@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Rect.h"
 #include "Macros.h"
+#include "Util.h"
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -9,6 +10,7 @@ using std::cout;
 using std::endl;
 const string GameObject::type("GameObject");
 GameObject::GameObject() : isDead(false), box(),started(false) {
+    PRINT(this);
 }
 
 GameObject::~GameObject() {
@@ -63,8 +65,12 @@ void GameObject::RemoveComponent(Component * cpt) {
 
 Component* GameObject::GetComponent(string type) {
     for(auto* comp : this->components) {
-        if(comp->Is(type))
+        if(comp->Is(type)) {
+            if(type == "Face") {
+                printf("I AM FACE : %p\n", comp);
+            }
             return comp;
+        }
     }
     // LOG("Objeto não existente\n");
     // LOG("Método incompleto!!! Terminna logo  isso..\n");

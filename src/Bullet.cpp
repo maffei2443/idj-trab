@@ -7,7 +7,8 @@
 #include "Macros.h"
 #include "InputManager.h"
 #include "Util.h"
-
+#include "Collider.h"
+#include "Camera.h"
 using std::string;
 using std::cout;
 using std::endl;
@@ -117,7 +118,7 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     this->speed.rotate(angle);
 
     this->speed = this->speed.unitary() * speed;
-
+    new Collider(this->associated);
 }
 Bullet::~Bullet() {
     cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
@@ -127,6 +128,8 @@ void Bullet::Update(double dt) {
     if(this->distanceLeft > 0) {
         this->distanceLeft -= this->speed.abs();
         this->UpdatePos(dt);
+        if(Camera::focus  != &this->associated)
+            this->associated.box -= Camera::focus->GetSpeed()*dt;
     }
     else {
         this->associated.RequestDelete();

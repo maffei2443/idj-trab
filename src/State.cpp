@@ -23,7 +23,7 @@
 #include "Util.h"
 #include <string>
 #include "PenguinBody.h"
-
+#include "Macros.h"
 using std::string;
 using std::endl;
 const string State::type("State");
@@ -69,6 +69,7 @@ State::~State() {
 
 void State::Update(double dt) {
 	// this->bg->box += {1,1};
+	this->ResolveCollision();
 	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
 	|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao
@@ -82,26 +83,6 @@ void State::Update(double dt) {
 	// TODO: perguntaro deve se o bloco abaixo deve permanecer aqui
 	// Acerta [UM] pinguim sobre o mouse
 	#pragma region
-	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
-		// printf("LEFT CLICK\n");
-		int mouseX = this->inputManager->GetMouseX();
-		int mouseY = this->inputManager->GetMouseY();
-		// Iterar de tras para frente para dar dano no ultimo inserido.
-		// TODO: adicionar robusteza a essa parte
-		for(int i = objectArray.size() - 1; i >= 0; --i) {
-			// Obtem o ponteiro e casta pra Face. TODO : otimizar isso. Talvez cast estahtico
-			GameObject* go = (GameObject*) objectArray[i].get();
-			if(go->box.Contains( {(double)mouseX, (double)mouseY} ) ) {
-				Face* face = (Face*)go->GetComponent( "Face" );
-				if ( face != nullptr ) {
-					// Aplica dano
-					face->Damage(std::rand() % 10 + 10);
-					// Sai do loop (só queremos acertar um [bala nao perfurante])
-					break;
-				}
-			}
-		}
-	}
 	#pragma endregion
 	// cout << "STATE.UPDATE.UPDATE\n";
 	auto siz = this->objectArray.size();
@@ -160,11 +141,11 @@ void State::AddObject(int mouseX, int mouseY) {
 	enemy->box.h = sprite->GetHeight();
 	Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
 	// e, por último, o que o define: Face.
-	Face * enemyFace = new Face(*enemy);
+	// Face * enemyFace = new Face(*enemy);
 	
 	enemy->AddComponent(sprite);
 	enemy->AddComponent(enemySound);
-	enemy->AddComponent(enemyFace);
+	// enemy->AddComponent(enemyFace);
 	
 	
 	this->objectArray.emplace_back( enemy );
@@ -223,3 +204,23 @@ passado como argumento. */
 	return std::weak_ptr<GameObject>();
 }
 
+void State::ResolveCollision() {
+	printf("ResolveCollision\n");
+	vector<GameObject*> possibleCollider;
+	int ctr = 0;
+	for(auto i : this->objectArray) {
+		Component* ptr = i->GetComponent("Collision");
+		GameObject* it = i.get();
+		if(ptr) {
+			// PRINT(i);
+			ctr++;
+			possibleCollider.push_back(it);
+		}
+	}
+
+	for(int i = 0; i < possibleCollider.size()-1; i++) {
+		// if(Collision::Is)
+	}
+	// printf("Can collide :: %d\n", ctr);
+	// myAbort(99);
+}
