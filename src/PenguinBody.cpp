@@ -10,6 +10,7 @@
 #include "CameraFollower.h"
 #include <algorithm>
 #include <iostream>
+#include "Util.h"
 using std::cout;
 using std::endl;
 
@@ -93,5 +94,6 @@ void PenguinBody::Update(double dt) {
     this->associated.RequestDelete();
     this->pcannon.lock().get()->RequestDelete();
   }
+  PRINT(this->associated.box)
 }
 

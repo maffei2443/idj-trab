@@ -52,8 +52,8 @@ Sprite::~Sprite() {
 
 void Sprite::Render(int x, int y) {
   SDL_Rect dsrect;
-  dsrect.x = x;
-  dsrect.y = y; 
+  dsrect.x = x - Camera::pos.x;
+  dsrect.y = y - Camera::pos.y; 
   dsrect.w = this->clipRect.w * this->scale.x;
   dsrect.h = this->clipRect.h * this->scale.y;
   SDL_ClearError();

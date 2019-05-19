@@ -137,8 +137,8 @@ void Alien::UpdatePosAndSpeed(double dt) {
             }
         }
     }
-    else {
-      this->associated.box -= Camera::focus->GetSpeed();
+    else if (Camera::focus != &this->associated){
+      this->associated.box -= Camera::speed;
     }
 }
 

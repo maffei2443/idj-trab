@@ -9,8 +9,7 @@
 #include <iostream>
 using std::cout;
 using std::endl;
-#define STR(x) #x
-#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
+
 /*  */
 GameObject* Camera::focus;
 // posicao do observador [camera] hipotehtico (centralizado, a pincihpio)
@@ -51,11 +50,26 @@ void Camera::Update(double dt) {
     if (Camera::focus) {
         // Centralizar objeto focado
         Game& game = Game::GetInstance();
-        Camera::pos = 
+/*         Camera::pos = 
             Vec2(game.GetWidth()/2, game.GetHeight()/2)
                 -
             Camera::focus->box
         ;
+ */       
+/*       Camera::pos = 
+        Camera::focus->box * (-1)
+      ; */
+/*       Camera::pos = 
+        (Camera::focus->box - Vec2(game.GetWidth()/2, 0))*(-1)
+      ;
+ */   
+      // Camera::speed = {0.01, 0};
+      // Camera::pos = Camera::pos + (Camera::speed);
+
+      Camera::speed.x = Camera::focus->GetSpeed().x;       
+      Camera::speed.y = Camera::focus->GetSpeed().y;       
+      
+      PRINT(Camera::pos);
     }
     else {
         /* Se não houver um foco, devemos responder ao input:

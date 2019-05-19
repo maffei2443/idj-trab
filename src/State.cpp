@@ -33,7 +33,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
   new Sprite( *this->bg, "assets/img/ocean.jpg", 1, 10000000 );
   
 	// this->bg->AddComponent(new CameraFollower(*this->bg));
-	// new CameraFollower(*this->bg);
+	new CameraFollower(*this->bg);
 	// Causa efeito de repetiçã oda imagem...
 	/* T5
 	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
@@ -68,6 +68,8 @@ State::~State() {
 
 
 void State::Update(double dt) {
+	Camera::Update(dt);
+
 	// this->bg->box += {1,1};
 	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
 	|| this->inputManager->QuitRequested();
@@ -134,7 +136,6 @@ void State::Update(double dt) {
 	// [T4] Usaremos a câmera sem foco, por enquanto.
 	/* 	Em State::Update, chame o
 		update da câmera, e [...]*/ 
-	Camera::Update(dt);
 }
 
 
