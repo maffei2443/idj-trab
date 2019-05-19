@@ -116,13 +116,15 @@ void Alien::UpdatePosAndSpeed(double dt) {
         }
         else {
             if(absDeltaX < absDeltaY) { // velocidade em X deve ser MENOR em modulo
-                this->speed.y = (deltaY > 0 ? VEL : -VEL)*dt;
+                this->speed.y = (deltaY > 0 ? VEL : -VEL);
                 this->speed.x = this->speed.y * slopeInverse * this->click.targetY ;  // 
             }
             else {
-                this->speed.x = (deltaX > 0 ? VEL : -VEL)*dt;
+                this->speed.x = (deltaX > 0 ? VEL : -VEL);
                 this->speed.y = this->speed.x * slope * click.targetX;
             }
+            this->associated.SetSpeed(this->speed);
+            this->speed *= dt;
             // checar se vai ir para onde estava antes. Se sim, pare de se mover e teleporta ao ponto objetivo.
             // cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
             if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs()) )  {
@@ -136,8 +138,7 @@ void Alien::UpdatePosAndSpeed(double dt) {
         }
     }
     else {
-      this->associated.box -= PenguinBody::player->GetSpeed();
-
+      this->associated.box -= Camera::focus->GetSpeed();
     }
 }
 
@@ -145,6 +146,7 @@ void Alien::UpdatePosAndSpeed(double dt) {
 void Alien::gotoTarget() {
     // cout << "[Alien.gotoTarget] GOTO: " << this->click.x << ", " << this->click.y << endl;
     this->speed.x = this->speed.y = 0;
+    this->associated.SetSpeed(this->speed);
     this->click.targetX = this->click.targetY = false;
     this->associated.box.SetCenter(
         this->click.x,

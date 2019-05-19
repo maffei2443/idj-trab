@@ -17,6 +17,8 @@ private:
   // ideia: permitir restaurar p/ tamanho original
   // caso necessário. Basta armazenar w e h originais
   Vec2 originalDimension;
+  Vec2 speed;
+  double currentDt;
 public:
   GameObject();
   ~GameObject();
@@ -32,7 +34,6 @@ public:
   Vec2 GetOriginalDim();
   Component* GetComponent(string type);
   Rect box;
-
   // t5
   void Start();
   bool started = false;
@@ -42,6 +43,16 @@ public:
   double angleDeg = 0;
   const inline string GetType() const {
     return this->type;
+  }
+  // Na verdade,
+  const Vec2 GetSpeed() {
+    return this->speed;
+  }
+  const Vec2 GetSpeedWithDt() {
+    return this->speed * this->currentDt;
+  }
+  const void SetSpeed(Vec2 speed) {
+    this->speed = speed;
   }
 };
 

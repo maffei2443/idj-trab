@@ -29,20 +29,20 @@ using std::endl;
 const string State::type("State");
 
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
-  GameObject * me = new GameObject;
-  new Sprite( *me, "assets/img/ocean.jpg", 1, 10000000 );
+  this->bg = new GameObject;
+  new Sprite( *this->bg, "assets/img/ocean.jpg", 1, 10000000 );
   
-	// me->AddComponent(new CameraFollower(*me));
-	new CameraFollower(*me);
+	// this->bg->AddComponent(new CameraFollower(*this->bg));
+	// new CameraFollower(*this->bg);
 	// Causa efeito de repetiçã oda imagem...
 	/* T5
 	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
 	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
 	que contêm a Sprite de fundo e voilà! */
 	string tileSetPath("assets/img/tileset.png");
-	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *me);
-	new TileMap(*me, tileSet);
-	this->objectArray.emplace_back( me );
+	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *this->bg);
+	new TileMap(*this->bg, tileSet);
+	this->objectArray.emplace_back( this->bg );
 	
 	GameObject * AlienGO = new GameObject;
 	new Alien(*AlienGO, 10);
@@ -68,6 +68,7 @@ State::~State() {
 
 
 void State::Update(double dt) {
+	// this->bg->box += {1,1};
 	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
 	|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao

@@ -10,10 +10,10 @@
 // Class responsible for the game logic.
 class Camera {
   private:
-    static GameObject * focus;
     static double GetHorizontalSpeed();
     static double GetVerticalSpeed();
   public:
+    static GameObject * focus;
     static Vec2 pos;
     static Vec2 speed;
     static void Follow(GameObject* newFocus);

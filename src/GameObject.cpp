@@ -21,6 +21,7 @@ GameObject::~GameObject() {
 
 void GameObject::Update(double dt) {
     // cout << "GAMEOBJECT " << this <<  " UPDATE" << endl;
+    this->currentDt = dt;
     for(auto& comp : this->components) {
         // printf("WILL CALL comp->GetType() of ======> %p\n", comp);
         // cout << "\t[GameObject::Update] type: " << comp->GetType() << ", addr: " << &comp << endl;

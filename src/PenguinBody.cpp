@@ -83,6 +83,7 @@ void PenguinBody::Update(double dt) {
     }
   }
   this->speed = Vec2(1,0).GetRotated(this->mySprite->angleCurrent) * this->linearSpeed;
+  this->associated.SetSpeed(this->speed);
   // velocidade de acordo com o angulo do sprite
 
   this->associated.box.AddXY(

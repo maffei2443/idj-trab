@@ -3,6 +3,15 @@
 #include "InputManager.h"
 #include "Vec2.h"
 #include "Game.h"
+#include "Util.h"
+
+/*  */
+#include <iostream>
+using std::cout;
+using std::endl;
+#define STR(x) #x
+#define PRINT(expr) cout << STR(expr) ": " << (expr) << endl;
+/*  */
 GameObject* Camera::focus;
 // posicao do observador [camera] hipotehtico (centralizado, a pincihpio)
 Vec2 Camera::pos(0,0);
@@ -47,9 +56,6 @@ void Camera::Update(double dt) {
                 -
             Camera::focus->box
         ;
-        // Camera::pos.x = Camera::focus->box.x; // POSSIVEL BUG
-        // Camera::pos.y = Camera::focus->box.y; // POSSIVEL BUG
-        // printf("CAMERA::UPDATE COM FOCO\n");
     }
     else {
         /* Se não houver um foco, devemos responder ao input:
