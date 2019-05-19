@@ -36,7 +36,7 @@ class Sprite : public Component {
   public:
     double angleToRotate = 0.0;
     double angleCurrent = 0.0;
-    Sprite() {} //gambs; por conta do Sprite de State
+    // Sprite() {} //gambs; por conta do Sprite de State
     Sprite(GameObject&);
     Sprite(GameObject&, string file);
     // t6

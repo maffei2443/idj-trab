@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Rect.h"
 #include "Macros.h"
+#include "Util.h"
 #include <cstdio>
 #include <iostream>
 #include <string>
@@ -15,8 +16,13 @@ GameObject::~GameObject() {
     cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
     //////printf("GO deletado...\n");
     // Liberando em ordem reversa À que foi alocado
+    // PRINT(this->components.size());
     this->components.clear();
-    fflush(stdout);
+    // return;
+    // for(int i = 0; i < components.size(); i++) {
+    //     PRINT(this->components[i]);
+    //     delete this->components[i];
+    // }
 }
 
 void GameObject::Update(double dt) {
@@ -45,10 +51,7 @@ void GameObject::RequestDelete() {
     this->isDead = true;
 }
 void GameObject::AddComponent(Component* cpt) {
-    // BUG POSSIVEL
-    // this->components.push_back(cpt);
     this->components.emplace_back(cpt);
-    // cout << "[GameObject " << this << "] Emplaced ---> " << cpt->GetType() << endl;
 }
 
 void GameObject::RemoveComponent(Component * cpt) {

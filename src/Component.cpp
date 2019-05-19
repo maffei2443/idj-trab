@@ -12,7 +12,7 @@ using std::endl;
 const string Component::type("Component");
 
 Component::~Component() {
-    cout << "[" << this->type << "] DESTRUCTOR" << endl;
+    cout << "COMPONENT-" << this << " [" << this->type << "] DESTRUCTOR" << endl;
 }
 
 Component::Component(GameObject& associated) : associated(associated) {

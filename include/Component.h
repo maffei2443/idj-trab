@@ -15,7 +15,7 @@ protected:
     GameObject& associated; // where I am
     static const string type;
 public:
-    Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
+    // Component(); // COMPILADOR RECLAMOU QUE tal classe nao tinha
     // // construtor padrao
 
     Component(GameObject& associated);
