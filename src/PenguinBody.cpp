@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Util.h"
+#include "Collider.h"
 using std::cout;
 using std::endl;
 
@@ -40,6 +41,7 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
     this->associatedSharedPtr = shared_ptr<GameObject>(&this->associated);
     this->associated.box.SetXYWH(704, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
     new CameraFollower(this->associated);
+    new Collider(this->associated);    
   }
 PenguinBody::~PenguinBody(){
   PenguinBody::player = nullptr;

@@ -15,7 +15,7 @@
 #include "Bullet.h"
 #include "PenguinBody.h"
 #include <cmath>
-
+#include "Collider.h"
 // linear_congruential_engine constructor
 /* #include <chrono>
 #include <random>
@@ -169,6 +169,7 @@ hitspoints(Alien::HEALTH_POINTS), nMinions(nMinions){
     this->taskQueue = std::queue<Action*>();
     this->nMinions = nMinions;
     new CameraFollower(this->associated);
+    new Collider(this->associated);
     // myAbort(1991919);
 }
 Alien::~Alien() {

@@ -7,6 +7,7 @@
 #include "Macros.h"
 #include "InputManager.h"
 #include "Util.h"
+#include "Collider.h"
 
 using std::string;
 using std::cout;
@@ -99,25 +100,14 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
         this->associated, sprite.c_str(),
         FRAMES,
         100);
-    this->associated.AddComponent(
-        this->mySprite
-    );
     this->associated.AddComponent(this);
-    // cout << "target : " << target << endl;
-    // myAbort(101);
     this->associated.box.SetXY(Vec2(x,y));
     this->mySprite->angleCurrent = 
         angle ;
-    // cout << "Target: " << this->target << endl;
-    // cout << "[Bulltet.cpp:99] MyCenter: " << this->associated.box.GetCenter() << endl;
-    // cout << "this->mySprite->angleCurrent =  >> " << this->mySprite->angleCurrent  << endl;
-
-    // myAbort(12);
     this->speed = Vec2(1,0);    // base speed
     this->speed.rotate(angle);
-
     this->speed = this->speed.unitary() * speed;
-
+    new Collider(this->associated);
 }
 Bullet::~Bullet() {
     cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;

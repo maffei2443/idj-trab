@@ -21,5 +21,6 @@ int main(int argc, char** argv)
   Game* game = &Game::GetInstance();
   //////std::cout << "Endereço do game --> " << game << std::endl;
   game->Run();
+  game->FinishGame();
   return 0;
 }

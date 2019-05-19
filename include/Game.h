@@ -47,6 +47,11 @@ class Game {
     SDL_Renderer* GetRenderer();
     State& GetState();
     static Game& GetInstance();
+    void FinishGame() {
+      if(this->instance)
+        delete this->instance;
+      this->instance = nullptr;
+    }
     string GetType() {
       return this->type;
     }
@@ -56,6 +61,7 @@ class Game {
     int GetWidth() {
       return this->width;
     }
+
 };
 
 #endif
