@@ -29,7 +29,7 @@ public:
     bool targetsPlayer = false;
 
     Bullet(GameObject&, double, double, int,
-        double, string, int, int);
+        double, string, int, int, bool targetsPlayer = true);
     ~Bullet();
     void Update(double);
     void Render();

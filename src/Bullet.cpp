@@ -93,8 +93,9 @@ void Bullet::SetTarget(int x, int y) {
 }
 
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
-double maxDistance, string sprite, int x, int y): Component(associated) {
+double maxDistance, string sprite, int x, int y, bool targetsPlayer): Component(associated) {
     (void)maxDistance;    (void)speed;
+    this->targetsPlayer = targetsPlayer;
     this->distanceLeft = 1300;
     this->mySprite = new Sprite(
         this->associated, sprite.c_str(),
@@ -160,7 +161,7 @@ void Bullet::NotifyCollision(GameObject& other) {
       return;
     // bullet com bullet nao faz nada por enquanto
   }
-  if(other.GetComponent("Alien") and !this->targetsPlayer) {
+  if(other.GetComponent("Alien") and not this->targetsPlayer) {
     this->associated.RequestDelete();
   }
   else if(other.GetComponent("PenguinBody") and this->targetsPlayer) {

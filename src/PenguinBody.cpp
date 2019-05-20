@@ -66,11 +66,11 @@ bool PenguinBody::Is(string type) {
   return type == this->type;
 }
 void PenguinBody::Update(double dt) {
-  (void)dt;
   if (this->hp <= 0) {
     this->associated.RequestDelete();
     this->pcannon.lock().get()->RequestDelete();
     Camera::Unfollow();
+    myAbort(9);
     return;
   }
   bool w_down = inputManager.IsKeyDown('w');
@@ -105,14 +105,17 @@ void PenguinBody::Update(double dt) {
 }
 
 void PenguinBody::NotifyCollision(GameObject& other) {
-  cout << "Penguim Hit!" << endl;
   // sleep(1);
   // myAbort(3);
   if(other.GetComponent("Bullet")) {
+    cout << "Penguim Hit!" << endl;
     Bullet* bullet = (Bullet*)other.GetComponent("Bullet");
+    cout << "DANO : " << bullet->GetDamage() << endl;
+    cout << "Old hp : " << this->hp << endl;
     if(bullet->targetsPlayer) {
-        this->hp -= bullet->GetDamage();
+      this->hp -= bullet->GetDamage();
     }
+    cout << "New hp : " << this->hp << endl;
     PRINT(this->hp);
     PRINT(bullet->GetDamage());
     // myAbort(8);
