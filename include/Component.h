@@ -26,9 +26,7 @@ public:
     bool virtual Is(string type) = 0;
     const string virtual GetType() const = 0;
     Component* GetAddr() { return this;}
-    // t5
-    /* E, por último, em Component, adicione o método + Start() : virtual
-void e deixe o corpo vazio em sua implementação */
+
     void virtual Start() = 0;
     void virtual NotifyCollision (GameObject& other) = 0;
 };

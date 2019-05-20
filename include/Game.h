@@ -21,32 +21,26 @@ class Game {
     int freq;
     Uint16 format;
     int channels;
-
     int width;
     int height;
-    string title;
-
-    
-    Game(string title, int width, int height, int freq, unsigned short format, int channels );
-    static Game* instance;    
+    string title;    
     SDL_Window* window;
     SDL_Renderer* renderer;
     State* state;
-
-    // Novos mebros de Game (T4)
     int frameStart;
     double dt;
-    void CalculateDeltaTime();
+    static Game* instance;    
     static const string type;
+
+    Game(string title, int width, int height, int freq, unsigned short format, int channels );
+    void CalculateDeltaTime();
   public:
-    // GetDEltaTime() add p/ T4
-    int GetDeltaTime();
-    
     ~Game();
-    void Run();
-    SDL_Renderer* GetRenderer();
-    State& GetState();
     static Game& GetInstance();
+    State& GetState();
+    SDL_Renderer* GetRenderer();
+    void Run();
+    
     string GetType() {
       return this->type;
     }

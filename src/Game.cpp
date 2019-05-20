@@ -52,6 +52,17 @@ Game::Game(string title, int width, int height,
   SDL_ABORT_IF_ZERO(renderer);
   this->state = new State();
 }
+void Game::CalculateDeltaTime() {
+  /* Atualizamos frameStart e usamos o valor antigo e
+  o novo para calcular dt em milissegundos. */
+  int oldFrameStart = this->frameStart; 
+  this->frameStart = SDL_GetTicks ();
+  this->dt = this->frameStart - oldFrameStart;
+  using std::cout, std::endl;
+  // cout << "dt --> " << dt << endl;
+  // converta para segundos
+  // this->dt = (int)(round(this->dt / 1000));
+}
 
 Game::~Game() {
   cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
@@ -110,17 +121,6 @@ update do estado */
   Resources::ClearSounds();
 }
 
-void Game::CalculateDeltaTime() {
-  /* Atualizamos frameStart e usamos o valor antigo e
-  o novo para calcular dt em milissegundos. */
-  int oldFrameStart = this->frameStart; 
-  this->frameStart = SDL_GetTicks ();
-  this->dt = this->frameStart - oldFrameStart;
-  using std::cout, std::endl;
-  // cout << "dt --> " << dt << endl;
-  // converta para segundos
-  // this->dt = (int)(round(this->dt / 1000));
-}
 
 
 #endif

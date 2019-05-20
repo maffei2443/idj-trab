@@ -18,11 +18,12 @@ class CameraFollower : public Component {
     void Update(double dt);
     void Render();
     bool Is(string);
+    void Start();
+    void NotifyCollision(GameObject& other);
+
     const string GetType() const {
         return this->type;
     }
-    void Start();
-    void NotifyCollision(GameObject& other);
 };
 
 #endif

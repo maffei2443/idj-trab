@@ -29,8 +29,6 @@ public:
   void RequestDelete();
   void AddComponent(Component* cpt);
   void RemoveComponent(Component* cpt);
-  void SetOriginalDim(Vec2);
-  void SetOriginalDim(int, int);
   Vec2 GetOriginalDim();
   Component* GetComponent(string type);
   

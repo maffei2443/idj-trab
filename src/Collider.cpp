@@ -35,14 +35,15 @@ largura e altura multiplicados por uma escala */
 void Collider::Render() {
 }
 
+void Collider::SetScale(Vec2 scale) {
+    this->scale = scale;
+}
 
 void Collider::SetOffset(Vec2 offset) {
     this->offset = offset;
 }
 
-void Collider::SetScale(Vec2 scale) {
-    this->scale = scale;
-}
+
 
 void Collider::Start() {
     this->started = true;
