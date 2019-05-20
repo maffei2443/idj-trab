@@ -23,7 +23,7 @@ Sound::Sound(GameObject& associated,
 Sound::~Sound() {
     /// Se chunk for diferente de nullptr, chame Halt e depois desaloque o
     /// som usando o Mix_FreeChunk.
-    if (!this->chunk)
+    if (not this->chunk)
         return;
     Mix_HaltChannel(this->channel);    // Para todas as músicas
     // void Mix_FreeChunk(Mix_Chunk* chunk)
@@ -46,11 +46,11 @@ void Sound::Stop() {
 void Sound::Open(string file) {
     // Mix_Chunk* Mix_LoadWAV(char* file);
     this->chunk = Mix_LoadWAV(file.c_str());
-    if( !chunk )    // nao conseguiu carregar arquivo
+    if( not chunk )    // nao conseguiu carregar arquivo
         LOG("Sound::Open(string file) : NULL pointer returned\n");
 }
 bool Sound::IsOpen() {
-    return !!this->chunk;
+    return not not this->chunk;
 }
 
 void Sound::Update(double dt) {
@@ -65,4 +65,9 @@ bool Sound::Is(string type) {
 
 void Sound::Start() {
     this->started = true;
+}
+
+void Sound::NotifyCollision(GameObject& other) {
+    (void)other;
+    return;
 }

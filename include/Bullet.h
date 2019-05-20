@@ -26,6 +26,8 @@ private:
     // Vec2 target;     // deve conter as coordenadas do alvo
     Sprite * mySprite;
 public:
+    bool targetsPlayer = false;
+
     Bullet(GameObject&, double, double, int,
         double, string, int, int);
     ~Bullet();
@@ -37,6 +39,7 @@ public:
     }
     int GetDamage();
     void Start();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

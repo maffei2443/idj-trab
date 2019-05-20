@@ -88,7 +88,7 @@ void Minion::Shoot(Vec2 direction) {
   Vec2 myPos = Vec2(this->associated.box);
   double angle = RAD2DEG * atan2(vecNormalized.y, vecNormalized.x) ;
   // cout << "Minion.associated.box == " << this->associated.box << endl;
-  int damage = 0;
+  int damage = 10;
   double speed = 0.2;
   double maxDistance = 100000;
   new Bullet(*GO_of_bullet, angle, speed, damage, maxDistance,
@@ -106,3 +106,7 @@ Rect Minion::GetBox() {
 }
 
 
+void Minion::NotifyCollision(GameObject& other) {
+  // cout << "Minion Collision!" << endl;
+  // myAbort(5);
+}

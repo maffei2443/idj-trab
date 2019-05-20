@@ -47,6 +47,7 @@ class State {
     const inline string GetType() const {
       return this->type;
     }
+    void NotifyCollision();
 };
 
 #endif

@@ -143,7 +143,7 @@ int Sprite::GetHeight() {
 }
 
 bool Sprite::IsOpen() {
-  return !!this->texture; 
+  return this->texture; 
 }
 
 
@@ -192,8 +192,16 @@ void Sprite::SetFrameTime(double frameTime) {
 
 void Sprite::Rotate(double angle) {
   this->angleCurrent += angle * this->currentDt;
+  this->associated.angleDeg = this->angleCurrent;
 }
 
 void Sprite::RotateDt(double angle, double externalDt) {
   this->angleCurrent += angle * externalDt;
+  this->associated.angleDeg = this->angleCurrent;
+}
+
+
+void Sprite::NotifyCollision(GameObject& other) {
+  (void)other;
+  return;
 }

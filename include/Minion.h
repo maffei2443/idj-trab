@@ -37,6 +37,7 @@ public:
     void Shoot(Vec2);
     void Start();
     Rect GetBox();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

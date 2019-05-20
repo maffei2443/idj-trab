@@ -66,9 +66,9 @@ void Rect::SetXY(const Vec2& vec) {
 bool Rect::Contains(const Vec2& point) {
     // //////printf("x,y ==> %f, %f\n", this->x, this->y);
     // //////printf("Point : x,y,w,h ==> %f, %f, %f, %f\n", point.x, point.y, this->w, this->h);
-    bool insideWidth = (point.x >= this->x ) && (point.x <= this->x+this->w);
-    bool insideHeight = (point.y >= this->y) && (point.y <= this->y+this->h);
-    return insideHeight && insideWidth;
+    bool insideWidth = (point.x >= this->x ) and (point.x <= this->x+this->w);
+    bool insideHeight = (point.y >= this->y) and (point.y <= this->y+this->h);
+    return insideHeight and insideWidth;
 }
 bool Rect::Contains(const int&x , const int& y) {
     Vec2 point(x,y);

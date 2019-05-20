@@ -58,6 +58,8 @@ public:
     // t5 [gambs]
     Minion* GetNearestMinion(int, int);
     Minion* GetNearestMinion(Vec2);
+    void NotifyCollision(GameObject& other);
+
 };
 
 #endif

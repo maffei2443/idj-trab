@@ -70,8 +70,8 @@ void Alien::UpdatePos(double dt) {
         double deltaX = -(midX-this->click.x);
         double deltaY = -(midY-this->click.y);
 
-        this->click.targetX = !IsDoubleZero(deltaX);
-        this->click.targetY = !IsDoubleZero(deltaY);
+        this->click.targetX = not IsDoubleZero(deltaX);
+        this->click.targetY = not IsDoubleZero(deltaY);
 
         double absDeltaX = fabs(deltaX);
         double absDeltaY = fabs(deltaY);
@@ -101,8 +101,8 @@ void Alien::UpdatePosAndSpeed(double dt) {
         double deltaX = -(midX-this->click.x);
         double deltaY = -(midY-this->click.y);
 
-        this->click.targetX = !IsDoubleZero(deltaX);
-        this->click.targetY = !IsDoubleZero(deltaY);
+        this->click.targetX = not IsDoubleZero(deltaX);
+        this->click.targetY = not IsDoubleZero(deltaY);
 
         double absDeltaX = fabs(deltaX);
         double absDeltaY = fabs(deltaY);
@@ -130,7 +130,7 @@ void Alien::UpdatePosAndSpeed(double dt) {
             // cout << "MISSING TO TARGET : " << this->associated.box - this->targetPoint << endl;
             if(IsDoubleDiffZero( (this->associated.box-old_speed).abs(), (this->associated.box+this->speed).abs()) )  {
                 // cout << "GOTO ESTRANHO?? Maybe..." << endl;
-                if (!IsDoubleZero(old_speed.abs()) and !IsDoubleZero(this->speed.abs()) )
+                if (not IsDoubleZero(old_speed.abs()) and not IsDoubleZero(this->speed.abs()) )
                     this->gotoTarget();
             }
             else {
@@ -270,7 +270,7 @@ void Alien::Start() {
 // Retorna nullptr se nao houver minions
 Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputManager.GetMouseY()) {
     Vec2 click(x, y);
-    if (!this->nMinions){
+    if (not this->nMinions){
         return nullptr;
     }
     // cout << "\n\n\n\n" << endl;
@@ -295,4 +295,16 @@ Minion* Alien::GetNearestMinion(int x = inputManager.GetMouseX(), int y = inputM
 
 Minion* Alien::GetNearestMinion(Vec2 pos) {
     return this->GetNearestMinion(pos.x, pos.y);
+}
+
+void Alien::NotifyCollision(GameObject& other) {
+    // cout << "Alien collisiion! " << endl;
+
+    if(other.GetComponent("Bullet")) {
+        Bullet* bullet = (Bullet*)(other.GetComponent("Bullet"));
+        if(not bullet->targetsPlayer) {
+            this->hp -= bullet->GetDamage();
+        }
+    }
+
 }

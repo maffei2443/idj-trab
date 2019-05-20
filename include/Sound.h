@@ -38,7 +38,7 @@ public:
     // t5
     bool started = false;
     void Start();
-
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

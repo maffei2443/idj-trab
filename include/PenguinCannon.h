@@ -39,6 +39,7 @@ public:
         return this->type;
     }
     void Shoot();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

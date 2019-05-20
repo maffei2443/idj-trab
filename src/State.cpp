@@ -24,6 +24,7 @@
 #include <string>
 #include "PenguinBody.h"
 #include "Macros.h"
+#include "Collision.h"
 using std::string;
 using std::endl;
 const string State::type("State");
@@ -38,7 +39,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 	/* T5
 	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
 	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
-	que contêm a Sprite de fundo e voilà! */
+	que contêm a Sprite de fundo e voilànot  */
 	string tileSetPath("assets/img/tileset.png");
 	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *this->bg);
 	new TileMap(*this->bg, tileSet);
@@ -68,8 +69,7 @@ State::~State() {
 
 
 void State::Update(double dt) {
-	// this->bg->box += {1,1};
-	this->ResolveCollision();
+	this->NotifyCollision();
 	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
 	|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao
@@ -89,8 +89,8 @@ void State::Update(double dt) {
 	auto begin = this->objectArray.begin();
 	// Por alguma razão, alguns GO estava virando nullptr (TODO: descobrir motivo)
 	for(int i = 0; i < siz;) {
-		if (!this->objectArray[i].get()) {
-			cout << "GHOOOOSST!" << endl;
+		if (not this->objectArray[i].get()) {
+			cout << "GHOOOOSSTnot " << endl;
 			this->objectArray.erase(begin + i);
 			siz--;
 			continue;
@@ -168,7 +168,7 @@ void State::Start() {
 	this->started = true;
 	for(auto& i : this->objectArray) {
 		auto p = i.get();
-		if(!p) {
+		if(not p) {
 			cout << "Some GameObject suddenly died... " << endl;
 			continue;
 			// myAbort(666);
@@ -181,7 +181,7 @@ void State::Start() {
 
 weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	shared_ptr<GameObject> sharedGO(go);
-	if(this->started && !go->started)
+	if(this->started and not go->started)
 		go->Start();
 	this->objectArray.push_back(sharedGO);  // TINHA ME ESQUECIDO DESSA LINHA....
 	return weak_ptr<GameObject>(sharedGO);	// POSSIVEL BUG [??]
@@ -204,23 +204,35 @@ passado como argumento. */
 	return std::weak_ptr<GameObject>();
 }
 
-void State::ResolveCollision() {
-	printf("ResolveCollision\n");
+void State::NotifyCollision() {
+	// printf("NotifyCollision\n");
 	vector<GameObject*> possibleCollider;
 	int ctr = 0;
 	for(auto i : this->objectArray) {
 		Component* ptr = i->GetComponent("Collision");
 		GameObject* it = i.get();
 		if(ptr) {
-			// PRINT(i);
 			ctr++;
 			possibleCollider.push_back(it);
 		}
 	}
-
-	for(int i = 0; i < possibleCollider.size()-1; i++) {
-		// if(Collision::Is)
-	}
 	// printf("Can collide :: %d\n", ctr);
+  auto size = possibleCollider.size();
+	for(int i = 0; i < size; i++) {
+    GameObject* go1 = possibleCollider[i];
+		for(int jj =  i + 1; jj < size; jj++) {
+			GameObject* go2 = possibleCollider[jj];
+      if(Collision::IsColliding(
+        go1->box,
+        possibleCollider[jj]->box,
+        go1->angleDeg, 
+        possibleCollider[jj]->angleDeg)
+      ) {
+        go1->NotifyCollision(*go2);
+        go2->NotifyCollision(*go1);
+        // myAbort(99999);
+      }
+		}
+	}
 	// myAbort(99);
 }

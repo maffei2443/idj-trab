@@ -47,6 +47,7 @@ public:
     Vec2 GetSpeed() {
         return this->speed;
     }
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

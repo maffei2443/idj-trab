@@ -22,7 +22,7 @@ void InputManager::Update() {
     switch (event.type) {
       case SDL_KEYDOWN:
         // printf("KEY PRESSED : %d\n", keyVal);
-        if (!event.key.repeat) {
+        if (not event.key.repeat) {
           this->keyState[keyVal] = true;
           this->keyUpdate[keyVal] = this->updateCounter;          
           if(keyVal == ESCAPE_KEY) {
@@ -76,7 +76,7 @@ bool InputManager::KeyPress(int key) {
 bool InputManager::KeyRelease(int key) {
   if(this->keyUpdate.count(key)) {
     if (this->keyUpdate[key] == this->updateCounter)
-      return !this->keyState[key];// == false;
+      return not this->keyState[key];// == false;
   }
   return false;
 }
@@ -106,7 +106,7 @@ bool InputManager::MousePress(int button) {
 
 // POSSIVEL BUG BUG
 bool InputManager::MouseRelease(int button) {
-  if(!this->mouseState[button]) {  // nao estah pressionado
+  if(not this->mouseState[button]) {  // nao estah pressionado
     if (this->mouseUpdate[button] == this->updateCounter)  // atualizado ultimo frame
       return true;
   }

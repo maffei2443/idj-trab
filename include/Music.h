@@ -3,6 +3,8 @@
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"
 #include <string>
+#include "GameObject.h"
+
 using std::string;
 
 class Music {
@@ -20,6 +22,7 @@ class Music {
     const inline string GetType() const {
       return this->type;
     }
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

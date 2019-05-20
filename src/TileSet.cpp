@@ -1,6 +1,7 @@
 #include "TileSet.h"
 #include <cmath>
 #include <string>
+#include "Macros.h"
 using std::string;
 
 // "OK"
@@ -36,4 +37,8 @@ int TileSet:: GetTileWidth(){
 
 int TileSet:: GetTileHeight(){
     return this->tileHeight;
+}
+
+void TileSet::NotifyCollision(GameObject& other) {
+    myAbort(123);
 }

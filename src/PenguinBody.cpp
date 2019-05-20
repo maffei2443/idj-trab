@@ -11,6 +11,10 @@
 #include <algorithm>
 #include <iostream>
 #include "Collider.h"
+#include "Bullet.h"
+#include "Camera.h"
+#include <unistd.h> // apenas p/ debug (uso do sleep)
+
 using std::cout;
 using std::endl;
 
@@ -38,7 +42,7 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
 
     this->mySprite = new Sprite(this->associated, "assets/img/penguin.png");
     this->associatedSharedPtr = shared_ptr<GameObject>(&this->associated);
-    this->associated.box.SetXYWH(704, 300, this->mySprite->GetWidth(), this->mySprite->GetHeight());
+    this->associated.box.SetXYWH(704, 100, this->mySprite->GetWidth(), this->mySprite->GetHeight());
     new CameraFollower(this->associated);
     new Collider(this->associated);
   }
@@ -63,6 +67,12 @@ bool PenguinBody::Is(string type) {
 }
 void PenguinBody::Update(double dt) {
   (void)dt;
+  if (this->hp <= 0) {
+    this->associated.RequestDelete();
+    this->pcannon.lock().get()->RequestDelete();
+    Camera::Unfollow();
+    return;
+  }
   bool w_down = inputManager.IsKeyDown('w');
   bool a_down = inputManager.IsKeyDown('a');
   bool s_down = inputManager.IsKeyDown('s');
@@ -91,9 +101,21 @@ void PenguinBody::Update(double dt) {
   this->associated.box.AddXY(
     this->speed.x*dt, this->speed.y*dt
   );
-  if (this->hp <= 0) {
-    this->associated.RequestDelete();
-    this->pcannon.lock().get()->RequestDelete();
-  }
+
 }
 
+void PenguinBody::NotifyCollision(GameObject& other) {
+  cout << "Penguim Hit!" << endl;
+  // sleep(1);
+  // myAbort(3);
+  if(other.GetComponent("Bullet")) {
+    Bullet* bullet = (Bullet*)other.GetComponent("Bullet");
+    if(bullet->targetsPlayer) {
+        this->hp -= bullet->GetDamage();
+    }
+    PRINT(this->hp);
+    PRINT(bullet->GetDamage());
+    // myAbort(8);
+  }
+  
+}

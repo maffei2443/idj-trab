@@ -92,3 +92,9 @@ void GameObject::Start() {
     adicionados em AddComponent quando Start já tiver sido chamado.  */
     // POSSIVEL BUG [????] [DUVIDA]
 }
+
+void GameObject::NotifyCollision(GameObject &other) {
+    for(auto i : this->components) {
+        i->NotifyCollision(other);
+    }
+}

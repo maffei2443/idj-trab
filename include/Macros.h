@@ -21,7 +21,7 @@ extern int AuxCodeErr;
 #endif
 #ifndef SDL_ABORT_IF_ZERO
     #define SDL_ABORT_IF_ZERO( x ) \
-            SDL_ABORT_IF_NZERO(!(x) )
+            SDL_ABORT_IF_NZERO(not (x) )
 #endif
 
 void myAbort(int);

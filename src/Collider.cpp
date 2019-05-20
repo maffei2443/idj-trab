@@ -47,3 +47,7 @@ void Collider::SetScale(Vec2 scale) {
 void Collider::Start() {
     this->started = true;
 }
+void Collider::NotifyCollision(GameObject& other) {
+  (void)other;
+  return;
+}

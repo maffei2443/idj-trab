@@ -33,13 +33,13 @@ void Music::Stop(int msToStop = 1500) {
 void Music::Open(string file) {
   SDL_ClearError();
   this->music = Mix_LoadMUS( file.c_str() );
-  if(!this->music) {
+  if(not this->music) {
       throw std::runtime_error("Error loading Music");
   }    
 }
 
 bool Music::IsOpen() {
-  return !!this->music;
+  return this->music;
 }
 
 Music::~Music() {
@@ -47,3 +47,7 @@ Music::~Music() {
   this->Stop(0);
 }
 
+void Music::NotifyCollision(GameObject& other) {
+  cout << "Music DON'T collide" << endl;
+  myAbort(4);
+}

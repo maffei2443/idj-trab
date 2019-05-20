@@ -92,7 +92,7 @@ void Game::Run() {
   InputManager* inputManager = &InputManager::GetInstance();
   this->state->Start();
   // printf("STATE.START FINISHED \n");
-  while (!this->state->QuitRequested()) {
+  while (not this->state->QuitRequested()) {
 /* Agora, vamos integrar o InputManager ao programa. Acrescente uma
 chamada ao método Update em Game::Run(), logo antes da chamada ao
 update do estado */

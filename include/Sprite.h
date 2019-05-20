@@ -72,7 +72,8 @@ class Sprite : public Component {
     void SetFrameTime(double);
     void Rotate(double angle = 0.0);
     void RotateDt(double externalDt, double angle = 0.0);
-    
+    void NotifyCollision(GameObject& other);
+
 };
 
 #endif

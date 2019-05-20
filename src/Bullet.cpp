@@ -94,7 +94,7 @@ void Bullet::SetTarget(int x, int y) {
 
 Bullet::Bullet(GameObject& associated, double angle, double speed, int damage,
 double maxDistance, string sprite, int x, int y): Component(associated) {
-    (void)maxDistance;    (void)speed;    (void)damage;
+    (void)maxDistance;    (void)speed;
     this->distanceLeft = 1300;
     this->mySprite = new Sprite(
         this->associated, sprite.c_str(),
@@ -109,6 +109,7 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     this->associated.box.SetXY(Vec2(x,y));
     this->mySprite->angleCurrent = 
         angle ;
+    this->associated.angleDeg = angle;
     // cout << "Target: " << this->target << endl;
     // cout << "[Bulltet.cpp:99] MyCenter: " << this->associated.box.GetCenter() << endl;
     // cout << "this->mySprite->angleCurrent =  >> " << this->mySprite->angleCurrent  << endl;
@@ -116,7 +117,7 @@ double maxDistance, string sprite, int x, int y): Component(associated) {
     // myAbort(12);
     this->speed = Vec2(1,0);    // base speed
     this->speed.rotate(angle);
-
+    this->damage = damage;
     this->speed = this->speed.unitary() * speed;
     new Collider(this->associated);
 }
@@ -150,4 +151,19 @@ int Bullet::GetDamage() {
 
 void Bullet::Start() {
     this->started = true;
+}
+
+void Bullet::NotifyCollision(GameObject& other) {
+  /* Se uma Bullet colide com Penguins ou Alien, ela some...
+  MAS soh se acertar algo que ela estah buscando */
+  if(other.GetComponent("Bullet")) {
+      return;
+    // bullet com bullet nao faz nada por enquanto
+  }
+  if(other.GetComponent("Alien") and !this->targetsPlayer) {
+    this->associated.RequestDelete();
+  }
+  else if(other.GetComponent("PenguinBody") and this->targetsPlayer) {
+    this->associated.RequestDelete();
+  }
 }

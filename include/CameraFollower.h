@@ -21,7 +21,8 @@ class CameraFollower : public Component {
     const string GetType() const {
         return this->type;
     }
-    void Start();    
+    void Start();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

@@ -6,6 +6,7 @@
 #include <memory>  // unique_ptr
 #include <string>
 #include <iostream>
+#include "Macros.h"
 using std::cout;
 using std::endl;
 
@@ -32,4 +33,8 @@ bool CameraFollower::Is(string type) {
 }
 void CameraFollower::Start() {
     this->started = true;
+}
+void CameraFollower::NotifyCollision(GameObject& other) {
+    (void)other;
+    return;
 }

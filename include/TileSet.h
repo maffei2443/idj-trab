@@ -21,6 +21,7 @@ public:
     void RenderTile(unsigned, double, double);
     int GetTileWidth();
     int GetTileHeight();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

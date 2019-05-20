@@ -77,3 +77,7 @@ colocada a Bullet */
   Vec2 farFromCenter(100, 0);
 }
 
+
+void PenguinCannon::NotifyCollision(GameObject& other) {
+  myAbort(6);
+}

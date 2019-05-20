@@ -27,6 +27,7 @@ public:
     void SetOffset(Vec2 offset);
     Rect box;
     void Start();
+    void NotifyCollision(GameObject& other);
 };
 
 #endif

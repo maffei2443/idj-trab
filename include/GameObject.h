@@ -33,9 +33,11 @@ public:
   void SetOriginalDim(int, int);
   Vec2 GetOriginalDim();
   Component* GetComponent(string type);
+  
   Rect box;
   // t5
   void Start();
+  void NotifyCollision(GameObject &other);
   bool started = false;
   // 
   /* Agora adicione + angleDeg : double ao GameObject

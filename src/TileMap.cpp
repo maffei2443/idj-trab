@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <fstream>
 #include "Util.h"
+#include "Macros.h"
 #include <string>
 using std::string;
 // TileMap simula uma matriz tridimensional, representando
@@ -100,4 +101,8 @@ void TileMap::Update(double dt) {
 
 void TileMap::Start() {
     this->started = true;
+}
+
+void TileMap::NotifyCollision(GameObject& other) {
+    myAbort(124);
 }
