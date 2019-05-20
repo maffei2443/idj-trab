@@ -45,6 +45,7 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated) {
     this->associated.box.SetXYWH(704, 100, this->mySprite->GetWidth(), this->mySprite->GetHeight());
     new CameraFollower(this->associated);
     new Collider(this->associated);
+    this->hp = 20;
   }
 PenguinBody::~PenguinBody(){
   PenguinBody::player = nullptr;
@@ -52,25 +53,20 @@ PenguinBody::~PenguinBody(){
 
 }
 void PenguinBody::Start() {
+  myAbort(999);
   this->started = true;
   GameObject* cannonGO = new GameObject();
   this->pcannon = Game::GetInstance().GetState().AddObject(cannonGO);
   new PenguinCannon(*cannonGO, weak_ptr<GameObject>(this->associatedSharedPtr) );
   cout << "PENGUIN BODY TRUE STARTEDz\n";
 }
-void PenguinBody::Render() {
-  // vazio para PenguinCannon e PenguinBody
-}
-
-bool PenguinBody::Is(string type) {
-  return type == this->type;
-}
 void PenguinBody::Update(double dt) {
   if (this->hp <= 0) {
+    cout << "[PenguinBody] " << &this->associated << endl;
     this->associated.RequestDelete();
-    this->pcannon.lock().get()->RequestDelete();
+    // this->pcannon.lock().get()->RequestDelete();  // não implementai a tempo o cannon
     Camera::Unfollow();
-    myAbort(9);
+    // myAbort(9);
     return;
   }
   bool w_down = inputManager.IsKeyDown('w');
@@ -103,22 +99,22 @@ void PenguinBody::Update(double dt) {
   );
 
 }
+void PenguinBody::Render() {
+  // vazio para PenguinCannon e PenguinBody
+}
+
+bool PenguinBody::Is(string type) {
+  return type == this->type;
+}
+
 
 void PenguinBody::NotifyCollision(GameObject& other) {
-  // sleep(1);
-  // myAbort(3);
+
   if(other.GetComponent("Bullet")) {
-    cout << "Penguim Hit!" << endl;
     Bullet* bullet = (Bullet*)other.GetComponent("Bullet");
-    cout << "DANO : " << bullet->GetDamage() << endl;
-    cout << "Old hp : " << this->hp << endl;
     if(bullet->targetsPlayer) {
       this->hp -= bullet->GetDamage();
     }
-    cout << "New hp : " << this->hp << endl;
-    PRINT(this->hp);
-    PRINT(bullet->GetDamage());
-    // myAbort(8);
   }
   
 }

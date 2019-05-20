@@ -51,10 +51,7 @@ void TileMap::SetTileSet(TileSet* tileSet){
 }
 
 // Por padrao, passa os argumentos da CAMERA para o renderLayer (defnido no .h)
-void TileMap::Render(){
-    for(int layer = 0; layer < this->mapDepth; layer++)
-        this->RenderLayer(layer);    
-}
+
 // Renderiza uma camada do mapa, TILE A TILE. Note que há dois ajustes a
 // se fazer:
 /*
@@ -89,6 +86,11 @@ int TileMap::GetTileHeight(){
 
 int TileMap::GetDepth(){
     return this->mapDepth;
+}
+
+void TileMap::Render(){
+    for(int layer = 0; layer < this->mapDepth; layer++)
+        this->RenderLayer(layer);    
 }
 
 bool TileMap::Is(string type) {

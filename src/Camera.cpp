@@ -42,6 +42,7 @@ void Camera::Unfollow() {
 }
 
 void Camera::Update(double dt) {
+    // cout << "CAM UPDATE....." << endl;
     // (void)dt;  // TODO: usar esse dt
     /* Se a câmera tiver um foco, faremos com que ele fique 
     centralizado na tela. Nesse caso, o movimento independe de dt,
@@ -67,5 +68,5 @@ void Camera::Update(double dt) {
         Camera::speed = Vec2(horizontalSpeed, verticalSpeed);
         Camera::pos = Camera::pos + (Camera::speed*dt);
     }
-    
+    // cout << "CAM ..... UPDATE" << endl;
 }

@@ -227,8 +227,8 @@ um tiro, ou direito para movimento. */
     // Devemos pedir para remover esse GameObject se a vida dele ficar
     // menor ou igual a 0.
     #pragma region
-    if(this->hitspoints >> 31 || (this->hitspoints ^ 0x0000) == 0xFFFF) {    // se eh negativo OU igual a zero, morrreu :)
-        cout << "hitspoints :: " << this->hitspoints << endl;
+    if(this->hitspoints <= 0) {    // se eh negativo OU igual a zero, morrreu :)
+        cout << "[Alien] RequestDelete " << &this->associated;
         this->associated.RequestDelete();
     }
     // this->associated.box.AddXY(Camera::speed * (-dt));

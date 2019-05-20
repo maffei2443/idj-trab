@@ -29,105 +29,6 @@ using std::string;
 using std::endl;
 const string State::type("State");
 
-State::State() : music(Music("assets/audio/stageState.ogg") ) {
-  this->bg = new GameObject;
-  new Sprite( *this->bg, "assets/img/ocean.jpg", 1, 10000000 );
-  
-	// this->bg->AddComponent(new CameraFollower(*this->bg));
-	// new CameraFollower(*this->bg);
-	// Causa efeito de repetiçã oda imagem...
-	/* T5
-	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
-	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
-	que contêm a Sprite de fundo e voilànot  */
-	string tileSetPath("assets/img/tileset.png");
-	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *this->bg);
-	new TileMap(*this->bg, tileSet);
-	this->objectArray.emplace_back( this->bg );
-	
-	GameObject * AlienGO = new GameObject;
-	new Alien(*AlienGO, 10);
-	this->objectArray.emplace_back( AlienGO );
-	printf("emplaced alien\n");
-
-
-	GameObject * PenguinBodyGO = new GameObject;
-	new PenguinBody(*PenguinBodyGO);
-	Camera::Follow(PenguinBodyGO);	
-	this->AddObject(PenguinBodyGO);
-	printf("add PenguinBody [?]\n");
-
-
-	this->quitRequested = false;
-  // this->music.Play(-1);
-}
-
-State::~State() {
-	cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
-	objectArray.clear();
-}
-
-
-void State::Update(double dt) {
-	this->NotifyCollision();
-	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
-	|| this->inputManager->QuitRequested();
-	// Se clicou, ver se aplica dano ou nao
-	if( this->inputManager->KeyPress(SPACE_KEY)) {
-		Vec2 objPos = Vec2( 200, 0 );
-		objPos.rotate( rand() % 360 );
-		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
-		objPos = objPos + aux;
-		this->AddObject((int)objPos.x, (int)objPos.y);
-	}
-	// TODO: perguntaro deve se o bloco abaixo deve permanecer aqui
-	// Acerta [UM] pinguim sobre o mouse
-	#pragma region
-	#pragma endregion
-	// cout << "STATE.UPDATE.UPDATE\n";
-	auto siz = this->objectArray.size();
-	auto begin = this->objectArray.begin();
-	// Por alguma razão, alguns GO estava virando nullptr (TODO: descobrir motivo)
-	for(int i = 0; i < siz;) {
-		if (not this->objectArray[i].get()) {
-			cout << "GHOOOOSSTnot " << endl;
-			this->objectArray.erase(begin + i);
-			siz--;
-			continue;
-		}
-		else  {
-			this->objectArray[i]->Update(dt);
-			i++;
-		}
-		// cout << "[State.Update] KALL END " << GO << endl;
-	}
-	// abort();
-	// ERR << "Checking for dead... " << endl;
-	for(auto it = this->objectArray.begin();
-		it != this->objectArray.end();) {
-			if((**it).IsDead()) {
-        		it = this->objectArray.erase(it);
-      		}
-			else {
-				it++;
-			}
-	}
-	// [T4] Usaremos a câmera sem foco, por enquanto.
-	/* 	Em State::Update, chame o
-		update da câmera, e [...]*/ 
-	Camera::Update(dt);
-}
-
-
-//  trata da etapa 4 de Game::Run
-void State::Render() {
-	/*em State::Render, PASSE AS COORDENADAS DA CÂMERA PARA
-		O TILEMAP, E TESTE SE ELE SE MOVE CORRETAMENTE.*/
-	for(auto& GO : this->objectArray) {
-		GO->Render();
-	}
-}
-
 void State::AddObject(int mouseX, int mouseY) {
 	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
 	GameObject * enemy = new GameObject;
@@ -151,6 +52,45 @@ void State::AddObject(int mouseX, int mouseY) {
 	this->objectArray.emplace_back( enemy );
 }
 
+State::State() : music(Music("assets/audio/stageState.ogg") ) {
+  this->bg = new GameObject;
+  new Sprite( *this->bg, "assets/img/ocean.jpg", 1, 10000000 );
+  
+	// this->bg->AddComponent(new CameraFollower(*this->bg));
+	// new CameraFollower(*this->bg);
+	// Causa efeito de repetiçã oda imagem...
+	/* T5
+	A única coisa que precisa fazer é no Update fazer com que a posição de seu gameObject
+	associado seja igual à posição da câmera. Adicione esse componente ao gameObject
+	que contêm a Sprite de fundo e voilànot  */
+	string tileSetPath("assets/img/tileset.png");
+	TileSet * tileSet = new TileSet(64, 64, tileSetPath, *this->bg);
+	new TileMap(*this->bg, tileSet);
+	this->objectArray.emplace_back( this->bg );
+	
+	GameObject * AlienGO = new GameObject;
+	new Alien(*AlienGO, 10);
+	this->objectArray.emplace_back( AlienGO );
+	printf("emplaced alien\n");
+
+
+	GameObject * PenguinBodyGO = new GameObject;
+	PRINT(PenguinBodyGO);
+	new PenguinBody(*PenguinBodyGO);
+	Camera::Follow(PenguinBodyGO);	
+	this->AddObject(PenguinBodyGO);
+	printf("add PenguinBody [?]\n");
+
+
+	this->quitRequested = false;
+  // this->music.Play(-1);
+}
+
+State::~State() {
+	cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;
+	objectArray.clear();
+}
+
 bool State::QuitRequested() {
   return this->quitRequested;
 }
@@ -158,6 +98,68 @@ bool State::QuitRequested() {
 void State::LoadAssets() {
   //  Para esse trabalho, chame o render do fundo (bg). [?]
 }
+
+
+void State::Update(double dt) {
+	this->NotifyCollision();
+	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
+	|| this->inputManager->QuitRequested();
+	// Se clicou, ver se aplica dano ou nao
+	for(auto it = this->objectArray.begin();
+		it != this->objectArray.end();) {
+			if((**it).IsDead()) {
+				cout << "it : " << *it << endl;
+				it = this->objectArray.erase(it);
+      }
+			else {
+				it++;
+			}
+	}
+	if( this->inputManager->KeyPress(SPACE_KEY)) {
+		Vec2 objPos = Vec2( 200, 0 );
+		objPos.rotate( rand() % 360 );
+		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
+		objPos = objPos + aux;
+		this->AddObject((int)objPos.x, (int)objPos.y);
+	}
+	
+	auto siz = this->objectArray.size();
+	auto begin = this->objectArray.begin();
+	// Por alguma razão, alguns GO estava virando nullptr (TODO: descobrir motivo)
+	for(int i = 0; i < siz;) {
+		if (not this->objectArray[i].get()) {
+			cout << "GHOOOOSSTnot " << endl;
+			this->objectArray.erase(begin + i);
+			siz--;
+			continue;
+		}
+		else  {
+			this->objectArray[i]->Update(dt);
+			i++;
+		}
+		// cout << "[State.Update] KALL END " << GO << endl;
+	}
+	// abort();
+	// ERR << "Checking for dead... " << endl;
+
+	// [T4] Usaremos a câmera sem foco, por enquanto.
+	/* 	Em State::Update, chame o
+		update da câmera, e [...]*/ 
+	Camera::Update(dt);
+}
+
+
+//  trata da etapa 4 de Game::Run
+void State::Render() {
+	/*em State::Render, PASSE AS COORDENADAS DA CÂMERA PARA
+		O TILEMAP, E TESTE SE ELE SE MOVE CORRETAMENTE.*/
+	for(auto& GO : this->objectArray) {
+		GO->Render();
+	}
+}
+
+
+
 
 // t5
 void State::Start() {
@@ -228,8 +230,11 @@ void State::NotifyCollision() {
         go1->angleDeg, 
         possibleCollider[jj]->angleDeg)
       ) {
+				// printf("COLISAO : %p <<>> %p\n", go1, go2);
         go1->NotifyCollision(*go2);
+				// cout << "Serah serah???????" << endl;
         go2->NotifyCollision(*go1);
+				// cout << "Ahhh pah m#$%#$%#$s" << endl;
         // myAbort(99999);
       }
 		}

@@ -44,6 +44,7 @@ bool GameObject::IsDead() {
     return this->isDead;
 }
 void GameObject::RequestDelete() {
+    cout << "[GameObject] RequestDelete for " << this << endl;
     this->isDead = true;
 }
 void GameObject::AddComponent(Component* cpt) {

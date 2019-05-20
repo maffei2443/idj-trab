@@ -25,6 +25,12 @@ const static int FRAMES = 3;
 const static double FRAME_TIME = 10;
 
 
+void Bullet::UpdatePos(double dt) {
+    // cout << "UPDATE BUUUULLET POS\n";
+    this->associated.box += (this->speed * dt);
+    this->associated.box.UpdateCenter();
+}
+
 
 void Bullet::UpdatePosAndSpeed() {
     cout << "UPDATE BUUUULLET SPEEEED\n";
@@ -73,11 +79,6 @@ void Bullet::UpdatePosAndSpeed() {
 
 }
 
-void Bullet::UpdatePos(double dt) {
-    // cout << "UPDATE BUUUULLET POS\n";
-    this->associated.box += (this->speed * dt);
-    this->associated.box.UpdateCenter();
-}
 
 void Bullet::gotoTarget(Sprite* sprite) {
     this->speed.x = this->speed.y = 0;
@@ -134,6 +135,7 @@ void Bullet::Update(double dt) {
             this->associated.box -= Camera::focus->GetSpeed()*dt;
     }
     else {
+        cout << "RequesDelete for Bullet " << this << endl;
         this->associated.RequestDelete();
     }
 }
@@ -162,9 +164,11 @@ void Bullet::NotifyCollision(GameObject& other) {
     // bullet com bullet nao faz nada por enquanto
   }
   if(other.GetComponent("Alien") and not this->targetsPlayer) {
+    cout << "[Bullet] RequestDelete " << &this->associated;
     this->associated.RequestDelete();
   }
   else if(other.GetComponent("PenguinBody") and this->targetsPlayer) {
+    cout << "[Bullet] RequestDelete " << &this->associated;
     this->associated.RequestDelete();
   }
 }

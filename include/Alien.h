@@ -23,13 +23,15 @@ GameObjects (serão os Minions), os quais ele usará para atirar. */
 private:
     int baseRadius = 150;
     int maxExtraRadius = 40;    // nao usado no momento
-    void Shoot(Vec2);
-    void UpdatePosAndSpeed(double dt);
-    void UpdatePos(double dt);
     const static string type;
-    void gotoTarget();
     const static int HEALTH_POINTS = 30;
     int hitspoints;
+    Minion* GetMinion(int);
+    
+    void Shoot(Vec2);
+    void UpdatePos(double dt);
+    void UpdatePosAndSpeed(double dt);
+    void gotoTarget();
     // t5
     Vec2 speed;
     int hp;
@@ -37,7 +39,6 @@ private:
     queue<Action*> taskQueue;
     vector<weak_ptr<GameObject>> minionArray;
     // 
-    Minion* GetMinion(int);
     Click click;
     Vec2 targetPoint;
     Sprite* mySprite;

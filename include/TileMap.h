@@ -19,10 +19,11 @@ private:
     int mapWidth, mapHeight, mapDepth;
     const static string type;
 public:
+    bool started = false;
     TileMap(GameObject&,  TileSet*);
+    int& At(int, int, int z = 0);
     void Load(string);
     void SetTileSet(TileSet*);
-    int& At(int, int, int z = 0);
     // Fazendo ajuste: por padrao, recebe posicao da camera para fazer os ajustes
     void RenderLayer(int, double cameraX=Camera::pos.x, 
                      double cameraY=Camera::pos.y, bool paralax = true);
@@ -40,7 +41,6 @@ public:
         return this->type;
     }
     // t5
-    bool started = false;
     void Start();
     void NotifyCollision(GameObject& other);
 };

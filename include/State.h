@@ -43,11 +43,10 @@ class State {
     void Start();
     weak_ptr<GameObject> AddObject(GameObject*);
     weak_ptr<GameObject> GetObjectPtr(GameObject*);
-    void ResolveCollision();
+    void NotifyCollision();
     const inline string GetType() const {
       return this->type;
     }
-    void NotifyCollision();
 };
 
 #endif

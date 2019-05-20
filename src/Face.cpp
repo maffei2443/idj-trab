@@ -19,6 +19,7 @@ void Face:: Damage(int damage) {
     // throw 67;
     this->hitspoints -= damage;
     if(hitspoints < 1) {    // TODO: otimização (usando manipulação e bits)
+        cout << "FIM DA VIDA" << endl;
         this->associated.RequestDelete();
         Component* cmptPtr = this->associated.GetComponent("Sound");
         Sound * sndPtr = (Sound*) cmptPtr;

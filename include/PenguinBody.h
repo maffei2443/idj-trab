@@ -32,6 +32,7 @@ private:
     Sprite* mySprite;
 public:
     
+    static PenguinBody* player;
     PenguinBody(GameObject&);
     ~PenguinBody();
     // herda de Component
@@ -39,15 +40,15 @@ public:
     void Update(double dt);
     void Render();
     bool Is(string type);
+    void NotifyCollision(GameObject& other);
+    
     const inline string GetType() const {
         return this->type;
     }
     // t5
-    static PenguinBody* player;
     Vec2 GetSpeed() {
         return this->speed;
     }
-    void NotifyCollision(GameObject& other);
 };
 
 #endif
