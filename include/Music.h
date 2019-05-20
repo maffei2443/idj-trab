@@ -13,16 +13,16 @@ class Music {
     Mix_Music* music;
   public:
     Music();
-    ~Music();
     Music(string file);
+    ~Music();
     void Play(int times);
     void Stop(int msToStop);
     void Open(string file);
     bool IsOpen();
+    void NotifyCollision(GameObject& other);
     const inline string GetType() const {
       return this->type;
     }
-    void NotifyCollision(GameObject& other);
 };
 
 #endif

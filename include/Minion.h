@@ -29,15 +29,14 @@ public:
     void Update(double);
     void Render();
     bool Is(string);
-
-    const string GetType() const {
-      return this->type;
-    }
-    // t5
     void Shoot(Vec2);
     void Start();
     Rect GetBox();
     void NotifyCollision(GameObject& other);
+
+    const string GetType() const {
+      return this->type;
+    }
 };
 
 #endif

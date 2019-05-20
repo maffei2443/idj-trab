@@ -29,6 +29,7 @@ public:
     void SetXWH (double x, double w = -1, double h = -1);
     void SetYWH (double y, double w = -1, double h = -1);
     void SetXYWH (double x, double y, double w = -1, double h = -1);
+    
     void AddX(double _x=0);  // incrementa x  e atualiza o centro
     void AddY(double _y=0);  // incrementa y e atualiza o centro
     void AddXY(double _x=0, double _y=0);  // incrementa x e y e atualiza o centro
@@ -40,6 +41,7 @@ public:
     void Add(double, double, double, double);
     void AddXYWH(double, double, double, double);
     void Add(double);
+    
     bool Contains(const Vec2&);
     bool Contains(const int&, const int&);
 

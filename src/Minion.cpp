@@ -105,7 +105,6 @@ Rect Minion::GetBox() {
     return this->associated.box;
 }
 
-
 void Minion::NotifyCollision(GameObject& other) {
   // cout << "Minion Collision!" << endl;
   // myAbort(5);

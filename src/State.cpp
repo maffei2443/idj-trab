@@ -83,7 +83,7 @@ State::State() : music(Music("assets/audio/stageState.ogg") ) {
 
 
 	this->quitRequested = false;
-  // this->music.Play(-1);
+  this->music.Play(-1);
 }
 
 State::~State() {

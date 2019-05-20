@@ -20,27 +20,21 @@ private:
   Vec2 speed;
   double currentDt;
 public:
+  Rect box;
+  bool started = false;
+  double angleDeg = 0.0;
+  
   GameObject();
   ~GameObject();
-
   void Update(double dt);
   void Render();
   bool IsDead();
   void RequestDelete();
   void AddComponent(Component* cpt);
   void RemoveComponent(Component* cpt);
-  Vec2 GetOriginalDim();
   Component* GetComponent(string type);
-  
-  Rect box;
-  // t5
   void Start();
   void NotifyCollision(GameObject &other);
-  bool started = false;
-  // 
-  /* Agora adicione + angleDeg : double ao GameObject
-    e inicialize-o com 0 no construtor. */
-  double angleDeg = 0;
   const inline string GetType() const {
     return this->type;
   }

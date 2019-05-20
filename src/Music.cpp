@@ -17,6 +17,10 @@ Music::Music() {
 Music::Music(string file) {
   this->Open(file);
 }
+Music::~Music() {
+  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;  
+  this->Stop(0);
+}
 
 void Music::Play(int times=-1) {
   // Se loops for -1, a música repete infinitamente. Se loops for 0, a música não é
@@ -42,10 +46,6 @@ bool Music::IsOpen() {
   return this->music;
 }
 
-Music::~Music() {
-  cout << "[" << this->GetType() << "] DESTRUCTOR" << endl;  
-  this->Stop(0);
-}
 
 void Music::NotifyCollision(GameObject& other) {
   cout << "Music DON'T collide" << endl;

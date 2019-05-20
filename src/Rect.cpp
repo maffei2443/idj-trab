@@ -20,21 +20,22 @@ Rect::Rect(const Vec2& vec) {
     this->UpdateCenter();
 }
 
-void Rect::SetXYWH(double x, double y, double w, double h) {
-    this->x = x;
-    this->y = y;
-    // QUE BUG BESTA...... SE MATA NA MORAL
-    this->w = IsDoubleZero(w) ? 0 : w;
-    this->h = IsDoubleZero(h) ? 0 : h;
-    this->UpdateCenter();
-}
-void Rect::SetXWH (double x, double w, double h){
-    this->SetXYWH(x, this->y, w, h);
+Vec2 Rect::GetCenter() {
+    return Vec2(this->x+this->w/2, this->y+this->h/2);
 }
 
-void Rect::SetYWH (double y, double w, double h){
-    this->SetXYWH(this->x, y, w, h);
+void Rect::SetCenter(Vec2 newCenter) {
+    this->SetXY( newCenter.x-this->w/2, newCenter.y-this->h/2 );
 }
+
+void Rect::SetCenter(double x, double y) {
+    this->SetXY( x-this->w/2, y-this->h/2 );
+}
+void Rect::SetCenter(Rect rect) {
+    this->SetXY( rect.GetCenter().x-this->w/2, rect.GetCenter().y-this->h/2 );
+}
+
+
 void Rect::SetX(double x) {
     this->x = x;
     this->UpdateCenter();
@@ -63,24 +64,22 @@ void Rect::SetXY(const Vec2& vec) {
     this->SetXY(vec.x, vec.y);
 }
 
-bool Rect::Contains(const Vec2& point) {
-    // //////printf("x,y ==> %f, %f\n", this->x, this->y);
-    // //////printf("Point : x,y,w,h ==> %f, %f, %f, %f\n", point.x, point.y, this->w, this->h);
-    bool insideWidth = (point.x >= this->x ) and (point.x <= this->x+this->w);
-    bool insideHeight = (point.y >= this->y) and (point.y <= this->y+this->h);
-    return insideHeight and insideWidth;
-}
-bool Rect::Contains(const int&x , const int& y) {
-    Vec2 point(x,y);
-    return this->Contains(point);
+
+void Rect::SetXWH (double x, double w, double h){
+    this->SetXYWH(x, this->y, w, h);
 }
 
-void Rect::AddXY(double _x, double _y) {    
-  this->SetXY(this->x+_x, this->y+_y);
+void Rect::SetYWH (double y, double w, double h){
+    this->SetXYWH(this->x, y, w, h);
 }
 
-void Rect::AddXY(Vec2 rect) {
-    this->SetXY(this->x+rect.x, this->y+rect.y);
+void Rect::SetXYWH(double x, double y, double w, double h) {
+    this->x = x;
+    this->y = y;
+    // QUE BUG BESTA...... SE MATA NA MORAL
+    this->w = IsDoubleZero(w) ? 0 : w;
+    this->h = IsDoubleZero(h) ? 0 : h;
+    this->UpdateCenter();
 }
 
 void Rect::AddX(double _x) {
@@ -89,6 +88,14 @@ void Rect::AddX(double _x) {
 
 void Rect::AddY(double _y) {
     this->SetY(this->y+_y);
+}
+
+void Rect::AddXY(double _x, double _y) {    
+  this->SetXY(this->x+_x, this->y+_y);
+}
+
+void Rect::AddXY(Vec2 rect) {
+    this->SetXY(this->x+rect.x, this->y+rect.y);
 }
 
 
@@ -111,25 +118,21 @@ void Rect::Add(double x, double y, double w, double h) {
 void Rect::AddXYWH(double x, double y, double w, double h) {
     this->Add(x,y,w,h);
 }
-
 void Rect::Add(double add) {
     this->x += add; this->y += add; this->w += add; this->h +=add;
     this->UpdateCenter();
 }
 
-Vec2 Rect::GetCenter() {
-    return Vec2(this->x+this->w/2, this->y+this->h/2);
+bool Rect::Contains(const Vec2& point) {
+    // //////printf("x,y ==> %f, %f\n", this->x, this->y);
+    // //////printf("Point : x,y,w,h ==> %f, %f, %f, %f\n", point.x, point.y, this->w, this->h);
+    bool insideWidth = (point.x >= this->x ) and (point.x <= this->x+this->w);
+    bool insideHeight = (point.y >= this->y) and (point.y <= this->y+this->h);
+    return insideHeight and insideWidth;
 }
-
-void Rect::SetCenter(Vec2 newCenter) {
-    this->SetXY( newCenter.x-this->w/2, newCenter.y-this->h/2 );
-}
-
-void Rect::SetCenter(double x, double y) {
-    this->SetXY( x-this->w/2, y-this->h/2 );
-}
-void Rect::SetCenter(Rect rect) {
-    this->SetXY( rect.GetCenter().x-this->w/2, rect.GetCenter().y-this->h/2 );
+bool Rect::Contains(const int&x , const int& y) {
+    Vec2 point(x,y);
+    return this->Contains(point);
 }
 
 
