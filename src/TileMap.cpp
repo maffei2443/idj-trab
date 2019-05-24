@@ -64,9 +64,9 @@ GetTileWidth() e GetTileHeight() de TileSet) */
 // TODO: fazer mover todo o tileMap caso paralax esteja false
 // Atualmente, move-se apenas a segunda camada (ou seja, é obrigatório o paralax)
 void TileMap::RenderLayer(int layer, double cameraX, double cameraY, bool paralax){
-
-    int cX = cameraX*(layer+paralax);
-    int cY = cameraY*(layer+paralax);
+    paralax  =false;
+    int cX = cameraX*(1 + layer * paralax);
+    int cY = cameraY*(1 + layer * paralax);
     for(int idY = 0; idY < this->mapHeight; idY++) {
       for(int idX = 0; idX < this->mapWidth; idX++) {
         int index = this->At(idX, idY, layer);
