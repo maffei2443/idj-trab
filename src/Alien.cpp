@@ -188,18 +188,16 @@ um tiro, ou direito para movimento. */
         // Queue.pop CHAMA O DESTRUTOR APOS ter executado o que deeveria...
         this->taskQueue.pop();
     }    
+    int mouseX = inputManager.GetMouseX() + Camera::pos.x;
+    int mouseY = inputManager.GetMouseY() + Camera::pos.y;
+
     if(inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
         fflush(stdout);
         // clique do botão esquerdo do mouse para um tiro
-        int mouseX = inputManager.GetMouseX();
-        int mouseY = inputManager.GetMouseY();
-
         this->taskQueue.push( new Action(Action::ActionType::SHOOT, mouseX, mouseY) );
     }
     if(inputManager.MousePress(RIGHT_MOUSE_BUTTON)) {
         // direito para movimento
-        int mouseX = inputManager.GetMouseX();
-        int mouseY = inputManager.GetMouseY();
         printf("MOVE TO %d %d\n", mouseX, mouseY);
         this->taskQueue.push( new Action(Action::ActionType::MOVE, mouseX, mouseY) );
     }
