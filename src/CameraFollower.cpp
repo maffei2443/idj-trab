@@ -12,10 +12,11 @@ const string CameraFollower::type("CameraFollower");
 
 CameraFollower::CameraFollower(GameObject& associated) : Component(associated)
     {
+    this->associated.AddComponent( this );
 }
 
 void CameraFollower::Update(double dt) {
-    this->associated.box.SetXY({Camera::pos*dt});
+    this->associated.box.SetXY(Camera::pos);
 }
 void CameraFollower::Render() {
 
