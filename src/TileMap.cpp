@@ -73,7 +73,7 @@ void TileMap::RenderLayer(int layer, double cameraX, double cameraY, bool parala
         // printf("index --> %d\n", index);
         int tileX = idX * this->tileSet->GetTileWidth();
         int tileY = idY * this->tileSet->GetTileHeight();
-        this->tileSet->RenderTile(index,tileX+cX, tileY+cY);
+        this->tileSet->RenderTile(index,tileX - cX, tileY - cY);
       }
     }
 }

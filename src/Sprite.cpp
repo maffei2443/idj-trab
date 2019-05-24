@@ -71,7 +71,10 @@ void Sprite::Update(double dt) {
 
 
 void Sprite::Render() {
-  this->Render(this->associated.box.x, this->associated.box.y);  
+  int x = this->associated.box.x - Camera::pos.x;
+  int y = this->associated.box.y - Camera::pos.y;
+
+  this->Render(x, y);  
 }
 
 void Sprite::Open(string file) {

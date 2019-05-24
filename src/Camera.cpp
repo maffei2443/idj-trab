@@ -52,8 +52,8 @@ void Camera::Update(double dt) {
 
         // TODO: pegar, do inputManager, quais (wasd) tecla está pressionada.
         // e setar velocidade conforme tais fatos.
-        double horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
-        double verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
+        double horizontalSpeed =  Camera::SPEED*Camera::GetHorizontalSpeed();
+        double verticalSpeed =  -Camera::SPEED*Camera::GetVerticalSpeed();
         Camera::speed = Vec2(horizontalSpeed, verticalSpeed);
         Camera::pos = Camera::pos + (Camera::speed*dt);
     }
