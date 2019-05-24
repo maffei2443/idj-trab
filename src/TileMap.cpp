@@ -63,8 +63,8 @@ GetTileWidth() e GetTileHeight() de TileSet) */
 // Atualmente, move-se apenas a segunda camada (ou seja, é obrigatório o paralax)
 void TileMap::RenderLayer(int layer, float cameraX, float cameraY, bool paralax){
 
-    int cX = cameraX*(layer+paralax);
-    int cY = cameraY*(layer+paralax);
+    int cX = cameraX*(1+layer*paralax);
+    int cY = cameraY*(1+layer*paralax);
     for(int idY = 0; idY < this->mapHeight; idY++) {
       for(int idX = 0; idX < this->mapWidth; idX++) {
         int index = this->At(idX, idY, layer);
