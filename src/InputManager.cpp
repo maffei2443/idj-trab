@@ -2,7 +2,7 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 
-#include "Face.h"
+
 #include <cstdio>
 #include <iostream>
 #include "Macros.h"

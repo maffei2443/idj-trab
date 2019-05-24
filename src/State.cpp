@@ -12,7 +12,6 @@
 #include "GameObject.h"
 #include "Sound.h"
 #include "Macros.h"
-#include "Face.h"
 #include "TileSet.h"
 #include "TileMap.h"
 #include "State.h"
@@ -63,37 +62,6 @@ void State::Update(double dt) {
 	this->quitRequested = this->inputManager->KeyPress(ESCAPE_KEY)
 	|| this->inputManager->QuitRequested();
 	// Se clicou, ver se aplica dano ou nao
-	if( this->inputManager->KeyPress(SPACE_KEY)) {
-		Vec2 objPos = Vec2( 200, 0 );
-		objPos.rotate( rand() % 360 );
-		Vec2 aux (inputManager->GetMouseX(), inputManager->GetMouseY() );
-		objPos = objPos + aux;
-		this->AddObject((int)objPos.x, (int)objPos.y);
-	}
-	// TODO: perguntaro deve se o bloco abaixo deve permanecer aqui
-	// Acerta [UM] pinguim sobre o mouse
-	#pragma region
-	if( this->inputManager->MousePress(LEFT_MOUSE_BUTTON)) {
-		// printf("LEFT CLICK\n");
-		int mouseX = this->inputManager->GetMouseX();
-		int mouseY = this->inputManager->GetMouseY();
-		// Iterar de tras para frente para dar dano no ultimo inserido.
-		// TODO: adicionar robusteza a essa parte
-		for(int i = objectArray.size() - 1; i >= 0; --i) {
-			// Obtem o ponteiro e casta pra Face. TODO : otimizar isso. Talvez cast estahtico
-			GameObject* go = (GameObject*) objectArray[i].get();
-			if(go->box.Contains( {(double)mouseX, (double)mouseY} ) ) {
-				Face* face = (Face*)go->GetComponent( "Face" );
-				if ( face != nullptr ) {
-					// Aplica dano
-					face->Damage(std::rand() % 10 + 10);
-					// Sai do loop (só queremos acertar um [bala nao perfurante])
-					break;
-				}
-			}
-		}
-	}
-	#pragma endregion
 	// cout << "STATE.UPDATE.UPDATE\n";
 	auto siz = this->objectArray.size();
 	auto begin = this->objectArray.begin();
@@ -139,26 +107,6 @@ void State::Render() {
 }
 
 void State::AddObject(int mouseX, int mouseY) {
-	// criar um GameObject que conterá as informações do nosso primeiro inimigo.
-	GameObject * enemy = new GameObject;
-	
-	// Sprite aponta para enemy
-	Sprite * sprite = new Sprite(*enemy, "assets/img/penguinface.png");
-	
-	enemy->box.x = mouseX - sprite->GetWidth()/2;
-	enemy->box.y = mouseY - sprite->GetHeight()/2;
-	enemy->box.w = sprite->GetWidth();
-	enemy->box.h = sprite->GetHeight();
-	Sound * enemySound = new Sound(*enemy, "assets/audio/boom.wav");
-	// e, por último, o que o define: Face.
-	Face * enemyFace = new Face(*enemy);
-	
-	enemy->AddComponent(sprite);
-	enemy->AddComponent(enemySound);
-	enemy->AddComponent(enemyFace);
-	
-	
-	this->objectArray.emplace_back( enemy );
 }
 
 bool State::QuitRequested() {
