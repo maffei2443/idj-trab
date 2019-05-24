@@ -50,8 +50,8 @@ void Camera::Update(float dt) {
         SETAMOS A VELOCIDADE DA CÂMERA DE ACORDO COM DT E COM AS
         TECLAS PRESSIONADAS, E SOMAMOS À POSIÇÃO */
 
-        float horizontalSpeed =  -Camera::SPEED*Camera::GetHorizontalSpeed();
-        float verticalSpeed =  Camera::SPEED*Camera::GetVerticalSpeed();
+        float horizontalSpeed =  Camera::SPEED*Camera::GetHorizontalSpeed();
+        float verticalSpeed =  -Camera::SPEED*Camera::GetVerticalSpeed();   // SDL crece pra baixo
         Camera::speed = Vec2(horizontalSpeed/* *dt */, verticalSpeed/* *dt */);
         Camera::pos = Camera::pos + (Camera::speed*dt);
     }

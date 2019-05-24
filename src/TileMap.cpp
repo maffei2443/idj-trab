@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <fstream>
 #define ERR std::cerr
+using namespace std;
 // TileMap simula uma matriz tridimensional, representando
 // nosso mapa e suas diversas camadas. Essa matriz contém, em cada
 // posição, um índice de tile no TileSet.
@@ -62,16 +63,17 @@ GetTileWidth() e GetTileHeight() de TileSet) */
 // TODO: fazer mover todo o tileMap caso paralax esteja false
 // Atualmente, move-se apenas a segunda camada (ou seja, é obrigatório o paralax)
 void TileMap::RenderLayer(int layer, float cameraX, float cameraY, bool paralax){
-
+    // paralax = true;
+    cout << "CameraX : " << cameraX << endl;
+    cout << "CameraY : " << cameraY << endl;
     int cX = cameraX*(1+layer*paralax);
     int cY = cameraY*(1+layer*paralax);
     for(int idY = 0; idY < this->mapHeight; idY++) {
       for(int idX = 0; idX < this->mapWidth; idX++) {
         int index = this->At(idX, idY, layer);
-        // printf("index --> %d\n", index);
         int tileX = idX * this->tileSet->GetTileWidth();
         int tileY = idY * this->tileSet->GetTileHeight();
-        this->tileSet->RenderTile(index,tileX+cX, tileY+cY);
+        this->tileSet->RenderTile(index,tileX - cX, tileY - cY);
       }
     }
 }
