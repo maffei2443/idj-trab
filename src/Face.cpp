@@ -41,18 +41,18 @@ void Face:: Update(float dt) {
     nas coordenadas do mouse [???] - O InputManager nos dá 
     as coordenadas da tela, não do mundo
  */
-	// if( inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
-	// 	float mouseX = inputManager.GetMouseX();
-	// 	float mouseY = inputManager.GetMouseY();
-    //     // GameObject* go = (GameObject*) objectArray[i].get();
-    //     if(this->associated.box.Contains( {mouseX, mouseY} ) ) {
-    //         this->Damage(/* std::rand() % 10 + 10 */20);
-    //         printf("Dano! %d\n", this->hitspoints);
-    //     }
-	// }
+	if( inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
+		float mouseX = inputManager.GetMouseX() + Camera::pos.x;
+		float mouseY = inputManager.GetMouseY() + Camera::pos.y;
+        // GameObject* go = (GameObject*) objectArray[i].get();
+        if(this->associated.box.Contains( {mouseX, mouseY} ) ) {
+            this->Damage(/* std::rand() % 10 + 10 */20);
+            printf("Dano! %d\n", this->hitspoints);
+        }
+	}
 
-    this->associated.box.x += Camera::speed.x*dt;
-    this->associated.box.y += Camera::speed.y*dt;
+    // this->associated.box.x += Camera::pos.x*dt;
+    // this->associated.box.y += Camera::pos.y*dt;
 
 }
 void Face:: Render() {
