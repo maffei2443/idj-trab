@@ -24,7 +24,7 @@
 State::State() : music(Music("assets/audio/stageState.ogg") ) {
   GameObject * bg = new GameObject;
   new Sprite( *bg, "assets/img/ocean.jpg" );
-	// new CameraFollower(*bg); // still not sure about this necessity
+	new CameraFollower(*bg); // still not sure about this necessity
 	/* T5
 	A única coisa
 que precisa fazer é no Update fazer com que a posição de seu gameObject

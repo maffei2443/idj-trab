@@ -15,6 +15,7 @@ const std::string CameraFollower::GetType() {
 
 CameraFollower::CameraFollower(GameObject& associated) : Component(associated)
     , type("CameraFollower") {
+        this->associated.AddComponent( this );  // adicionar a si mesmo no vetor do associated que o contem
 }
 
 void CameraFollower::Update(float dt) {
